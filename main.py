@@ -1,51 +1,42 @@
 import os
 import shutil
-import tkinter as tk
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-from numpy.linalg import inv
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import customtkinter as ctk
-from tkinter import filedialog
-from tkinter import ttk
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from pandasgui import show
+from tkinter import filedialog, ttk
+import tkinter as tk
 from utilities import create_custom_button
-
-def plot_pressao(x, y, title, xlabel, ylabel, pressao_df, prof_min, prof_max, mesa_rot):
-    """
-    Função que plota a pressão de formação em função da profundidade (cota)
-    """
-    ymin = int(prof_min.get()) if prof_min.get() else min(pressao_df['Prof./Intv.(m)'])
-    ymax = int(prof_max.get()) if prof_max.get() else max(pressao_df['Prof./Intv.(m)'])
-
-    ymin = int(mesa_rot.get()) - ymin
-    ymax = int(mesa_rot.get()) - ymax
-
-    plt.plot(x, y, 'o')
-    plt.title(title)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-
-    plt.ylim(ymin, ymax)
-    plt.gca().invert_yaxis()
-    plt.grid()
-    plt.show()
-
 class FileUploader:
     def __init__(self, master):
         self.master = master
+
+        ######################################################
+        self.upload_frame = tk.Frame(self.master, bg='#ebebeb')
+        self.upload_frame.grid(row=0, column=0, columnspan=2,padx=10, pady=10)
+        ######################################################
+
         self.fname = tk.StringVar(self.master)
         self.fname.set("Selecione um arquivo")
         self.selected_file = tk.StringVar(self.master)
 
+        # Texto inicial
+        texto_inicial = "Importe e digite as informações do poço nos campos abaixo."
+        self.label = tk.Label(self.upload_frame, text=texto_inicial, bg='#ebebeb')
+        self.label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+
+
         # Botão para carregar arquivo
-        self.upload_button = create_custom_button(self.master,
+        self.upload_button = create_custom_button(self.upload_frame,
                                            text="Carregar arquivo",
                                            command=self.upload_file,)
+        # then the grid within the frame
         self.upload_button.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
 
         # Label to display messages
-        self.message_label = tk.Label(self.master, text="", bg='#ebebeb')
+        self.message_label = tk.Label(self.upload_frame, text="", bg='#ebebeb')
         self.message_label.grid(row=2, column=0, columnspan=2)
 
         # Dropdown menu to select file
@@ -53,10 +44,23 @@ class FileUploader:
         if not files:
             files = ["Nenhum arquivo encontrado"]
 
-        self.dropdown = tk.OptionMenu(self.master, self.fname, *files)
+        self.dropdown = tk.OptionMenu(self.upload_frame, self.fname, *files)
         self.dropdown.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
+        self.view_button = create_custom_button(self.upload_frame,
+                                                "Visualizar arquivo",
+                                                self.view_file)
+        self.view_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+
         self.fname.trace_add('write', self.update_selected_file)
+
+    def view_file(self):
+        filename = self.selected_file.get()
+        if os.path.exists(filename):
+            df = pd.read_csv(filename, sep=";")
+            show(df)
+        else:
+            self.messagebox.showerror("Error", "Arquivo não encontrado!")
 
     def upload_file(self):
         filename = filedialog.askopenfilename()
@@ -70,70 +74,68 @@ class FileUploader:
         self.selected_file.set(os.path.join("./uploads", self.fname.get()))
 
 class WellInfoInput:
-    def __init__(self, master):
+    def __init__(self, master, file_uploader):
         self.master = master
+        self.file_uploader = file_uploader
+        ######################################################
+        self.well_info_frame = tk.Frame(self.master, bg='#ebebeb')
+        self.well_info_frame.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+        ######################################################
 
-class ErrorMessage:
-    def __init__(self, master):
-        self.master = master
+        # Input do nome do poço
+        tk.Label(self.well_info_frame, text="Digite o nome do poço: ", bg='#ebebeb') \
+            .grid(row=0, columnspan=2, padx=10, pady=10)
+        self.nome_entry = tk.Entry(self.well_info_frame, borderwidth=2, width=32)
+        self.nome_entry.grid(row=1, columnspan=2, padx=10, pady=10)
 
-class App(ctk.CTk):
-    def __init__(self):
-        super().__init__()
+        # Depth inputs
+        tk.Label(self.well_info_frame, text="Prof. Inicial", bg='#ebebeb') \
+            .grid(row=2, column=0, padx=10, pady=10)
+        self.prof_min = tk.Entry(self.well_info_frame, borderwidth=2, width=16)
+        self.prof_min.grid(row=3, column=0, padx=10, pady=10)
 
-        self.geometry("800x600")
-        self.minsize(575, 600)
-        self.title("GradPress")
-        self.iconbitmap(default="./icon.ico")  # icone
-        self.option_add("*Label.font", "Helvetica 15")  # for the font
+        tk.Label(self.well_info_frame, text="Prof. Final", bg='#ebebeb') \
+            .grid(row=4, column=0, padx=10, pady=10)
+        self.prof_max = tk.Entry(self.well_info_frame, borderwidth=2, width=16)
+        self.prof_max.grid(row=5, column=0, padx=10, pady=10)
 
-        # Determinação de um frame para centralizar o conteúdo da página
-        self.frame = tk.Frame(self, bg='#ebebeb')
-        ctk.set_appearance_mode("light")
-        self.frame.place(relx=0.5, rely=0.5, anchor='center')
+        # Other options
+        tk.Label(self.well_info_frame, text="Mesa Rotativa*", bg='#ebebeb') \
+            .grid(row=2, column=1, padx=10, pady=10)
+        self.mesa_rot = tk.Entry(self.well_info_frame, borderwidth=2, width=16)
+        self.mesa_rot.grid(row=3, column=1, padx=10, pady=10)
 
-        # Criação dos frames
-        texto_inicial = "Importe e digite as informações do poço nos campos abaixo."
-        self.label = tk.Label(self.frame, text=texto_inicial, bg='#ebebeb')
-        self.label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+        # Error message
+        self.error_message = tk.StringVar(self.well_info_frame)
+        self.error_label = tk.Label(self.well_info_frame,
+                                    textvariable=self.error_message,
+                                    fg="red")
+        self.error_label.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
 
-        self.file_uploader = FileUploader(self.frame)
-        # self.well_info_input = WellInfoInput(self.frame)
-        # self.error_message = ErrorMessage(self.frame)
+        create_custom_button(root=self.well_info_frame,
+                            text="Plotar",
+                            command=self.plot_pressure)\
+            .grid(row=6, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
-        # Opções do que se fazer com o arquivo
-        tk.Label(self.frame, text="Digite o nome do poço: ", bg='#ebebeb') \
-            .grid(row=4, columnspan=2, padx=10, pady=10)
-        self.nome_entry = tk.Entry(self.frame, borderwidth=2, width=32)
-        self.nome_entry.grid(row=5, columnspan=2, padx=10, pady=10)
+    def plot_pressao(self, x, y, title, xlabel, ylabel, pressao_df, prof_min, prof_max, mesa_rot):
+        """
+        Função que plota a pressão de formação em função da profundidade (cota)
+        """
+        ymin = int(prof_min.get()) if prof_min.get() else min(pressao_df['Prof./Intv.(m)'])
+        ymax = int(prof_max.get()) if prof_max.get() else max(pressao_df['Prof./Intv.(m)'])
 
-        # Determinação das profundidades
-        tk.Label(self.frame, text="Prof. Inicial", bg='#ebebeb') \
-            .grid(row=6, column=0, padx=10, pady=10)
-        self.prof_min = tk.Entry(self.frame, borderwidth=2, width=16)
-        self.prof_min.grid(row=7, column=0, padx=10, pady=10)
+        ymin = int(mesa_rot.get()) - ymin
+        ymax = int(mesa_rot.get()) - ymax
 
-        tk.Label(self.frame, text="Prof. Final", bg='#ebebeb') \
-            .grid(row=8, column=0, padx=10, pady=10)
-        self.prof_max = tk.Entry(self.frame, borderwidth=2, width=16)
-        self.prof_max.grid(row=9, column=0, padx=10, pady=10)
+        plt.plot(x, y, 'o')
+        plt.title(title)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
 
-        # Outras opções
-        tk.Label(self.frame, text="Mesa Rotativa*", bg='#ebebeb') \
-            .grid(row=6, column=1, padx=10, pady=10)
-        self.mesa_rot = tk.Entry(self.frame, borderwidth=2, width=16)
-        self.mesa_rot.grid(row=7, column=1, padx=10, pady=10)
-
-        # Cria um StringVar para a mensagem de erro
-        self.error_message = tk.StringVar(self.frame)
-
-        # Cria um Label para exibir a mensagem de erro
-        self.error_label = tk.Label(self.frame, textvariable=self.error_message, fg="red")
-        self.error_label.grid(row=11, column=0, columnspan=2, padx=10, pady=10)
-
-        # Butão de plotagem
-        create_custom_button(root=self.frame, text="Plotar", command=self.plot_pressure) \
-            .grid(row=10, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+        plt.ylim(ymin, ymax)
+        plt.gca().invert_yaxis()
+        plt.grid()
+        plt.show()
 
     def plot_pressure(self):
         """
@@ -151,7 +153,7 @@ class App(ctk.CTk):
             pressao_df = pressao_df.dropna(subset=['Prof./Intv.(m)', 'Pressão de Formação (Kgf/cm2)'])
             prof_cota = int(self.mesa_rot.get()) - pressao_df['Prof./Intv.(m)']
 
-            plot_pressao(x=pressao_df['Pressão de Formação (Kgf/cm2)'],
+            self.plot_pressao(x=pressao_df['Pressão de Formação (Kgf/cm2)'],
                         y=prof_cota,
                         title=self.nome_entry.get(),
                         xlabel='Pressão de Formação (Kgf/cm2)',
@@ -162,6 +164,26 @@ class App(ctk.CTk):
                         mesa_rot=self.mesa_rot)
         except Exception as e:
             self.error_message.set(str(e))
+
+class App(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        ctk.set_appearance_mode("light")
+        self.geometry("800x600")
+        self.minsize(575, 600)
+        self.title("GradPress")
+        self.iconbitmap(default="./icon.ico")  # icone
+        self.option_add("*Label.font", "Helvetica 15")  # for the font
+
+        # Determinação de um frame para centralizar o conteúdo da página
+        self.main_frame = tk.Frame(self, bg='#ebebeb')
+        self.main_frame.grid(row=0, column=0, padx=10, pady=10)
+        self.main_frame.place(relx=0.5, rely=0.5, anchor='center')
+
+        self.file_uploader = FileUploader(self.main_frame)
+        self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
+        # self.error_message = ErrorMessage(self.frame)
+
 
 if __name__ == "__main__":
     app = App()
