@@ -1,8 +1,4 @@
-﻿Corrida;Tipo;No.;Prof./Intv.(m);Cota (m);"Pressão
-Hidrostatica
-(Kgf/cm2)";"Pressão de
-Formação
-(Kgf/cm2)";Amostra?;Resultados
+﻿Corrida;Tipo;No.;Prof./Intv.(m);Cota (m);"Pressão Hidrostatica (Kgf/cm2)";"Pressão de Formação (Kgf/cm2)";Amostra?;Resultados
 1;Pré-teste;1;795.5;-581.5;94.0;;Não;Fm. Pedra de Fogo - Abortado baixissima mobilidade
 1;Pré-teste;2;795.2;-581.2;95.0;71.0;Não;Fm. Pedra de Fogo - Efetivo altissima mobilidade
 1;Pré-teste;3;834.0;-620;99.0;75.0;Não;Fm. Pedra de Fogo - Efetivo altissima mobilidade
