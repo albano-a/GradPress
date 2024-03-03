@@ -9,6 +9,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import customtkinter as ctk
 from tkinter import filedialog
 from tkinter import ttk
+from utilities import create_custom_button
 
 def plot_pressao(x, y, title, xlabel, ylabel, pressao_df, prof_min, prof_max, mesa_rot):
     """
@@ -38,7 +39,7 @@ class FileUploader:
         self.selected_file = tk.StringVar(self.master)
 
         # Botão para carregar arquivo
-        self.upload_button = ctk.CTkButton(self.master,
+        self.upload_button = create_custom_button(self.master,
                                            text="Carregar arquivo",
                                            command=self.upload_file,)
         self.upload_button.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
@@ -50,7 +51,7 @@ class FileUploader:
         # Dropdown menu to select file
         files = os.listdir("./uploads")
         if not files:
-            files = ["No files found"]
+            files = ["Nenhum arquivo encontrado"]
 
         self.dropdown = tk.OptionMenu(self.master, self.fname, *files)
         self.dropdown.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
@@ -63,10 +64,11 @@ class FileUploader:
         if not os.path.exists("./uploads"):
             os.makedirs("./uploads")
         shutil.copy(filename, "./uploads")
-        self.message_label.config(text="File uploaded successfully")
+        self.message_label.config(text="Arquivo carregado com sucesso!")
 
     def update_selected_file(self, *args):
         self.selected_file.set(os.path.join("./uploads", self.fname.get()))
+
 class WellInfoInput:
     def __init__(self, master):
         self.master = master
@@ -96,27 +98,8 @@ class App(ctk.CTk):
         self.label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
         self.file_uploader = FileUploader(self.frame)
-        # # Butão para carregar arquivo
-        # self.upload_button = self.create_custom_button(self.frame, "Carregar arquivo", self.upload_file)
-        # self.upload_button.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
-        # self.message_label = tk.Label(self, text="", bg='#ebebeb')
-        # self.message_label.grid(row=2, column=0, columnspan=2)
-
-        # # Dropdown menu para selecionar um arquivo
-        # files = os.listdir("./uploads")
-
-        # # Check if files is empty
-        # if not files:
-        #     files = ["No files found"]
-
-        # self.fname = tk.StringVar(self.frame)
-        # self.fname.set("Select a file")
-        # self.fname.trace_add('write', self.update_selected_file)  # Add this line
-
-        # self.dropdown = tk.OptionMenu(self.frame, self.fname, *files)
-        # self.dropdown.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
-
-        # self.selected_file = tk.StringVar(self.frame)
+        # self.well_info_input = WellInfoInput(self.frame)
+        # self.error_message = ErrorMessage(self.frame)
 
         # Opções do que se fazer com o arquivo
         tk.Label(self.frame, text="Digite o nome do poço: ", bg='#ebebeb') \
@@ -149,18 +132,8 @@ class App(ctk.CTk):
         self.error_label.grid(row=11, column=0, columnspan=2, padx=10, pady=10)
 
         # Butão de plotagem
-        self.create_custom_button(root=self.frame, text="Plotar", command=self.plot_pressure) \
+        create_custom_button(root=self.frame, text="Plotar", command=self.plot_pressure) \
             .grid(row=10, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
-
-    def create_custom_button(self, root, text, command):
-        # Your implementation of create_custom_button goes here
-        return ctk.CTkButton(root,
-                         text=text,
-                         command=command,
-                         corner_radius=10,
-                         hover_color="#104a78",
-                         width=200,
-                         font=("Helvetica", 15, "bold"))
 
     def plot_pressure(self):
         """
