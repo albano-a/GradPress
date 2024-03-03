@@ -10,6 +10,7 @@ from tkinter import filedialog, ttk, Label
 import tkinter as tk
 from utilities import create_custom_button, custom_dropdown
 from PIL import Image, ImageTk
+from numpy.linalg import inv
 
 class FileUploader:
     def __init__(self, master):
@@ -209,7 +210,31 @@ class Calculations:
         self.calc_button.grid(row=0, column=0, padx=10, pady=10)
 
     def calculate(self):
-        pass
+        def inv_polynomial(dobs, degree, x):
+            """
+            Funcao para calcular os parâmetros de uma regressao polinomial
+            Dados de entrada:
+                d = dados observados
+                degree = grau do polinomio
+                x = valores das posicoes onde d foi medido, tem que ter a mesma dimensao de d
+
+            Output:
+                m = parametros
+                G = matriz de modelagem direta
+            """
+            nl = max(np.shape(dobs))
+
+            G = np.ones((nl,1))
+            for pw in range(1,degree+1):
+
+                G = np.c_[G, x**pw ]
+
+            m = np.dot(np.dot(inv(np.dot(G.T,G)),G.T), dobs)
+
+            return m, G
+
+        # m, G = inv_polynomial(dobs=pressao_ogx_93_ma['Prof./Intv.(m)'], degree=1, x=pressao_ogx_93_ma['Pressão de\nFormação\n(Kgf/cm2)'])
+        # print(f"y = {m[0]:.2f} + {m[1]:.2f}x")
 
 class Footer:
     def __init__(self, master):
