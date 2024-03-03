@@ -219,7 +219,7 @@ class Footer:
         # Se eu quiser adicionar mais alguma coisa antes do footer
         # alterar o argumento row abaixo.
         self.footer_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
-
+        # Botoes de acesso a giecar, github e sair
         giecar_link = create_custom_button(self.footer_frame,
                                            text="GIECAR",
                                            command=lambda: \
