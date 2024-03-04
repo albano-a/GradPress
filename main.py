@@ -37,7 +37,7 @@ class FileUploader:
         # Botão para carregar arquivo
         self.upload_button = create_custom_button(self.upload_frame,
                                            text="Carregar arquivo",
-                                           command=self.upload_file,)
+                                           command=self.upload_file)
         # then the grid within the frame
         self.upload_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
@@ -366,9 +366,42 @@ class CalculationsPage:
         self.label = ctk.CTkLabel(self.calculations_window_frame, 
                                   text=calculos_texto,
                                   font=("Helvetica", 20, "bold"))
-        self.label.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+        self.label.grid(row=0, column=0, padx=10, pady=10)
+        
+        calculos_descricao = "Escolha o que quer fazer com os dados que carregou:"
+        self.label = ctk.CTkLabel(self.calculations_window_frame, 
+                                  text=calculos_texto,
+                                  font=("Helvetica", 20, "bold"))
+        self.label.grid(row=0, column=0, padx=10, pady=10)
+        
+        #### WIP ########
+        self.plot_data = create_custom_button(self.calculations_window_frame,
+                                              text="Plotar os Dados Tratados",
+                                              command=self.on_button_click,
+                                              width=100)
+        self.plot_data.grid(row=1, column=0, padx=10, pady=10)
+        
+        self.plot_slopes = create_custom_button(self.calculations_window_frame,
+                                                text="Retas de Ajuste",
+                                                command=self.on_button_click,
+                                                width=100)
+        self.plot_slopes.grid(row=2, column=0, padx=10, pady=10)
+        
+        self.plot_intersections = create_custom_button(self.calculations_window_frame,
+                                                       text="Plotar Interseções",
+                                                       command=self.on_button_click,
+                                                       width=100)
+        self.plot_intersections.grid(row=3, column=0, padx=10, pady=10)
+        
+        self.see_calculations_data = create_custom_button(self.calculations_window_frame,
+                                                          text="Ver Dados",
+                                                          command=self.on_button_click,
+                                                          width=100)
+        self.see_calculations_data.grid(row=4, column=0, padx=10, pady=10)
         
         
+    def on_button_click():
+        print("Button clicked!")   
 
     def calculate(self):
         def inv_polynomial(dobs, degree, x):
