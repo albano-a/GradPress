@@ -1,11 +1,8 @@
-os
-shutil
 customtkinter
 matplotlib
 numpy
 pandas
 pandasgui
-tkinter
 Pillow
 plotly
 tkinterhtml

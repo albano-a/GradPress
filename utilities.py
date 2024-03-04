@@ -1,16 +1,23 @@
 import customtkinter as ctk
 
-def create_custom_button(root, text, command, width=200):
+def create_custom_button(root, 
+                         text, 
+                         command, 
+                         width=200, 
+                         fg_color="#23479e", 
+                         hover_color="#0a0f53",
+                         text_color="#f0f0f0"):
         # Your implementation of create_custom_button goes here
         return ctk.CTkButton(root,
                             text=text,
-                            fg_color="#23479e",
+                            fg_color=fg_color,
                             command=command,
                             corner_radius=10,
                             border_width=1,
                             border_color="#aeaeae",
-                            hover_color="#0a0f53",
+                            hover_color=hover_color,
                             width=width,
+                            text_color=text_color,
                             font=("Helvetica", 15, "bold"))
 
 

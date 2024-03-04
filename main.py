@@ -11,6 +11,7 @@ from tkinter import filedialog, ttk, Label
 import tkinter as tk
 from utilities import create_custom_button, custom_dropdown
 from PIL import Image, ImageTk
+from numpy.linalg import inv
 
 
 class FileUploader:
@@ -29,7 +30,7 @@ class FileUploader:
         img_giecar.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
         # Texto inicial
-        texto_inicial = "Importe e digite as informações do poço nos campos abaixo."
+        texto_inicial = "Importe e digite as informações do poço nos campos abaixo.\nÉ necessário selecionar o arquivo antes de prosseguir."
         self.label = tk.Label(self.upload_frame, text=texto_inicial, bg='#ebebeb')
         self.label.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
 
@@ -53,10 +54,15 @@ class FileUploader:
         self.dropdown = custom_dropdown(self.upload_frame,
                                         values=files,
                                         variable=self.fname)
-        self.dropdown.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+        self.dropdown.grid(row=3, column=0, padx=10, pady=10)
+        
+        self.loaded_files = create_custom_button(self.upload_frame,
+                                                text="Todos os arquivos",
+                                                command=lambda: ManageFiles(self.master))
+        self.loaded_files.grid(row=3, column=1,padx=10, pady=10)
 
         self.view_button = create_custom_button(self.upload_frame,
-                                                "Visualizar arquivo",
+                                                "Visualizar dados",
                                                 self.view_file)
         self.view_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
@@ -65,7 +71,7 @@ class FileUploader:
     def view_file(self):
         filename = self.selected_file.get()
         if os.path.exists(filename):
-            df = pd.read_csv(filename, sep=";")
+            df = pd.read_csv(filename, sep='[;,]')
             pandasgui.show(df)
         else:
             tk.messagebox.showerror("Error", "Arquivo não encontrado!")
@@ -76,11 +82,146 @@ class FileUploader:
         if not os.path.exists("./uploads"):
             os.makedirs("./uploads")
         shutil.copy(filename, "./uploads")
-        # self.message_label.config(text="Arquivo carregado com sucesso!")
         tk.messagebox.showinfo("Sucesso", "Arquivo carregado com sucesso!")
+
+        # Update the list of files in the dropdown
+        files = os.listdir("./uploads")
+        if not files:
+            files = ["Nenhum arquivo encontrado"]
+        self.dropdown['values'] = files
+        
+        # Update the StringVar associated with the dropdown
+        self.fname.set(os.path.basename(filename))
 
     def update_selected_file(self, *args):
         self.selected_file.set(os.path.join("./uploads", self.fname.get()))
+        
+    
+class FilesFrame(ctk.CTkScrollableFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+        # List all files in ./uploads
+        self.files = os.listdir("./uploads")
+        
+        listbox_frame = tk.Frame(self, bg='#ebebeb')
+        listbox_frame.grid(row=0, column=0, padx=10, pady=10)
+        
+        self.listbox = tk.Listbox(listbox_frame, width=400, height=200)
+        self.listbox.grid(row=0, column=0, sticky='nsew')  # Use grid instead of pack
+        for file in self.files:
+            self.listbox.insert(tk.END, file)
+
+        # Create a scrollbar and attach it to the listbox
+        scrollbar = tk.Scrollbar(listbox_frame, command=self.listbox.yview)
+        scrollbar.grid(row=0, column=1, sticky='ns')  # Use grid instead of pack
+        self.listbox.config(yscrollcommand=scrollbar.set)
+
+        self.listbox.bind('<<ListboxSelect>>', self.on_select)
+
+    def on_select(self, event):
+        # Get selected file
+        index = self.listbox.curselection()[0]
+        selected_file = self.files[index]
+        
+    def add_file(self):
+        filename = filedialog.askopenfilename()
+        if filename:  # Check if a file was selected
+            if not os.path.exists("./uploads"):
+                os.makedirs("./uploads")
+            shutil.copy(filename, "./uploads")
+            new_file = os.path.basename(filename)
+            self.listbox.insert(tk.END, new_file)
+            self.files.append(new_file)  # Update the files list
+            tk.messagebox.showinfo("Sucesso", "Arquivo carregado com sucesso!")
+
+    def rename_file(self):
+        if self.listbox.curselection():  # Check if a file is selected
+            index = self.listbox.curselection()[0]
+            selected_file = self.files[index]
+            new_name = tk.simpledialog.askstring("Input", "Novo nome:", parent=self.master)
+            if new_name:
+                new_path = os.path.join("./uploads", new_name)
+                if not os.path.exists(new_path):  # Check if the new file name already exists
+                    shutil.move(os.path.join("./uploads", selected_file), new_path)
+                    self.listbox.delete(index)
+                    self.listbox.insert(index, new_name)
+                    self.files[index] = new_name  # Update the files list
+                    tk.messagebox.showinfo("Sucesso", "Arquivo renomeado com sucesso!")
+                else:
+                    tk.messagebox.showerror("Error", "Esse nome já existe!")
+
+    def delete_file(self):
+        if self.listbox.curselection():  # Check if a file is selected
+            index = self.listbox.curselection()[0]
+            selected_file = self.files[index]
+            os.remove(os.path.join("./uploads", selected_file))
+            self.listbox.delete(index)
+            del self.files[index]  # Update the files list
+            tk.messagebox.showinfo("Sucesso", "Arquivo deletado com sucesso!")
+
+class ManageFiles:
+    def __init__(self, master):
+        self.master = master
+        self.manage_window = tk.Toplevel(self.master)
+        self.manage_window.title("Gerenciar arquivos")
+        self.manage_window.geometry("600x500")
+        self.manage_window.minsize(600, 500)
+        self.manage_window.option_add("*Label.font", "Helvetica 15")  # for the font
+        
+        # Create a frame within the new window
+        self.manage_files_frame = tk.Frame(self.manage_window#, bg='#ebebeb'
+                                           )
+        self.manage_files_frame.grid(row=0, column=0, padx=10, pady=10)
+        self.manage_files_frame.place(relx=0.5, rely=0.5, anchor='center')
+        
+        gerenciar_texto = "Gerenciar arquivos"
+        self.label = ctk.CTkLabel(self.manage_files_frame, 
+                                  text=gerenciar_texto,
+                                  font=("Helvetica", 20, "bold"))
+        self.label.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+        
+        # Lista todos os arquivos
+        self.files_frame = FilesFrame(self.manage_files_frame, 
+                                      width=500, 
+                                      height=300,
+                                      fg_color="transparent")
+        self.files_frame.grid(row=1, column=0, columnspan=4,padx=10, pady=10)
+        
+        # botao para deletar arquivo
+        self.add_button = create_custom_button(self.manage_files_frame,
+                                                text="Adicionar",
+                                                command=self.files_frame.add_file,
+                                                width=75,
+                                                fg_color="#34bf49",
+                                                hover_color="#279b37",
+                                                text_color="#212121")
+        self.add_button.grid(row=2, column=0, padx=10, pady=10)
+        
+        # botao para deletar arquivo
+        self.rename_button = create_custom_button(self.manage_files_frame,
+                                                  text="Renomear",
+                                                  command=self.files_frame.rename_file,
+                                                  width=75,
+                                                  fg_color="#0099e5",
+                                                  hover_color="#037ef3",
+                                                  text_color="#212121")
+        self.rename_button.grid(row=2, column=1, padx=10, pady=10)
+        
+        # botao para deletar arquivo
+        self.delete_button = create_custom_button(self.manage_files_frame,
+                                                  text="Deletar",
+                                                  command=self.files_frame.delete_file,
+                                                  width=75,
+                                                  fg_color="#ff4c4c",
+                                                  hover_color="#be0027",
+                                                  text_color="#212121")
+        self.delete_button.grid(row=2, column=2, padx=10, pady=10)
+        
+        self.return_button = create_custom_button(self.manage_files_frame,
+                                                  text="Voltar",
+                                                  command=self.manage_window.destroy,
+                                                  width=75)
+        self.return_button.grid(row=2, column=3, padx=10, pady=10)
 
 class WellInfoInput:
     def __init__(self, master, file_uploader):
@@ -199,16 +340,21 @@ class WellInfoInput:
         except Exception as e:
             self.error_message.set(str(e))
 
-class Calculations:
+class CalculationsPage:
     def __init__(self, master):
         self.master = master
-        self.calc_frame = tk.Frame(self.master, bg='#ebebeb')
-        self.calc_frame.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
-
-        self.calc_button = create_custom_button(self.calc_frame,
-                                                text="Calcular",
-                                                command=self.calculate)
-        self.calc_button.grid(row=0, column=0, padx=10, pady=10)
+        self.calculations_window = tk.Toplevel(self.master)
+        self.calculations_window.title("Cálculos")
+        self.calculations_window.geometry("600x900")
+        self.calculations_window.minsize("600x900")
+        self.calculations_window.option_add("*Label.font", "Helvetica 15")
+        
+        # Criando um frame dentro da imagem
+        self.calculations_window_frame = tk.Frame(self.calculations_window)
+        self.calculations_window_frame.grid(row=0, column=0, padx=10, pady=10)
+        self.calculations_window_frame.place(relx=0.5,rely=0.5,anchor="center")
+        
+        
 
     def calculate(self):
         def inv_polynomial(dobs, degree, x):
@@ -277,7 +423,7 @@ class App(ctk.CTk):
         super().__init__()
         ctk.set_appearance_mode("light")
         self.geometry("600x900")
-        self.minsize(600, 830)
+        self.minsize(600, 900)
         self.title("GradPress")
         self.iconbitmap(default="./icon.ico")  # icone
         self.option_add("*Label.font", "Helvetica 15")  # for the font
