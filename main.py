@@ -9,10 +9,10 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import pandasgui
 from tkinter import filedialog, ttk, Label
 import tkinter as tk
-from utilities import create_custom_button, custom_dropdown
+from utility.utilities import create_custom_button, custom_dropdown
 from PIL import Image, ImageTk
 from numpy.linalg import inv
-
+from utility.fluid_pressure import fluid_pressure
 
 class FileUploader:
     def __init__(self, master):
@@ -286,11 +286,19 @@ class WellInfoInput:
                                     fg="red")
         self.error_label.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
-        create_custom_button(root=self.well_info_frame,
+        self.plot_btn = create_custom_button(root=self.well_info_frame,
                             text="Plotar",
                             command=self.main_plot_pressure,
-                            width=300)\
-            .grid(row=7, column=0, columnspan=2, padx=10, pady=10)
+                            width=300)
+        self.plot_btn.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
+        
+        self.calculate_btn = create_custom_button(root=self.well_info_frame,
+                                                  text="Cálculos",
+                                                  command=lambda: CalculationsPage(self.master),
+                                                    width=300)
+        self.calculate_btn.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
+            
+
 
     def plot_simples_pressao(self, x, y, title, xlabel, ylabel, pressao_df, prof_min, prof_max, mesa_rot):
         """
@@ -345,14 +353,20 @@ class CalculationsPage:
         self.master = master
         self.calculations_window = tk.Toplevel(self.master)
         self.calculations_window.title("Cálculos")
-        self.calculations_window.geometry("600x900")
-        self.calculations_window.minsize("600x900")
+        self.calculations_window.geometry("600x600")
+        self.calculations_window.minsize(600, 600)
         self.calculations_window.option_add("*Label.font", "Helvetica 15")
         
         # Criando um frame dentro da imagem
         self.calculations_window_frame = tk.Frame(self.calculations_window)
         self.calculations_window_frame.grid(row=0, column=0, padx=10, pady=10)
         self.calculations_window_frame.place(relx=0.5,rely=0.5,anchor="center")
+        
+        calculos_texto = "Cálculos de pressão"
+        self.label = ctk.CTkLabel(self.calculations_window_frame, 
+                                  text=calculos_texto,
+                                  font=("Helvetica", 20, "bold"))
+        self.label.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
         
         
 
@@ -416,14 +430,12 @@ class Footer:
         self.label = tk.Label(self.footer_frame, text=texto_inicial, bg='#ebebeb', font=("Helvetica", 10))
         self.label.grid(row=1, column=0, columnspan=3, padx=15, pady=10)
 
-
-
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         ctk.set_appearance_mode("light")
-        self.geometry("600x900")
-        self.minsize(600, 900)
+        self.geometry("600x950")
+        self.minsize(600, 950)
         self.title("GradPress")
         self.iconbitmap(default="./icon.ico")  # icone
         self.option_add("*Label.font", "Helvetica 15")  # for the font
