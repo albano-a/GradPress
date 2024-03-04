@@ -2,6 +2,7 @@ import os
 import shutil
 import customtkinter as ctk
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import numpy as np
 import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -10,7 +11,7 @@ from tkinter import filedialog, ttk, Label
 import tkinter as tk
 from utilities import create_custom_button, custom_dropdown
 from PIL import Image, ImageTk
-from numpy.linalg import inv
+
 
 class FileUploader:
     def __init__(self, master):
@@ -146,11 +147,11 @@ class WellInfoInput:
 
         create_custom_button(root=self.well_info_frame,
                             text="Plotar",
-                            command=self.plot_pressure,
+                            command=self.main_plot_pressure,
                             width=300)\
             .grid(row=7, column=0, columnspan=2, padx=10, pady=10)
 
-    def plot_pressao(self, x, y, title, xlabel, ylabel, pressao_df, prof_min, prof_max, mesa_rot):
+    def plot_simples_pressao(self, x, y, title, xlabel, ylabel, pressao_df, prof_min, prof_max, mesa_rot):
         """
         Função que plota a pressão de formação em função da profundidade (cota)
         """
@@ -170,7 +171,7 @@ class WellInfoInput:
         plt.grid()
         plt.show()
 
-    def plot_pressure(self):
+    def main_plot_pressure(self):
         """
         Plota os dados de pressão em relação à profundidade.
 
@@ -186,7 +187,7 @@ class WellInfoInput:
             pressao_df = pressao_df.dropna(subset=['Prof./Intv.(m)', 'Pressão de Formação (Kgf/cm2)'])
             prof_cota = int(self.mesa_rot.get()) - pressao_df['Prof./Intv.(m)']
 
-            self.plot_pressao(x=pressao_df['Pressão de Formação (Kgf/cm2)'],
+            self.plot_simples_pressao(x=pressao_df['Pressão de Formação (Kgf/cm2)'],
                         y=prof_cota,
                         title=self.nome_entry.get(),
                         xlabel='Pressão de Formação (Kgf/cm2)',
