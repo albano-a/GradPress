@@ -6,7 +6,7 @@ from matplotlib.figure import Figure
 import numpy as np
 import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import pandasgui
+import pandasgui as pg
 from tkinter import filedialog, ttk, Label
 import tkinter as tk
 from utility.utilities import create_custom_button, custom_dropdown
@@ -38,11 +38,10 @@ class FileUploader:
         self.upload_button = create_custom_button(self.upload_frame,
                                            text="Carregar arquivo",
                                            command=self.upload_file)
-        # then the grid within the frame
         self.upload_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
 
-        # Dropdown menu to select file
+        # Menu em cascata para escolher o arquivo
         self.fname = tk.StringVar(self.upload_frame)
         self.fname.set("Selecione um arquivo")
         self.selected_file = tk.StringVar(self.master)
@@ -55,14 +54,14 @@ class FileUploader:
                                         values=files,
                                         variable=self.fname)
         self.dropdown.grid(row=3, column=0, padx=10, pady=10)
-        
+
         self.loaded_files = create_custom_button(self.upload_frame,
                                                 text="Todos os arquivos",
                                                 command=lambda: ManageFiles(self.master))
         self.loaded_files.grid(row=3, column=1,padx=10, pady=10)
 
         self.view_button = create_custom_button(self.upload_frame,
-                                                "Visualizar dados",
+                                                "Abrir dados",
                                                 self.view_file)
         self.view_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
@@ -72,7 +71,8 @@ class FileUploader:
         filename = self.selected_file.get()
         if os.path.exists(filename):
             df = pd.read_csv(filename, sep='[;,]')
-            pandasgui.show(df)
+            gui = pg.show(df)
+            print(gui)
         else:
             tk.messagebox.showerror("Error", "Arquivo não encontrado!")
 
@@ -88,24 +88,25 @@ class FileUploader:
         files = os.listdir("./uploads")
         if not files:
             files = ["Nenhum arquivo encontrado"]
+
         self.dropdown['values'] = files
-        
+
         # Update the StringVar associated with the dropdown
         self.fname.set(os.path.basename(filename))
 
     def update_selected_file(self, *args):
         self.selected_file.set(os.path.join("./uploads", self.fname.get()))
-        
-    
+
+
 class FilesFrame(ctk.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
         # List all files in ./uploads
         self.files = os.listdir("./uploads")
-        
+
         listbox_frame = tk.Frame(self, bg='#ebebeb')
         listbox_frame.grid(row=0, column=0, padx=10, pady=10)
-        
+
         self.listbox = tk.Listbox(listbox_frame, width=400, height=200)
         self.listbox.grid(row=0, column=0, sticky='nsew')  # Use grid instead of pack
         for file in self.files:
@@ -122,7 +123,7 @@ class FilesFrame(ctk.CTkScrollableFrame):
         # Get selected file
         index = self.listbox.curselection()[0]
         selected_file = self.files[index]
-        
+
     def add_file(self):
         filename = filedialog.askopenfilename()
         if filename:  # Check if a file was selected
@@ -167,26 +168,26 @@ class ManageFiles:
         self.manage_window.geometry("600x500")
         self.manage_window.minsize(600, 500)
         self.manage_window.option_add("*Label.font", "Helvetica 15")  # for the font
-        
+
         # Create a frame within the new window
         self.manage_files_frame = tk.Frame(self.manage_window#, bg='#ebebeb'
                                            )
         self.manage_files_frame.grid(row=0, column=0, padx=10, pady=10)
         self.manage_files_frame.place(relx=0.5, rely=0.5, anchor='center')
-        
+
         gerenciar_texto = "Gerenciar arquivos"
-        self.label = ctk.CTkLabel(self.manage_files_frame, 
+        self.label = ctk.CTkLabel(self.manage_files_frame,
                                   text=gerenciar_texto,
                                   font=("Helvetica", 20, "bold"))
         self.label.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
-        
+
         # Lista todos os arquivos
-        self.files_frame = FilesFrame(self.manage_files_frame, 
-                                      width=500, 
+        self.files_frame = FilesFrame(self.manage_files_frame,
+                                      width=500,
                                       height=300,
                                       fg_color="transparent")
         self.files_frame.grid(row=1, column=0, columnspan=4,padx=10, pady=10)
-        
+
         # botao para deletar arquivo
         self.add_button = create_custom_button(self.manage_files_frame,
                                                 text="Adicionar",
@@ -196,7 +197,7 @@ class ManageFiles:
                                                 hover_color="#279b37",
                                                 text_color="#212121")
         self.add_button.grid(row=2, column=0, padx=10, pady=10)
-        
+
         # botao para deletar arquivo
         self.rename_button = create_custom_button(self.manage_files_frame,
                                                   text="Renomear",
@@ -206,7 +207,7 @@ class ManageFiles:
                                                   hover_color="#037ef3",
                                                   text_color="#212121")
         self.rename_button.grid(row=2, column=1, padx=10, pady=10)
-        
+
         # botao para deletar arquivo
         self.delete_button = create_custom_button(self.manage_files_frame,
                                                   text="Deletar",
@@ -216,7 +217,7 @@ class ManageFiles:
                                                   hover_color="#be0027",
                                                   text_color="#212121")
         self.delete_button.grid(row=2, column=2, padx=10, pady=10)
-        
+
         self.return_button = create_custom_button(self.manage_files_frame,
                                                   text="Voltar",
                                                   command=self.manage_window.destroy,
@@ -279,33 +280,26 @@ class WellInfoInput:
                                  font=("Helvetica", 12))
         self.mesa_rot.grid(row=4, column=1, padx=10, pady=10)
 
-        # Error message
-        self.error_message = tk.StringVar(self.well_info_frame)
-        self.error_label = tk.Label(self.well_info_frame,
-                                    textvariable=self.error_message,
-                                    fg="red")
-        self.error_label.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
-
         self.plot_btn = create_custom_button(root=self.well_info_frame,
                             text="Plotar",
                             command=self.main_plot_pressure,
                             width=300)
         self.plot_btn.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
-        
+
         self.calculate_btn = create_custom_button(root=self.well_info_frame,
                                                   text="Cálculos",
                                                   command=lambda: CalculationsPage(self.master),
                                                     width=300)
         self.calculate_btn.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
-            
+
 
 
     def plot_simples_pressao(self, x, y, title, xlabel, ylabel, pressao_df, prof_min, prof_max, mesa_rot):
         """
         Função que plota a pressão de formação em função da profundidade (cota)
         """
-        ymin = int(prof_min.get()) if prof_min.get() else min(pressao_df['Prof./Intv.(m)'])
-        ymax = int(prof_max.get()) if prof_max.get() else max(pressao_df['Prof./Intv.(m)'])
+        ymin = int(prof_min.get()) if prof_min.get() else min(pressao_df['Profundidade'])
+        ymax = int(prof_max.get()) if prof_max.get() else max(pressao_df['Profundidade'])
 
         ymin = int(mesa_rot.get()) - ymin
         ymax = int(mesa_rot.get()) - ymax
@@ -328,25 +322,28 @@ class WellInfoInput:
         aos valores de profundidade (em cota) correspondentes.
         Elimina quaisquer linhas com valores NaN.
         Os valores de profundidade em cota são calculados subtraindo
-        os valores de 'Prof./Intv.(m)' do valor de 'mesa_rot'.
+        os valores de 'Profundidade' do valor de 'mesa_rot'.
         """
         try:
             filename = self.file_uploader.selected_file.get()
-            pressao_df = pd.read_csv(filename, delimiter=';')
-            pressao_df = pressao_df.dropna(subset=['Prof./Intv.(m)', 'Pressão de Formação (Kgf/cm2)'])
-            prof_cota = int(self.mesa_rot.get()) - pressao_df['Prof./Intv.(m)']
+            pressao_df = pd.read_csv(filename,
+                                     delimiter='[;,]',
+                                     names=["Profundidade", "Pressão"],
+                                     engine='python')
+            pressao_df = pressao_df.dropna(subset=['Profundidade', 'Pressão'])
+            prof_cota = int(self.mesa_rot.get()) - pressao_df['Profundidade']
 
-            self.plot_simples_pressao(x=pressao_df['Pressão de Formação (Kgf/cm2)'],
+            self.plot_simples_pressao(x=pressao_df['Pressão'],
                         y=prof_cota,
                         title=self.nome_entry.get(),
-                        xlabel='Pressão de Formação (Kgf/cm2)',
+                        xlabel='Pressão',
                         ylabel='Profundidade (m)',
                         pressao_df=pressao_df,
                         prof_min=self.prof_min,
                         prof_max=self.prof_max,
                         mesa_rot=self.mesa_rot)
         except Exception as e:
-            self.error_message.set(str(e))
+            tk.messagebox.showerror("Error", str(e))
 
 class CalculationsPage:
     def __init__(self, master):
@@ -356,52 +353,52 @@ class CalculationsPage:
         self.calculations_window.geometry("600x600")
         self.calculations_window.minsize(600, 600)
         self.calculations_window.option_add("*Label.font", "Helvetica 15")
-        
+
         # Criando um frame dentro da imagem
         self.calculations_window_frame = tk.Frame(self.calculations_window)
         self.calculations_window_frame.grid(row=0, column=0, padx=10, pady=10)
         self.calculations_window_frame.place(relx=0.5,rely=0.5,anchor="center")
-        
+
         calculos_texto = "Cálculos de pressão"
-        self.label = ctk.CTkLabel(self.calculations_window_frame, 
+        self.label = ctk.CTkLabel(self.calculations_window_frame,
                                   text=calculos_texto,
                                   font=("Helvetica", 20, "bold"))
         self.label.grid(row=0, column=0, padx=10, pady=10)
-        
+
         calculos_descricao = "Escolha o que quer fazer com os dados que carregou:"
-        self.label = ctk.CTkLabel(self.calculations_window_frame, 
+        self.label = ctk.CTkLabel(self.calculations_window_frame,
                                   text=calculos_texto,
                                   font=("Helvetica", 20, "bold"))
         self.label.grid(row=0, column=0, padx=10, pady=10)
-        
+
         #### WIP ########
         self.plot_data = create_custom_button(self.calculations_window_frame,
                                               text="Plotar os Dados Tratados",
                                               command=self.on_button_click,
                                               width=100)
         self.plot_data.grid(row=1, column=0, padx=10, pady=10)
-        
+
         self.plot_slopes = create_custom_button(self.calculations_window_frame,
                                                 text="Retas de Ajuste",
                                                 command=self.on_button_click,
                                                 width=100)
         self.plot_slopes.grid(row=2, column=0, padx=10, pady=10)
-        
+
         self.plot_intersections = create_custom_button(self.calculations_window_frame,
                                                        text="Plotar Interseções",
                                                        command=self.on_button_click,
                                                        width=100)
         self.plot_intersections.grid(row=3, column=0, padx=10, pady=10)
-        
+
         self.see_calculations_data = create_custom_button(self.calculations_window_frame,
                                                           text="Ver Dados",
                                                           command=self.on_button_click,
                                                           width=100)
         self.see_calculations_data.grid(row=4, column=0, padx=10, pady=10)
-        
-        
+
+
     def on_button_click():
-        print("Button clicked!")   
+        print("Button clicked!")
 
     def calculate(self):
         def inv_polynomial(dobs, degree, x):
@@ -427,7 +424,7 @@ class CalculationsPage:
 
             return m, G
 
-        # m, G = inv_polynomial(dobs=pressao_ogx_93_ma['Prof./Intv.(m)'], degree=1, x=pressao_ogx_93_ma['Pressão de\nFormação\n(Kgf/cm2)'])
+        # m, G = inv_polynomial(dobs=pressao_ogx_93_ma['Profundidade'], degree=1, x=pressao_ogx_93_ma['Pressão de\nFormação\n(Kgf/cm2)'])
         # print(f"y = {m[0]:.2f} + {m[1]:.2f}x")
 
 class Footer:
@@ -443,7 +440,9 @@ class Footer:
                                            text="GIECAR",
                                            command=lambda: \
                                            webbrowser.open("http://gcr.sites.uff.br/"),
-                                           width=100)
+                                           width=100,
+                                           fg_color="#840000",
+                                           hover_color="#a50000")
         giecar_link.grid(row=0, column=0, padx=10, pady=10)
 
         github_link = create_custom_button(self.footer_frame,
@@ -467,8 +466,6 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         ctk.set_appearance_mode("light")
-        self.geometry("600x950")
-        self.minsize(600, 950)
         self.title("GradPress")
         self.iconbitmap(default="./icon.ico")  # icone
         self.option_add("*Label.font", "Helvetica 15")  # for the font
@@ -482,7 +479,22 @@ class App(ctk.CTk):
         self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
         self.footer = Footer(self.main_frame)
 
+        # Defina a largura e a altura da janela
+        window_width = 600
+        window_height = 950
 
+        # Obtenha a largura e a altura da tela
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        print(screen_width, screen_height)
+
+        # Calcule a posição para centralizar a janela
+        position_top = int(screen_height / 2 - window_height / 2)
+        position_right = int(screen_width / 2 - window_width / 2)
+
+        # Defina a geometria da janela
+        self.geometry(f"{window_width}x{window_height}+{position_right}+{position_top-50}")
+        self.minsize(600, 950)
 
 
 if __name__ == "__main__":

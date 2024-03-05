@@ -1,11 +1,11 @@
 import customtkinter as ctk
 
-def create_custom_button(root, 
-                         text, 
-                         command, 
-                         width=200, 
-                         fg_color="#23479e", 
-                         hover_color="#0a0f53",
+def create_custom_button(root,
+                         text,
+                         command,
+                         width=200,
+                         fg_color="#840000",
+                         hover_color="#a50000",
                          text_color="#f0f0f0"):
         # Your implementation of create_custom_button goes here
         return ctk.CTkButton(root,
@@ -28,9 +28,9 @@ def custom_dropdown(root, values, variable, width=200):
                                variable=variable,
                                corner_radius=10,
                                fg_color="#fff",
-                               button_color="#23479e",
+                               button_color="#840000",
                                width=width,
-                               button_hover_color="#0a0f53",
+                               button_hover_color="#a50000",
                                text_color="#212121",
                                border_color="#aeaeae",
                                border_width=1,
