@@ -1,5 +1,6 @@
 import os
 import shutil
+from click import command
 import customtkinter as ctk
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -9,7 +10,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import pandasgui as pg
 from tkinter import filedialog, ttk, Label
 import tkinter as tk
-from utility.utilities import create_custom_button, custom_dropdown
+from utility.utilities import create_custom_button, custom_dropdown, centralize_window
 from PIL import Image, ImageTk
 from numpy.linalg import inv
 from utility.fluid_pressure import fluid_pressure
@@ -50,6 +51,7 @@ class FileUploader:
         if not files:
             files = ["Nenhum arquivo encontrado"]
 
+        
         self.dropdown = custom_dropdown(self.upload_frame,
                                         values=files,
                                         variable=self.fname)
@@ -90,6 +92,8 @@ class FileUploader:
             files = ["Nenhum arquivo encontrado"]
 
         self.dropdown['values'] = files
+        
+        
 
         # Update the StringVar associated with the dropdown
         self.fname.set(os.path.basename(filename))
@@ -429,38 +433,105 @@ class CalculationsPage:
 
 class Footer:
     def __init__(self, master):
-        import webbrowser
+        
         self.master = master
         self.footer_frame = tk.Frame(self.master, bg='#ebebeb')
         # Se eu quiser adicionar mais alguma coisa antes do footer
         # alterar o argumento row abaixo.
         self.footer_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
         # Botoes de acesso a giecar, github e sair
-        giecar_link = create_custom_button(self.footer_frame,
+        
+
+        # exit_button = create_custom_button(self.footer_frame,
+        #                                    text="Sair",
+        #                                    command=self.master.quit,
+        #                                    width=100)
+        # exit_button.grid(row=0, column=2, padx=10, pady=10)
+
+        
+        
+class MenuBar:
+    def __init__(self, master):
+        self.master = master
+        self.menu_bar = tk.Menu(self.master)
+
+        file_menu = tk.Menu(self.menu_bar, tearoff=0)
+        file_menu.add_command(label="Novo", accelerator='Ctrl+N') # TODO: Create a function that creates a new file. What type of file?
+        
+        file_menu.add_command(label="Abrir", command=lambda: FileUploader.upload_file(self), accelerator='Ctrl+O')
+        self.master.bind('<Control-o>', lambda event: FileUploader.upload_file(self))
+        file_menu.add_command(label="Salvar", accelerator='Ctrl+S') # TODO: Create a function that saves the file¹
+        file_menu.add_command(label="Salvar como...") # TODO: Create a function that saves the file²
+        file_menu.add_separator()
+        file_menu.add_command(label="Sair", command=self.master.quit) # TODO: Closes an app
+        # Adicionar o botão de arquivo ao menu
+        self.menu_bar.add_cascade(label="Arquivo", menu=file_menu)
+
+        # Create an Edit menu
+        edit_menu = tk.Menu(self.menu_bar, tearoff=0)
+        edit_menu.add_command(label="Cortar", accelerator='Ctrl+X') # TODO: Create a function or implement the method that cuts the selected text
+        edit_menu.add_command(label="Copiar", accelerator='Ctrl+C') # TODO: Create a function or implement the method that copies the selected text
+        edit_menu.add_command(label="Colar", accelerator='Ctrl+V') # TODO: Create a function or implement the method that pastes the selected text
+        # Add the Edit menu to the menu bar
+        # accelerator argument adds the shortcut
+        self.menu_bar.add_cascade(label="Editar", menu=edit_menu)
+
+        about_menu = tk.Menu(self.menu_bar, tearoff=0)
+        about_menu.add_command(label="Ajuda", command=self.help_window) # TODO: Create a function that shows the about window
+        about_menu.add_command(label="Sobre o GradPress", command=self.about_gradpress_window) # TODO: Create a function that shows the about window
+
+        self.menu_bar.add_cascade(label="Sobre", menu=about_menu)
+
+
+        self.master.config(menu=self.menu_bar)
+ 
+    def about_gradpress_window(self):
+        import webbrowser
+        about_window = tk.Toplevel(self.master)
+        about_window.title("Sobre o GradPress")
+        
+        #function that centralizes the window
+        centralize_window(about_window, 300, 200)
+        
+        about_window.minsize(300, 200)
+        about_window.maxsize(300, 200)
+        about_window.option_add("*Label.font", "Helvetica 15")
+        
+        about_frame = tk.Frame(about_window)
+        about_frame.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+        about_frame.place(relx=0.5, rely=0.5, anchor='center')
+        
+        # # giecar logo handling
+        # img = Image.open("./img/giecar.png")
+        # or_width, or_height = img.size
+        # img = img.resize((or_width//3, or_height//3))
+        # photo_img = ImageTk.PhotoImage(img)
+        # img_giecar = Label(about_frame, image=photo_img, bg='#ebebeb')
+        # img_giecar.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+        
+        giecar_link = create_custom_button(about_frame,
                                            text="GIECAR",
                                            command=lambda: \
                                            webbrowser.open("http://gcr.sites.uff.br/"),
                                            width=100,
                                            fg_color="#840000",
                                            hover_color="#a50000")
-        giecar_link.grid(row=0, column=0, padx=10, pady=10)
+        giecar_link.grid(row=1, column=0, padx=10, pady=10)
 
-        github_link = create_custom_button(self.footer_frame,
+        github_link = create_custom_button(about_frame,
                                            text="GitHub",
                                            command=lambda: \
                                            webbrowser.open("https://github.com/albano-a/GradPress"),
                                            width=100)
-        github_link.grid(row=0, column=1, padx=10, pady=10)
-
-        exit_button = create_custom_button(self.footer_frame,
-                                           text="Sair",
-                                           command=self.master.quit,
-                                           width=100)
-        exit_button.grid(row=0, column=2, padx=10, pady=10)
+        github_link.grid(row=1, column=1, padx=10, pady=10)
 
         texto_inicial = "Desenvolvido por André Albano\nGIECAR - UFF\n2024"
-        self.label = tk.Label(self.footer_frame, text=texto_inicial, bg='#ebebeb', font=("Helvetica", 10))
-        self.label.grid(row=1, column=0, columnspan=3, padx=15, pady=10)
+        self.label = tk.Label(about_frame, text=texto_inicial, font=("Segoe UI", 10, "bold"))
+        self.label.grid(row=2, column=0, columnspan=2, padx=15, pady=10)
+
+    def help_window(self):
+        # TODO: Create a help window
+        pass
 
 class App(ctk.CTk):
     def __init__(self):
@@ -474,27 +545,31 @@ class App(ctk.CTk):
         self.main_frame = tk.Frame(self, bg='#ebebeb')
         self.main_frame.grid(row=0, column=0, padx=10, pady=10)
         self.main_frame.place(relx=0.5, rely=0.5, anchor='center')
-
+        
+        
+        self.menubar = MenuBar(self)
         self.file_uploader = FileUploader(self.main_frame)
-        self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
+        # self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
         self.footer = Footer(self.main_frame)
 
-        # Defina a largura e a altura da janela
-        window_width = 600
-        window_height = 950
+        centralize_window(self, 800, 600)
+        
+        # # Defina a largura e a altura da janela
+        # window_width = 800
+        # window_height = 600
 
-        # Obtenha a largura e a altura da tela
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-        print(screen_width, screen_height)
+        # # Obtenha a largura e a altura da tela
+        # screen_width = self.winfo_screenwidth()
+        # screen_height = self.winfo_screenheight()
+        # print(screen_width, screen_height)
 
-        # Calcule a posição para centralizar a janela
-        position_top = int(screen_height / 2 - window_height / 2)
-        position_right = int(screen_width / 2 - window_width / 2)
+        # # Calcule a posição para centralizar a janela
+        # position_top = int(screen_height / 2 - window_height / 2)
+        # position_right = int(screen_width / 2 - window_width / 2)
 
-        # Defina a geometria da janela
-        self.geometry(f"{window_width}x{window_height}+{position_right}+{position_top-50}")
-        self.minsize(600, 950)
+        # # Defina a geometria da janela
+        # self.geometry(f"{window_width}x{window_height}+{position_right}+{position_top-50}")
+        self.minsize(800, 600)
 
 
 if __name__ == "__main__":

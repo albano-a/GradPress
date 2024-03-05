@@ -36,3 +36,19 @@ def custom_dropdown(root, values, variable, width=200):
                                border_width=1,
                                hover=True,
                                font=("Helvetica", 15, "bold"))
+        
+        
+def centralize_window(window, 
+                      width, 
+                      height,
+                      drift=0):
+            # Obtenha a largura e a altura da tela
+            screen_width = window.winfo_screenwidth()
+            screen_height = window.winfo_screenheight()
+
+            # Calcule a posição para centralizar a janela
+            position_top = int(screen_height / 2 - height / 2) - drift 
+            position_right = int(screen_width / 2 - width / 2) - drift
+
+            # Defina a geometria da janela
+            window.geometry(f"{width}x{height}+{position_right}+{position_top}")
