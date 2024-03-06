@@ -7,3 +7,4 @@ Pillow
 plotly
 tkinterhtml
 tksheet
+chlorophyll
