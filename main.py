@@ -1,5 +1,6 @@
 import os
 import shutil
+import csv
 from click import command
 import customtkinter as ctk
 import matplotlib.pyplot as plt
@@ -8,7 +9,7 @@ import numpy as np
 import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import pandasgui as pg
-from tkinter import filedialog, ttk, Label
+from tkinter import filedialog, ttk, Label, PhotoImage
 import tkinter as tk
 from utility.utilities import create_custom_button, custom_dropdown, centralize_window
 from PIL import Image, ImageTk
@@ -51,7 +52,7 @@ class FileUploader:
         if not files:
             files = ["Nenhum arquivo encontrado"]
 
-        
+
         self.dropdown = custom_dropdown(self.upload_frame,
                                         values=files,
                                         variable=self.fname)
@@ -69,38 +70,38 @@ class FileUploader:
 
         self.fname.trace_add('write', self.update_selected_file)
 
-    def view_file(self):
-        filename = self.selected_file.get()
-        if os.path.exists(filename):
-            df = pd.read_csv(filename, sep='[;,]')
-            gui = pg.show(df)
-            print(gui)
-        else:
-            tk.messagebox.showerror("Error", "Arquivo não encontrado!")
+
 
     def upload_file(self):
-        filename = filedialog.askopenfilename()
-        print(filename)
-        if not os.path.exists("./uploads"):
-            os.makedirs("./uploads")
-        shutil.copy(filename, "./uploads")
-        tk.messagebox.showinfo("Sucesso", "Arquivo carregado com sucesso!")
+        filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
+        if filename:
+            if not os.path.exists("./uploads"):
+                os.makedirs("./uploads")
+            try:
+                destination = shutil.copy(filename, "./uploads")
+            except shutil.SameFileError:
+                tk.messagebox.showinfo("Info", "File is already uploaded!")
+                destination = filename
+            else:
+                tk.messagebox.showinfo("Sucesso", "Arquivo carregado com sucesso!")
 
-        # Update the list of files in the dropdown
-        files = os.listdir("./uploads")
-        if not files:
-            files = ["Nenhum arquivo encontrado"]
+            with open(destination, 'r') as file:
+                reader = csv.reader(file)
+                column_names = next(reader)
+                self.tree["columns"] = tuple(str(i+1) for i in range(len(column_names)))
+                for i, column_name in enumerate(column_names, start=1):
+                    self.tree.heading(str(i), text=column_name)
+                for row_data in reader:
+                    self.tree.insert('', 'end', values=row_data)
+            self.current_file = destination
 
-        self.dropdown['values'] = files
-        
-        
+
 
         # Update the StringVar associated with the dropdown
         self.fname.set(os.path.basename(filename))
 
     def update_selected_file(self, *args):
         self.selected_file.set(os.path.join("./uploads", self.fname.get()))
-
 
 class FilesFrame(ctk.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
@@ -433,14 +434,14 @@ class CalculationsPage:
 
 class Footer:
     def __init__(self, master):
-        
+
         self.master = master
         self.footer_frame = tk.Frame(self.master, bg='#ebebeb')
         # Se eu quiser adicionar mais alguma coisa antes do footer
         # alterar o argumento row abaixo.
         self.footer_frame.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
         # Botoes de acesso a giecar, github e sair
-        
+
 
         # exit_button = create_custom_button(self.footer_frame,
         #                                    text="Sair",
@@ -448,20 +449,26 @@ class Footer:
         #                                    width=100)
         # exit_button.grid(row=0, column=2, padx=10, pady=10)
 
-        
-        
 class MenuBar:
     def __init__(self, master):
         self.master = master
         self.menu_bar = tk.Menu(self.master)
+        self.sheet_editor = SheetEditor(self.master)
 
         file_menu = tk.Menu(self.menu_bar, tearoff=0)
-        file_menu.add_command(label="Novo", accelerator='Ctrl+N') # TODO: Create a function that creates a new file. What type of file?
-        
-        file_menu.add_command(label="Abrir", command=lambda: FileUploader.upload_file(self), accelerator='Ctrl+O')
+        file_menu.add_command(label="Novo",
+                              accelerator='Ctrl+N',
+                              command= self.sheet_editor.new_sheet) # TODO: Create a function that creates a new file. What type of file?
+        save_icon = PhotoImage(file="./icons/save.png")
+        file_menu.add_command(label="Abrir",
+                              command=lambda: FileUploader.upload_file(self),
+                              accelerator='Ctrl+O')
         self.master.bind('<Control-o>', lambda event: FileUploader.upload_file(self))
-        file_menu.add_command(label="Salvar", accelerator='Ctrl+S') # TODO: Create a function that saves the file¹
-        file_menu.add_command(label="Salvar como...") # TODO: Create a function that saves the file²
+        file_menu.add_command(label="Salvar",
+                              accelerator='Ctrl+S',
+                              command=self.save_file) # TODO: Create a function that saves the file¹
+        file_menu.add_command(label="Salvar como...",
+                              command=self.save_file_as) # TODO: Create a function that saves the file²
         file_menu.add_separator()
         file_menu.add_command(label="Sair", command=self.master.quit) # TODO: Closes an app
         # Adicionar o botão de arquivo ao menu
@@ -469,6 +476,9 @@ class MenuBar:
 
         # Create an Edit menu
         edit_menu = tk.Menu(self.menu_bar, tearoff=0)
+        edit_menu.add_command(label="Abrir PandasGUI", command=self.view_file) # TODO: Create a function that opens the PandasGUI
+        edit_menu.add_command(label="Gerenciar arquivos", command=lambda: ManageFiles(self.master))
+        edit_menu.add_separator()
         edit_menu.add_command(label="Cortar", accelerator='Ctrl+X') # TODO: Create a function or implement the method that cuts the selected text
         edit_menu.add_command(label="Copiar", accelerator='Ctrl+C') # TODO: Create a function or implement the method that copies the selected text
         edit_menu.add_command(label="Colar", accelerator='Ctrl+V') # TODO: Create a function or implement the method that pastes the selected text
@@ -481,26 +491,73 @@ class MenuBar:
         about_menu.add_command(label="Sobre o GradPress", command=self.about_gradpress_window) # TODO: Create a function that shows the about window
 
         self.menu_bar.add_cascade(label="Sobre", menu=about_menu)
-
-
         self.master.config(menu=self.menu_bar)
- 
+
+    def save_file(self):
+        if self.sheet_editor.current_file:
+            self.sheet_editor.save_table(self.sheet_editor.current_file)
+        else:
+            self.save_file_as()
+
+    def save_file_as(self):
+        filename = filedialog.asksaveasfilename(defaultextension=".csv")
+        if filename:
+            self.sheet_editor.save_table(filename)
+            self.sheet_editor.current_file = filename
+
+    def view_file(self):
+        # Create a new window
+        window = tk.Toplevel(self.master)
+        window.title("Selecione um arquivo")
+        centralize_window(window=window, width=300, height=200, drift=0)
+
+        # Create a listbox
+        listbox = tk.Listbox(window, width=175)
+        listbox.grid(row=0, column=0)
+
+        # Get the list of files in the ./uploads directory
+        files = os.listdir("./uploads")
+
+        # Add the files to the listbox
+        for file in files:
+            listbox.insert(tk.END, file)
+
+        # Create a button that opens the selected file in pandasgui
+        open_button = create_custom_button(window,
+                                           text="Abrir",
+                                           command=lambda: self.open_in_pandasgui(listbox.get(listbox.curselection())),
+                                           width=100)
+        open_button.grid(row=1, column=0, padx=10, pady=10)
+
+        # Configure the grid to expand properly when the window is resized
+        window.grid_rowconfigure(0, weight=1)
+        window.grid_columnconfigure(0, weight=1)
+
+    def open_in_pandasgui(self, filename):
+        if filename:
+            path = os.path.join("./uploads", filename)
+            if os.path.exists(path):
+                df = pd.read_csv(path, sep='[;,]')
+                pg.show(df)
+            else:
+                tk.messagebox.showerror("Error", "Arquivo não encontrado!")
+
     def about_gradpress_window(self):
         import webbrowser
         about_window = tk.Toplevel(self.master)
         about_window.title("Sobre o GradPress")
-        
+
         #function that centralizes the window
         centralize_window(about_window, 300, 200)
-        
+
         about_window.minsize(300, 200)
         about_window.maxsize(300, 200)
         about_window.option_add("*Label.font", "Helvetica 15")
-        
+
         about_frame = tk.Frame(about_window)
         about_frame.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
         about_frame.place(relx=0.5, rely=0.5, anchor='center')
-        
+
         # # giecar logo handling
         # img = Image.open("./img/giecar.png")
         # or_width, or_height = img.size
@@ -508,7 +565,7 @@ class MenuBar:
         # photo_img = ImageTk.PhotoImage(img)
         # img_giecar = Label(about_frame, image=photo_img, bg='#ebebeb')
         # img_giecar.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
-        
+
         giecar_link = create_custom_button(about_frame,
                                            text="GIECAR",
                                            command=lambda: \
@@ -533,6 +590,154 @@ class MenuBar:
         # TODO: Create a help window
         pass
 
+class SheetEditor:
+    def __init__(self, master):
+        self.master = master
+        self.current_file = None  # Add this line
+        self.setup_ui()
+
+    def setup_ui(self):
+        self.notebook = ttk.Notebook(self.master)
+        self.sheet_frame = ttk.Frame(self.notebook)
+        self.notebook.add(self.sheet_frame, text="Planilha")
+        self.notebook.grid(row=0, column=0)
+        self.notebook.grid_propagate(False)
+
+    def new_sheet(self):
+        self.tree = ttk.Treeview(self.sheet_frame, height=20, columns=('1', '2'), show="headings")
+        self.tree.heading('1', text='A')
+        self.tree.heading('2', text='B')
+
+         # Create vertical scrollbar
+        self.y_scrollbar = ttk.Scrollbar(self.sheet_frame, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscrollcommand=self.y_scrollbar.set)
+
+        # Create horizontal scrollbar
+        self.x_scrollbar = ttk.Scrollbar(self.sheet_frame, orient=tk.HORIZONTAL, command=self.tree.xview)
+        self.tree.configure(xscrollcommand=self.x_scrollbar.set)
+
+        # Grid treeview and scrollbars
+        self.tree.grid(row=0, column=0, sticky='nsew')
+        self.y_scrollbar.grid(row=0, column=1, sticky='ns')
+        self.x_scrollbar.grid(row=1, column=0, columnspan=4,sticky='ew')
+
+        self.sheet_frame.grid_columnconfigure(0, weight=1)
+        self.sheet_frame.grid_rowconfigure(0, weight=1)
+
+        self.tree.bind("<Double-1>", self.edit_item)
+        self.tree.bind("<Button-3>", self.edit_column_name)
+
+        add_row_button = tk.Button(self.sheet_frame,
+                                   text="Add Row",
+                                   command=self.add_row)
+        add_row_button.grid(row=2, column=0, padx=10, pady=10)
+
+        add_column_button = tk.Button(self.sheet_frame,
+                                      text="Add Column",
+                                      command=self.add_column)
+        add_column_button.grid(row=2, column=1, padx=10, pady=10)
+
+        remove_row_button = tk.Button(self.sheet_frame,
+                                      text="Remove Row",
+                                      command=self.remove_row)
+        remove_row_button.grid(row=2, column=2, padx=10, pady=10)
+
+        remove_column_button = tk.Button(self.sheet_frame,
+                                         text="Remove Column",
+                                         command=self.remove_column)
+        remove_column_button.grid(row=2, column=3, padx=10, pady=10)
+
+        # Add two rows and two columns
+        for _ in range(1):
+            self.add_row()
+
+    def add_row(self):
+        tag_name = 'evenrow' if len(self.tree.get_children()) % 2 == 0 else 'oddrow'
+        self.tree.insert('', 'end', values=('', ''), tags=(tag_name,))
+        self.tree.tag_configure('evenrow', background='lightgray')
+
+    def add_column(self):
+        headings = [self.tree.heading(col)['text'] for col in self.tree["columns"]]
+
+        new_column = str(len(self.tree["columns"]) + 1)
+        self.tree["columns"] = self.tree["columns"] + (new_column,)
+
+        for col, heading in zip(self.tree['columns'], headings):
+            self.tree.heading(col, text=heading)
+
+        self.tree.heading(new_column, text=new_column)
+
+    def remove_row(self):
+        selected_item = self.tree.selection()[0]  # Get selected item
+        self.tree.delete(selected_item)
+
+    def remove_column(self):
+        if len(self.tree["columns"]) > 1:  # Ensure there's more than one column
+            self.tree["columns"] = self.tree["columns"][:-1]  # Remove the last column
+
+    def edit_item(self, event):
+        column = self.tree.identify_column(event.x)
+        row = self.tree.identify_row(event.y)
+
+        if not row:
+            return
+
+        x, y, width, height = self.tree.bbox(row, column)
+        pady = height // 2
+
+        self.entry = tk.Entry(self.tree, width=width//2, font=('Segoe UI', 12))
+        self.entry.place(x=x, y=y+pady, anchor='w', width=width)
+        self.entry.focus_set()
+
+        def save_edit(event, self_=self, row_=row, column_=column, entry_=self.entry):
+            self_.tree.set(row_, column_, entry_.get())
+            entry_.destroy()
+
+        self.entry.bind('<Return>', save_edit)
+        self.entry.bind('<FocusOut>', save_edit, add='+')
+
+    def edit_column_name(self, event):
+        column_id = self.tree.identify_column(event.x)
+
+        x, y, width, height = self.tree.bbox(self.tree.get_children()[0], column_id)
+        pady = height // 2
+
+        self.entry = tk.Entry(self.tree, width=width, font=('arial', 14))
+        self.entry.place(x=x, y=y+pady, anchor='w')
+
+        self.entry.focus_set()
+
+        def save_edit(event):
+            self.tree.heading(column_id, text=self.entry.get())
+            self.entry.destroy()
+
+        self.entry.bind('<Return>', save_edit)
+        self.entry.bind('<FocusOut>', save_edit)
+
+    def save_table(self, filename):
+        with open(filename, 'w', newline='') as file:
+            writer = csv.writer(file)
+            column_names = [self.tree.heading(column)['text'] for column in self.tree["columns"]]
+            writer.writerow(column_names)
+            for row_id in self.tree.get_children():
+                row_data = [self.tree.set(row_id, column) for column in self.tree["columns"]]
+                writer.writerow(row_data)
+        self.current_file = filename  # Add this line
+
+    def load_table(self):
+        filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
+        if filename:
+            with open(filename, 'r') as file:
+                reader = csv.reader(file)
+                column_names = next(reader)
+                self.tree["columns"] = tuple(str(i+1) for i in range(len(column_names)))
+                for i, column_name in enumerate(column_names, start=1):
+                    self.tree.heading(str(i), text=column_name)
+                for row_data in reader:
+                    self.tree.insert('', 'end', values=row_data)
+            self.current_file = filename
+
+
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -545,30 +750,16 @@ class App(ctk.CTk):
         self.main_frame = tk.Frame(self, bg='#ebebeb')
         self.main_frame.grid(row=0, column=0, padx=10, pady=10)
         self.main_frame.place(relx=0.5, rely=0.5, anchor='center')
-        
-        
+
+
         self.menubar = MenuBar(self)
-        self.file_uploader = FileUploader(self.main_frame)
+        self.notebook_frame = SheetEditor(self.main_frame)
+        # self.file_uploader = FileUploader(self.main_frame)
         # self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
         self.footer = Footer(self.main_frame)
 
         centralize_window(self, 800, 600)
-        
-        # # Defina a largura e a altura da janela
-        # window_width = 800
-        # window_height = 600
 
-        # # Obtenha a largura e a altura da tela
-        # screen_width = self.winfo_screenwidth()
-        # screen_height = self.winfo_screenheight()
-        # print(screen_width, screen_height)
-
-        # # Calcule a posição para centralizar a janela
-        # position_top = int(screen_height / 2 - window_height / 2)
-        # position_right = int(screen_width / 2 - window_width / 2)
-
-        # # Defina a geometria da janela
-        # self.geometry(f"{window_width}x{window_height}+{position_right}+{position_top-50}")
         self.minsize(800, 600)
 
 
