@@ -1,9 +1,0 @@
-customtkinter
-matplotlib
-numpy
-pandas
-pandasgui
-Pillow
-plotly
-tkinterhtml
-tkvue
