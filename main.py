@@ -4,6 +4,7 @@ from click import command
 import customtkinter as ctk
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+import csv
 from tksheet import Sheet
 import numpy as np
 import pandas as pd
@@ -20,13 +21,16 @@ class MenuBar:
     def __init__(self, master):
         self.master = master
         self.menu_bar = tk.Menu(self.master)
+        self.file_handling = FileHandling(self.master)
+        self.sheet_editor = SheetEditor(self.master)
 
         file_menu = tk.Menu(self.menu_bar, tearoff=0)
         file_menu.add_command(label="Novo", accelerator='Ctrl+N') # TODO: Create a function that creates a new file. What type of file?
 
         file_menu.add_command(label="Abrir", command=lambda: FileHandling.upload_file(self), accelerator='Ctrl+O')
         self.master.bind('<Control-o>', lambda event: FileHandling.upload_file(self))
-        file_menu.add_command(label="Salvar", accelerator='Ctrl+S') # TODO: Create a function that saves the file¹
+        file_menu.add_command(label="Salvar", command=self.sheet_editor.save_data, accelerator='Ctrl+S') # TODO: Create a function that saves the file¹
+        self.master.bind('<Control-s>', self.sheet_editor.save_data)
         file_menu.add_command(label="Salvar como...") # TODO: Create a function that saves the file²
         file_menu.add_separator()
         file_menu.add_command(label="Sair", command=self.master.quit) # TODO: Closes an app
@@ -55,8 +59,6 @@ class MenuBar:
 
         self.menu_bar.add_cascade(label="Cálculos", menu=calculations_menu)
 
-
-
         about_menu = tk.Menu(self.menu_bar, tearoff=0)
         about_menu.add_command(label="Ajuda", command=self.help_window) # TODO: Create a function that shows the about window
         about_menu.add_command(label="Sobre o GradPress", command=self.about_gradpress_window) # TODO: Create a function that shows the about window
@@ -65,6 +67,19 @@ class MenuBar:
 
 
         self.master.config(menu=self.menu_bar)
+
+    def save_file(self):
+        # Get the data from the sheet
+        data = self.sheet_editor.sheet.get_sheet_data()
+
+        # Open a save file dialog
+        filepath = filedialog.asksaveasfilename(defaultextension=".csv")
+
+        # If a file was selected, save the data to the file
+        if filepath:
+            with open(filepath, "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerows(data)
 
     def about_gradpress_window(self):
         import webbrowser
@@ -140,6 +155,8 @@ class StartPage:
 class FileHandling:
     def __init__(self, master):
         self.master = master
+        self.sheet_editor = SheetEditor
+
 
     def open_file(self):
         # TODO: Create a function that opens a file and shows it in the main window. How can I do that?...
@@ -507,9 +524,67 @@ class CalculationsPage:
         # m, G = inv_polynomial(dobs=pressao_ogx_93_ma['Profundidade'], degree=1, x=pressao_ogx_93_ma['Pressão de\nFormação\n(Kgf/cm2)'])
         # print(f"y = {m[0]:.2f} + {m[1]:.2f}x")
 
+class SheetEditor:
+    def __init__(self, master):
+        self.master = master
 
+        # Criando um frame dentro da imagem
+        self.sheet_editor_frame = tk.Frame(self.master)
+        self.sheet_editor_frame.grid(row=0, column=0, padx=10, pady=10)
+        self.sheet_editor_frame.place(relx=0.5,rely=0.5,anchor="center")
 
+        calculos_texto = "Editor"
+        self.label = ctk.CTkLabel(self.sheet_editor_frame,
+                                  text=calculos_texto,
+                                  font=("Helvetica", 20, "bold"))
+        self.label.grid(row=0, column=0, padx=10, pady=10)
 
+        # Create a sheet
+        self.sheet = Sheet(self.sheet_editor_frame,
+                           page_up_down_select_row=True,
+                           column_width=120,
+                           startup_select=(0, 1, "rows"),
+                           headers=[f"Column {c}" for c in range(1, 3)],
+                           data=[["" for _ in range(20)] for _ in range(3)],
+                           theme="light green")
+
+        self.sheet.enable_bindings(("single_select",  # "single_select" or "toggle_select"
+                                   "drag_select",  # enables shift click selection as well
+                                   "column_drag_and_drop",
+                                   "row_drag_and_drop",
+                                   "column_select",
+                                   "row_select",
+                                   "column_width_resize",
+                                   "double_click_column_resize",
+                                   "row_width_resize",
+                                   "column_height_resize",
+                                   "arrowkeys",
+                                   "row_height_resize",
+                                   "double_click_row_resize",
+                                   "right_click_popup_menu",
+                                   "rc_select",
+                                   "rc_insert_column",
+                                   "rc_delete_column",
+                                   "rc_insert_row",
+                                   "rc_delete_row",
+                                   "edit_cell",
+                                   "paste","cut","delete","copy","undo"))
+
+        self.sheet.grid(row=1, column=0, padx=10, pady=10)
+        print(self.sheet["A1"].expand().options(header=True, index=True).data)
+
+    def save_data(self):
+        # Get the data from the sheet
+        data = self.sheet.get_data()
+
+        # Open a save file dialog
+        filepath = filedialog.asksaveasfilename(defaultextension=".csv")
+
+        # If a file was selected, save the data to the file
+        if filepath:
+            with open(filepath, "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerows(data)
 
 class App(ctk.CTk):
     def __init__(self):
@@ -528,7 +603,8 @@ class App(ctk.CTk):
 
 
         self.menubar = MenuBar(self)
-        self.startpage = StartPage(self.main_frame)
+        # self.startpage = StartPage(self.main_frame)
+        self.sheet_editor = SheetEditor(self)
         # self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
 
 
