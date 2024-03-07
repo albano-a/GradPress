@@ -67,3 +67,22 @@ def centralize_window(window,
 
             # Defina a geometria da janela
             window.geometry(f"{width}x{height}+{position_right}+{position_top}")
+
+
+def update_and_centralize_geometry(window, frame, drift=0, max_size=False, child_window=False, maxwidth=0, maxheight=0):
+    # Update the geometry of the window based on the current size of the frame
+    frame_width = frame.winfo_width()
+    frame_height = frame.winfo_height()
+    window.geometry(f"{frame_width}x{frame_height}")
+
+    # Centralize the window on the screen
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    position_top = int(screen_height / 2 - frame_height / 2) - drift
+    position_right = int(screen_width / 2 - frame_width / 2) - drift
+    window.geometry(f"{frame_width}x{frame_height}+{position_right}+{position_top}")
+    window.minsize(frame_width, frame_height)
+    if max_size == True and child_window == False:
+        window.maxsize(maxwidth, maxheight)
+    elif max_size == True and child_window == True:
+        window.maxsize(frame_width, frame_height)

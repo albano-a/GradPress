@@ -23,7 +23,7 @@ from numpy.linalg import inv
 from CTkMenuBar import *
 from ttkwidgets.font import *
 # Local application/library specific imports
-from utility.utilities import create_custom_button, custom_dropdown, centralize_window, create_custom_entry
+from utility.utilities import create_custom_button, custom_dropdown, centralize_window, create_custom_entry, update_and_centralize_geometry
 from utility.fluid_pressure import fluid_pressure
 from chlorophyll import CodeView
 from utility.icons import add_img, remove_img, font_img
@@ -31,9 +31,10 @@ from utility.icons import add_img, remove_img, font_img
 
 
 class NewWindow(tk.Toplevel):
-    def __init__(self, master=None):
+    def __init__(self, master=None, app=None):
         super().__init__(master)
-        self.menu_bar = MenuBar(self)
+        self.app = app
+        self.menu_bar = MenuBar(self, self.app)
         self.config(menu=self.menu_bar.menu_bar)
 
 class AboutPage:
@@ -137,9 +138,10 @@ class FilesFrame(ctk.CTkScrollableFrame):
             tk.messagebox.showinfo("Sucesso", "Arquivo deletado com sucesso!")
 
 class ManageFiles:
-    def __init__(self, master):
+    def __init__(self, master, app):
         self.master = master
-        self.manage_window = NewWindow(self.master)
+        self.app = app
+        self.manage_window = NewWindow(self.master, self.app)
         self.manage_window.title("Gerenciar arquivos")
         self.manage_window.geometry("600x500")
         self.manage_window.minsize(600, 500)
@@ -333,10 +335,10 @@ class CalculationsPage:
         # self.cal_window.minsize(600, 600)
         self.cal_window.option_add("*Label.font", "Segoe\\ UI 12")
 
-        centralize_window(self.cal_window, 410, 500)
+        # centralize_window(self.cal_window, 410, 500)
 
         self.super_calc_win_frame = ctk.CTkFrame(self.cal_window)
-        # self.super_calc_win_frame.grid(row=0, column=0, padx=10, pady=10)
+        self.super_calc_win_frame.bind("<Configure>", lambda event: update_and_centralize_geometry(self.cal_window, self.super_calc_win_frame))
         self.super_calc_win_frame.place(relx=0.5, rely=0.5, anchor='center')
 
         width=300; height=15
@@ -357,6 +359,9 @@ class CalculationsPage:
         self.calc_win_frame4 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
         self.calc_win_frame4.grid(row=4, column=0, columnspan=2,padx=5, pady=5, sticky='nsew')
 
+        self.calc_win_frame5 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
+        self.calc_win_frame5.grid(row=5, column=0, columnspan=2,padx=5, pady=5, sticky='nsew')
+
         self.calculator_text_label = \
             "Preencha os campos abaixo para gerar os \n gráficos ou calcular o gradiente de pressão."
         self.calculator_text = ctk.CTkLabel(self.calc_win_frame0,
@@ -374,14 +379,14 @@ class CalculationsPage:
                 self.tk.call('destroy', self._w)
 
         file_names = os.listdir("./uploads")
-        selected_file = tk.StringVar(self.calc_win_frame1)
+        self.selected_file = tk.StringVar(self.calc_win_frame1)
         self.arq_label = ctk.CTkLabel(self.calc_win_frame1,
                                   text="Selecione o arquivo: ",
                                   font=("Segoe UI", 14),
                                   width=width, height=height)
         self.arq_label.pack(fill='x', padx=5, pady=5)
         self.arq_option_menu = MyCTkOptionMenu(master=self.calc_win_frame1,
-                                                variable=selected_file,
+                                                variable=self.selected_file,
                                                 values= file_names,
                                                 fg_color="#f0f0f0",
                                                 button_color="#840000",
@@ -462,12 +467,11 @@ class CalculationsPage:
                                                 width=120,
                                                 placeholder_text="Insira aqui...")
         self.mesa_rot_entry.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
-        #---------------------------- Frame 4 --------------------------------------------------------
+        #------------------------------------ Frame 4 ------------------------------------
         self.calc_btn = create_custom_button(root=self.calc_win_frame4,
-                                            text="Plot dos dados",
-                                            command=self.calculate,
-                                            width=120)
+                                             text="Plot Simples",
+                                             command=self.open_plot_window,
+                                             width=120)
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
         self.calc_btn = create_custom_button(root=self.calc_win_frame4,
@@ -482,19 +486,153 @@ class CalculationsPage:
                                             width=120)
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
+    def open_plot_window(self):
+        self.plot_window = tk.Toplevel(self.master)
+        self.plot_window.title("Plotar")
+        self.plot_window.option_add("*Label.font", "Segoe\\ UI 12")
+
+        # Frame
+        self.super_plot_win_frame = ctk.CTkFrame(self.plot_window)
+        self.super_plot_win_frame.bind("<Configure>",
+                                        lambda event: \
+                                        update_and_centralize_geometry(self.plot_window, self.super_plot_win_frame))
+        self.super_plot_win_frame.place(relx=0.5, rely=0.5, anchor='center')
+
+        width=300; height=15
+
+        # Organização dos frames
+        self.plot_win_frame0 = ctk.CTkFrame(self.super_plot_win_frame, width=width)
+        self.plot_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.plot_win_frame1 = ctk.CTkFrame(self.super_plot_win_frame, width=width)
+        self.plot_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.plot_win_frame2 = ctk.CTkFrame(self.super_plot_win_frame, width=width)
+        self.plot_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.plot_win_frame3 = ctk.CTkFrame(self.super_plot_win_frame, width=width)
+        self.plot_win_frame3.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.plot_text_label = "Aqui estão as opções de plot. Algumas \ndelas podem ser alteradas na janela que abrirá"
+        self.plot_text = ctk.CTkLabel(self.plot_win_frame0,
+                                    text=self.plot_text_label,
+                                    font=("Segoe UI", 19, "bold"),
+                                    justify="center",
+                                    width=width, height=height)
+        self.plot_text.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+        # FRAME 1 -------------------------------------------------------------------------
+        # Frame da determinação do título e dos eixos
+        self.plot_title = ctk.CTkLabel(self.plot_win_frame1,
+                                            text="Nome do Poço: ",
+                                            font=("Segoe UI", 14),
+                                            height=height)
+        self.plot_title.grid(row=0, column=0, padx=5, pady=5)
+        self.plot_title_entry = create_custom_entry(self.plot_win_frame1,
+                                                    width=300,
+                                                    placeholder_text="Insira aqui...")
+        self.plot_title_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        self.skip_rows = ctk.CTkLabel(self.plot_win_frame1,
+                                        text="Pular quantas linhas: ",
+                                        font=("Segoe UI", 14),
+                                        height=height)
+        self.skip_rows.grid(row=1, column=0, padx=5, pady=5)
+        self.skip_rows_entry = create_custom_entry(self.plot_win_frame1,
+                                                    width=300,
+                                                    placeholder_text="Insira aqui...")
+        self.skip_rows_entry.grid(row=1, column=1, padx=5, pady=5)
+        # FRAME 2 -------------------------------------------------------------------------
+        self.x_label = ctk.CTkLabel(self.plot_win_frame2,
+                                        text="Nome do eixo x: ",
+                                        font=("Segoe UI", 14),
+                                        height=height)
+        self.x_label.grid(row=0, column=0, padx=5, pady=5)
+        self.x_label_entry = create_custom_entry(self.plot_win_frame2,
+                                                width=300,
+                                                placeholder_text="Insira aqui...")
+        self.x_label_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        self.y_label = ctk.CTkLabel(self.plot_win_frame2,
+                                        text="Nome do eixo y: ",
+                                        font=("Segoe UI", 14),
+                                        height=height)
+        self.y_label.grid(row=1, column=0, padx=5, pady=5)
+        self.y_label_entry = create_custom_entry(self.plot_win_frame2,
+                                                width=300,
+                                                placeholder_text="Insira aqui...")
+        self.y_label_entry.grid(row=1, column=1, padx=5, pady=5)
+        # FRAME 3 -------------------------------------------------------------------------+
+
+        self.plot_final_btn = create_custom_button(self.plot_win_frame3,
+                                                text="Plot final",
+                                                command=\
+                                                self.plot_final)
+        self.plot_final_btn.grid(row=0, column=0, padx=5, pady=5)
+
     def radiobutton_event(self):
         # Get the currently selected value
-        selected_value = self.prof_cota_var.get()
+        self.selected_value = self.prof_cota_var.get()
 
         # Add your logic here
-        if selected_value == "Sim":
+        if self.selected_value == "Sim":
+            return "Sim"
+        elif self.selected_value == "Não":
+            return "Não"
+
+    def open_file(self):
+        if int(self.skip_rows_entry.get()) == "":
+            skipped_rows = 0
+        else:
+            skipped_rows = int(self.skip_rows_entry.get())
+        arq_label_selected_file = "./uploads/" + self.selected_file.get()
+        try:
+            pressao_df = pd.read_csv(arq_label_selected_file,
+                                    delimiter='[;,]',
+                                    skiprows=skipped_rows,
+                                    names=["A", "B"],
+                                    engine='python')
+            pressao_df = pressao_df.dropna()
+            return pressao_df
+        except Exception as e:
+            print(f"Error reading file {self.selected_file.get()}: {e}")
+            return None
+
+    # dataframe = self.open_file()
+
+    def plot_simples(self, x, y, title, xlabel, ylabel):
+
+        self.boolean = self.radiobutton_event()
+
+        # Add your logic here
+        if self.boolean == "Sim":
             # TODO: This function will be the one where the plot is made
             # without any adaptation to the depth, because is already in cota
+            plt.plot(x, y, 'o')
+            plt.title(title)
+            plt.xlabel(xlabel)
+            plt.ylabel(ylabel)
+            plt.grid()
+            plt.show()
             print("Sim was selected")
-        elif selected_value == "Não":
+
+        elif self.boolean == "Não":
             # TODO: This function will be the one where the plot is made
             # with adaptations to the depth, because it is not in cota
+            plt.plot(x, y, 'o')
+            plt.title(title)
+            plt.xlabel(xlabel)
+            plt.ylabel(ylabel)
+            plt.gca().invert_yaxis(False)
+            plt.grid()
+            plt.show()
             print("Não was selected")
+
+    def plot_final(self):
+        self.dataframe = self.open_file()
+        self.plot_simples(self.dataframe["B"], self.dataframe["A"], \
+            self.plot_title_entry.get(), self.x_label_entry.get(), self.y_label_entry.get())
+
+
 
     def on_button_click():
         print("Button clicked!")
@@ -733,8 +871,8 @@ class CodeEditor:
         self.app = app
 
     def open_code_editor(self):
-        code_editor = NewWindow(self.master)
-        code_editor.title("Editor de texto")
+        self.code_editor = NewWindow(self.master, self.app)
+        self.code_editor.title("Editor de texto")
 
         #function that centralizes the window
         # centralize_window(code_editor, 800, 600)
@@ -743,18 +881,26 @@ class CodeEditor:
         # code_editor.maxsize(300, 200)
         # code_editor.option_add("*Label.font", "Helvetica 15")
 
-        self.code_editor_frame = tk.Frame(code_editor)
+        self.code_editor_frame = tk.Frame(self.code_editor)
+        self.code_editor_frame.bind("<Configure>",
+                                    lambda event:\
+                                        update_and_centralize_geometry(self.code_editor,
+                                                                       self.code_editor_frame,
+                                                                       max_size=True,
+                                                                       child_window=True))
         self.code_editor_frame.grid(row=0, column=0, padx=10, pady=10)
         # self.code_editor_frame.place(relx=0.5, rely=0.5, anchor='center')
 
+
         # Create a code editor
-        self.code_editor = CodeView(self.code_editor_frame, lexer=pygments.lexers.RustLexer)
-        self.code_editor.config(font=("Consolas", 16))
-        self.code_editor.pack(fill="both", expand=True)
+        self.code_editor_view = CodeView(self.code_editor_frame,
+                                         lexer=pygments.lexers.RustLexer, tab_width=4)
+        self.code_editor_view.config(font=("Consolas", 16))
+        self.code_editor_view.grid(row=0, column=0, sticky='nsew')
 
         self.code_editor_frame.grid_rowconfigure(0, weight=1)
 
-        self.btn_code_editor_frame = tk.Frame(code_editor)
+        self.btn_code_editor_frame = tk.Frame(self.code_editor_frame)
         self.btn_code_editor_frame.grid(row=1, column=0, padx=10, pady=10)
 
         self.save_code = create_custom_button(self.btn_code_editor_frame,
@@ -765,7 +911,7 @@ class CodeEditor:
 
     def save_code(self):
         # Get the text from the CodeView widget
-        code = self.code_editor.get("1.0", "end-1c")
+        code = self.code_editor_view.get("1.0", "end-1c")
 
         # Open a file dialog to select where to save the file
         file_path = filedialog.asksaveasfilename(defaultextension=".txt")
@@ -815,7 +961,7 @@ class MenuBar:
         # Create an Edit menu
         edit_menu = tk.Menu(self.menu_bar, tearoff=0)
         # edit_menu.add_command(label="Abrir PandasGUI", command=self.app.file_handling.view_file)
-        edit_menu.add_command(label="Gerenciar arquivos", command=lambda: ManageFiles(self.master))
+        edit_menu.add_command(label="Gerenciar arquivos", command=lambda: ManageFiles(self.master, self.app))
         edit_menu.add_command(label="Editor de texto", command=self.app.code_editor.open_code_editor)
         edit_menu.add_separator()
         edit_menu.add_command(label="Cortar", accelerator='Ctrl+X') # TODO: Create a function or implement the method that cuts the selected text
@@ -882,12 +1028,15 @@ class App(ctk.CTk):
 
         self.sheet_editor = SheetEditor(self, self)
         self.code_editor = CodeEditor(self, self)
+        # self.manage_files = ManageFiles(self, self)
         self.calculate = CalculationsPage(self, self)
+
 
         self.menubar = MenuBar(self, self)
 
         # self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
         self.sheet_editor.open_sheet()
+
 
 if __name__ == "__main__":
     app = App()
