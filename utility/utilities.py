@@ -21,6 +21,20 @@ def create_custom_button(root,
                             font=("Helvetica", 15, "bold"))
 
 
+def create_custom_entry(root,
+                        placeholder_text,
+                        width=120
+                        ):
+    return ctk.CTkEntry(root,
+                          width=width,
+                          font=("Segoe UI", 14),
+                          corner_radius=10,
+                          border_width=0,
+                          fg_color="#f0f0f0",
+                          placeholder_text=placeholder_text,
+                          placeholder_text_color="#999999",
+                          justify="center")
+
 def custom_dropdown(root, values, variable, width=200):
         # Your implementation of custom_dropdown goes here
         return ctk.CTkComboBox(root,
@@ -38,7 +52,7 @@ def custom_dropdown(root, values, variable, width=200):
                                font=("Helvetica", 15, "bold"))
 
 
-        
+
 def centralize_window(window,
                       width,
                       height,

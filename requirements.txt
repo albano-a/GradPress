@@ -8,3 +8,7 @@ plotly
 tkinterhtml
 tksheet
 chlorophyll
+CTkMessagebox
+CTkMenuBar
+ttkwidgets
+tkinterdnd2

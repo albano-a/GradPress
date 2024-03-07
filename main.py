@@ -20,96 +20,21 @@ import pygments.lexers
 from pygments.styles import get_style_by_name
 import pandasgui as pg
 from numpy.linalg import inv
+from CTkMenuBar import *
+from ttkwidgets.font import *
 # Local application/library specific imports
-from utility.utilities import create_custom_button, custom_dropdown, centralize_window
+from utility.utilities import create_custom_button, custom_dropdown, centralize_window, create_custom_entry
 from utility.fluid_pressure import fluid_pressure
 from chlorophyll import CodeView
-from utility.icons import add_img, remove_img
+from utility.icons import add_img, remove_img, font_img
+
+
 
 class NewWindow(tk.Toplevel):
     def __init__(self, master=None):
         super().__init__(master)
         self.menu_bar = MenuBar(self)
         self.config(menu=self.menu_bar.menu_bar)
-
-class MenuBar:
-    def __init__(self, master):
-        self.master = master
-        self.menu_bar = tk.Menu(self.master)
-        self.file_handling = FileHandling(self.master)
-        self.sheet_editor = SheetEditor(self.master)
-        self.code_editor = CodeEditor(self.master)
-
-        file_menu = tk.Menu(self.menu_bar, tearoff=0)
-        file_menu.add_command(label="Novo", accelerator='Ctrl+N',
-                              command = self.sheet_editor.open_sheet) # TODO: Create a function that creates a new file. What type of file?
-
-        file_menu.add_command(label="Abrir",
-                              command=self.sheet_editor.open_csv,
-                              accelerator='Ctrl+O')
-
-        file_menu.add_command(label="Salvar",
-                              command=self.sheet_editor.save_sheet,
-                              accelerator='Ctrl+S') # TODO: Create a function that saves the file¹
-
-        file_menu.add_command(label="Salvar como...") # TODO: Create a function that saves the file²
-        file_menu.add_separator()
-        file_menu.add_command(label="Sair", command=self.master.quit) # TODO: Closes an app
-        # Adicionar o botão de arquivo ao menu
-        self.menu_bar.add_cascade(label="Arquivo", menu=file_menu)
-
-        # Create an Edit menu
-        edit_menu = tk.Menu(self.menu_bar, tearoff=0)
-        edit_menu.add_command(label="Abrir PandasGUI")
-        edit_menu.add_command(label="Gerenciar arquivos", command=lambda: ManageFiles(self.master))
-        edit_menu.add_command(label="Editor de texto", command=self.code_editor.open_code_editor)
-        edit_menu.add_separator()
-        edit_menu.add_command(label="Cortar", accelerator='Ctrl+X') # TODO: Create a function or implement the method that cuts the selected text
-        edit_menu.add_command(label="Copiar", accelerator='Ctrl+C') # TODO: Create a function or implement the method that copies the selected text
-        edit_menu.add_command(label="Colar", accelerator='Ctrl+V') # TODO: Create a function or implement the method that pastes the selected text
-        # Add the Edit menu to the menu bar
-        # accelerator argument adds the shortcut
-        self.menu_bar.add_cascade(label="Editar", menu=edit_menu)
-
-        calculations_menu = tk.Menu(self.menu_bar, tearoff=0)
-        calculations_submenu = tk.Menu(calculations_menu, tearoff=0)
-        calculations_submenu.add_command(label="Gráfico simples")
-        calculations_submenu.add_command(label="Gráfico de Tendência")
-        calculations_menu.add_cascade(label="Gráficos", menu=calculations_submenu)
-
-        calculations_menu.add_command(label="Gradiente de Pressão")
-
-        self.menu_bar.add_cascade(label="Cálculos", menu=calculations_menu)
-
-        about_menu = tk.Menu(self.menu_bar, tearoff=0)
-        about_menu.add_command(label="Ajuda", command=self.help_window) # TODO: Create a function that shows the about window
-        about_menu.add_command(label="Sobre o GradPress", command=self.about_gradpress_window) # TODO: Create a function that shows the about window
-
-        self.menu_bar.add_cascade(label="Sobre", menu=about_menu)
-
-
-        self.master.config(menu=self.menu_bar)
-
-    def save_file(self):
-        # Get the data from the sheet
-        data = self.sheet_editor.sheet.get_sheet_data()
-
-        # Open a save file dialog
-        filepath = filedialog.asksaveasfilename(defaultextension=".csv")
-
-        # If a file was selected, save the data to the file
-        if filepath:
-            with open(filepath, "w", newline="") as f:
-                writer = csv.writer(f)
-                writer.writerows(data)
-
-    def about_gradpress_window(self):
-        self.about_page = AboutPage(self.master)
-
-
-    def help_window(self):
-        # TODO: Create a help window
-        pass
 
 class AboutPage:
     def __init__(self, master):
@@ -148,52 +73,6 @@ class AboutPage:
         texto_inicial = "Desenvolvido por André Albano\nGIECAR - UFF\n2024"
         self.label = tk.Label(self.about_frame, text=texto_inicial, font=("Segoe UI", 10, "bold"))
         self.label.grid(row=2, column=0, columnspan=2, padx=15, pady=10)
-
-class StartPage:
-    def __init__(self, master):
-        self.master = master
-        ######################################################
-        self.startpage_frame = tk.Frame(self.master, bg="#ebebeb")
-        self.startpage_frame.grid(row=0, column=0, columnspan=2,padx=10, pady=10)
-        ######################################################
-        # giecar logo handling
-        self.img = Image.open("./img/giecar.png")
-        or_width, or_height = self.img.size
-        self.img = self.img.resize((or_width//3, or_height//3))
-        self.photo_img = ImageTk.PhotoImage(self.img)
-        img_giecar = Label(self.startpage_frame, image=self.photo_img,bg="#ebebeb")
-        img_giecar.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
-
-        # Texto inicial
-        h1_inicial = "Bem-vindo ao GradPress!"
-        p_inicial = "O GradPress é uma ferramenta para análise de dados de pressão de formação.\nPara começar, importe um arquivo .csv com os dados de pressão"
-        self.label1 = ctk.CTkLabel(self.startpage_frame, text=h1_inicial, font=("Segoe UI", 24, "bold"), bg_color="#ebebeb")
-        self.label2 = ctk.CTkLabel(self.startpage_frame, text=p_inicial, font=("Segoe UI", 18), bg_color="#ebebeb")
-        self.label1.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
-        self.label2.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
-
-    def on_new_selected(self):
-        # Crie uma nova instância de SheetEditor quando "Novo" for selecionado
-        self.sheet_editor = SheetEditor()
-        self.sheet_editor.new_sheet()
-
-class FileHandling:
-    def __init__(self, master):
-        self.master = master
-        self.sheet_editor = SheetEditor
-
-    def open_file(self):
-        # TODO: Create a function that opens a file and shows it in the main window. How can I do that?...
-        pass
-
-    def view_file(self):
-        filename = self.selected_file.get()
-        if os.path.exists(filename):
-            df = pd.read_csv(filename, sep='[;,]')
-            gui = pg.show(df)
-            print(gui)
-        else:
-            tk.messagebox.showerror("Error", "Arquivo não encontrado!")
 
 class FilesFrame(ctk.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
@@ -443,56 +322,137 @@ class WellInfoInput:
             tk.messagebox.showerror("Error", str(e))
 
 class CalculationsPage:
-    def __init__(self, master):
+    def __init__(self, master, app):
         self.master = master
-        self.calculations_window = tk.Toplevel(self.master)
-        self.calculations_window.title("Cálculos")
-        self.calculations_window.geometry("600x600")
-        self.calculations_window.minsize(600, 600)
-        self.calculations_window.option_add("*Label.font", "Helvetica 15")
+        self.app = app
+
+    def open_calculations(self):
+        self.cal_window = tk.Toplevel(self.master)
+
+        self.cal_window.title("Calculadora")
+        self.cal_window.geometry("700x800")
+        # self.cal_window.minsize(600, 600)
+        self.cal_window.option_add("*Label.font", "Segoe\\ UI 12")
+
+        self.super_calc_win_frame = ctk.CTkFrame(self.cal_window)
+        self.super_calc_win_frame.grid(row=0, column=0, padx=10, pady=10)
+        self.super_calc_win_frame.place(relx=0.5, rely=0.5, anchor='center')
+
+        width=400
 
         # Criando um frame dentro da imagem
-        self.calculations_window_frame = tk.Frame(self.calculations_window)
-        self.calculations_window_frame.grid(row=0, column=0, padx=10, pady=10)
-        self.calculations_window_frame.place(relx=0.5,rely=0.5,anchor="center")
+        self.calc_win_frame0 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
+        self.calc_win_frame0.grid(row=0, column=0, padx=10, pady=10, sticky='ew')
 
-        calculos_texto = "Cálculos de pressão"
-        self.label = ctk.CTkLabel(self.calculations_window_frame,
-                                  text=calculos_texto,
-                                  font=("Helvetica", 20, "bold"))
-        self.label.grid(row=0, column=0, padx=10, pady=10)
+        self.calc_win_frame1 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
+        self.calc_win_frame1.grid(row=1, column=0, padx=10, pady=10, sticky='ew')
 
-        calculos_descricao = "Escolha o que quer fazer com os dados que carregou:"
-        self.label = ctk.CTkLabel(self.calculations_window_frame,
-                                  text=calculos_texto,
-                                  font=("Helvetica", 20, "bold"))
-        self.label.grid(row=0, column=0, padx=10, pady=10)
+        self.calc_win_frame2 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
+        self.calc_win_frame2.grid(row=2, column=0, padx=10, pady=10, sticky='ew')
 
-        #### WIP ########
-        self.plot_data = create_custom_button(self.calculations_window_frame,
-                                              text="Plotar os Dados Tratados",
-                                              command=self.on_button_click,
-                                              width=100)
-        self.plot_data.grid(row=1, column=0, padx=10, pady=10)
+        self.calc_win_frame3 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
+        self.calc_win_frame3.grid(row=3, column=0, padx=10, pady=10, sticky='ew')
 
-        self.plot_slopes = create_custom_button(self.calculations_window_frame,
-                                                text="Retas de Ajuste",
-                                                command=self.on_button_click,
-                                                width=100)
-        self.plot_slopes.grid(row=2, column=0, padx=10, pady=10)
+        self.calc_win_frame4 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
+        self.calc_win_frame4.grid(row=4, column=0, padx=10, pady=10, sticky='ew')
 
-        self.plot_intersections = create_custom_button(self.calculations_window_frame,
-                                                       text="Plotar Interseções",
-                                                       command=self.on_button_click,
-                                                       width=100)
-        self.plot_intersections.grid(row=3, column=0, padx=10, pady=10)
+        self.calculator_text_label = \
+            "Preencha os campos abaixo para gerar os \n gráficos ou calcular o gradiente de pressão."
+        self.calculator_text = ctk.CTkLabel(self.calc_win_frame0,
+                                            text=self.calculator_text_label,
+                                            font=("Segoe UI", 19, "bold"),
+                                            justify="center",
+                                            width=width)
+        self.calculator_text.grid(row=0, column=0, padx=10, pady=10)
 
-        self.see_calculations_data = create_custom_button(self.calculations_window_frame,
-                                                          text="Ver Dados",
-                                                          command=self.on_button_click,
-                                                          width=100)
-        self.see_calculations_data.grid(row=4, column=0, padx=10, pady=10)
+        class MyCTkOptionMenu(ctk.CTkOptionMenu):
+            def destroy(self):
+                self.tk.call('destroy', self._w)
+        # Logica para o menu dropdown
+        file_names = os.listdir("./uploads")
+        selected_file = tk.StringVar(self.calc_win_frame1)
+        self.arq_label = ctk.CTkLabel(self.calc_win_frame1,
+                                  text="Selecione o arquivo: ",
+                                  font=("Segoe UI", 14),
+                                  width=width)
+        self.arq_label.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky='ew')
+        self.arq_option_menu = MyCTkOptionMenu(master=self.calc_win_frame1,
+                                                variable=selected_file,
+                                                values= file_names,
+                                                fg_color="#f0f0f0",
+                                                button_color="#840000",
+                                                width=260,
+                                                button_hover_color="#a50000",
+                                                text_color="#212121",
+                                                text_color_disabled="#292929",
+                                                )
+        self.arq_option_menu.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
 
+
+        self.prof_min_label = ctk.CTkLabel(self.calc_win_frame2,
+                                       text="Prof. min: ",
+                                       font=("Segoe UI", 14),
+                                       width=width//2)
+        self.prof_min_label.grid(row=0, column=0, padx=10, pady=10)
+        self.prof_min_entry = create_custom_entry(self.calc_win_frame2,
+                                                  width=120, placeholder_text="Insira a profundidade mínima")
+        self.prof_min_entry.grid(row=1, column=0, padx=10, pady=10)
+
+        self.prof_max_label = ctk.CTkLabel(self.calc_win_frame2,
+                                           text="Prof. min: ",
+                                           font=("Segoe UI", 14),
+                                           width=width//2)
+        self.prof_max_label.grid(row=0, column=1, padx=10, pady=10)
+        self.prof_max_entry = create_custom_entry(self.calc_win_frame2,
+                                                  width=120,
+                                                  placeholder_text="Insira a profundidade máxima")
+        self.prof_max_entry.grid(row=1, column=1, padx=10, pady=10)
+
+        self.mesa_rot_label = ctk.CTkLabel(self.calc_win_frame3,
+                                           text="Mesa Rotativa: ",
+                                           width=width//2)
+        self.mesa_rot_label.grid(row=2, column=0, padx=10, pady=10)
+        self.mesa_rot_entry = create_custom_entry(self.calc_win_frame3,
+                                                  width=120,
+                                                  placeholder_text="Insira a profundidade da mesa rotativa")
+        self.mesa_rot_entry.grid(row=3, column=0, columnspan=1, padx=10, pady=10)
+
+        self.radiobtn_frame = ctk.CTkFrame(self.calc_win_frame3,
+                                           fg_color="#cfcfcf",
+                                           width=width//2)
+        self.radiobtn_frame.grid(row=2, column=1, rowspan=2, columnspan=2, padx=10, pady=10)
+        self.prof_cota_var = tk.StringVar()
+
+        self.prof_cota_ou_nao = ctk.CTkLabel(self.radiobtn_frame, text="Profundidade está em cota?: ")
+        self.prof_cota_ou_nao.grid(row=0, column=0, columnspan=2, padx=10, pady=10) #label grid
+        self.prof_cota_radio_y = ctk.CTkRadioButton(self.radiobtn_frame,
+                                                  command=self.radiobutton_event,
+                                                  variable=self.prof_cota_var,
+                                                  value="Sim",
+                                                  text="Sim")
+        self.prof_cota_radio_y.grid(row=1, column=0, padx=10, pady=10, sticky='ew')
+        self.prof_cota_radio_n = ctk.CTkRadioButton(self.radiobtn_frame,
+                                                  command=self.radiobutton_event,
+                                                  variable=self.prof_cota_var,
+                                                  value="Não",
+                                                  text="Não")
+        self.prof_cota_radio_n.grid(row=1, column=1, padx=10, pady=10, sticky='ew')
+
+
+
+    def radiobutton_event(self):
+        # Get the currently selected value
+        selected_value = self.prof_cota_var.get()
+
+        # Add your logic here
+        if selected_value == "Sim":
+            # TODO: This function will be the one where the plot is made
+            # without any adaptation to the depth, because is already in cota
+            print("Sim was selected")
+        elif selected_value == "Não":
+            # TODO: This function will be the one where the plot is made
+            # with adaptations to the depth, because it is not in cota
+            print("Não was selected")
 
     def on_button_click():
         print("Button clicked!")
@@ -525,8 +485,9 @@ class CalculationsPage:
         # print(f"y = {m[0]:.2f} + {m[1]:.2f}x")
 
 class SheetEditor:
-    def __init__(self, master):
+    def __init__(self, master, app):
         self.master = master
+        self.app = app
         self.sheet = Sheet(self.master)
 
     def open_sheet(self):
@@ -536,16 +497,20 @@ class SheetEditor:
         self.row_frame = ctk.CTkFrame(self.toolbar_frame,
                                       corner_radius=10,
                                       border_width=0,
-                                    #   border_color="#212121",
                                       fg_color="#fff")
         self.row_frame.grid(row=0, column=0, padx=10, pady=10)
 
         self.col_frame = ctk.CTkFrame(self.toolbar_frame,
                                       corner_radius=10,
                                       border_width=0,
-                                    #   border_color="#212121",
                                       fg_color="#fff")
         self.col_frame.grid(row=0, column=1, padx=10, pady=10)
+
+        self.font_frame = ctk.CTkFrame(self.toolbar_frame,
+                                      corner_radius=10,
+                                      border_width=0,
+                                      fg_color="#fff")
+        self.font_frame.grid(row=0, column=3, padx=10, pady=10)
 
         add_row_btn = ctk.CTkButton(self.row_frame,
                                     command=self.add_row,
@@ -592,6 +557,18 @@ class SheetEditor:
                                    height=10,
                                    fg_color="#de7575")
         rm_col_btn.grid(row=0,column=2, padx=10, pady=10)
+
+        def open_font_chooser():
+            FontChooser(self.master)
+
+        font_selector = ctk.CTkButton(self.font_frame,
+                                      text="",
+                                      command=open_font_chooser,
+                                      image=font_img,
+                                      width=10,
+                                      height=10,
+                                      fg_color="transparent")
+        font_selector.grid(row=0, column=0, padx=10, pady=10)
 
         # Create a frame for the sheet
         self.sheet_editor_frame = ctk.CTkFrame(self.master)
@@ -648,15 +625,17 @@ class SheetEditor:
         self.sheet.insert_columns(columns=1)
 
     def remove_row(self):
-        self.sheet.delete_rows(rows=1)
+        last_row_index = self.sheet.total_rows() - 1
+        self.sheet.delete_rows(rows=last_row_index, undo=True)
 
     def remove_column(self):
-        self.sheet.delete_columns(columns=1)
+        last_column_index = self.sheet.total_columns() - 1
+        self.sheet.delete_columns(columns=last_column_index, undo=True)
 
     def save_sheet(self):
         filepath = filedialog.asksaveasfilename(
             parent=self.master,
-            title="Save sheet as",
+            title="Salvar a planilha como...",
             filetypes=[("CSV File", ".csv"), ("TSV File", ".tsv")],
             defaultextension=".csv",
             confirmoverwrite=True,
@@ -670,12 +649,17 @@ class SheetEditor:
                     dialect=csv.excel if filepath.lower().endswith(".csv") else csv.excel_tab,
                     lineterminator="\n",
                 )
-                writer.writerows(self.sheet.data)
+                for row in self.sheet.data:
+                    # Clean the data: remove leading/trailing white space
+                    cleaned_row = [cell.strip() for cell in row]
+                    # Ignore rows that only contain empty cells
+                    if any(cell != '' for cell in cleaned_row):
+                        writer.writerow(cleaned_row)
         except Exception as error:
             print(error)
 
-
     def open_csv(self):
+
         filepath = filedialog.askopenfilename(parent=self.master, title="Select a csv file")
         if not filepath or not filepath.lower().endswith((".csv", ".tsv")):
             return
@@ -695,12 +679,12 @@ class SheetEditor:
 
     def new_sheet(self):
         self.sheet.reset()
-
-
+        self.menu_bar.entryconfig(self.open_command, state='normal')
 
 class CodeEditor:
-    def __init__(self, master):
+    def __init__(self, master, app):
         self.master = master
+        self.app = app
 
     def open_code_editor(self):
         code_editor = NewWindow(self.master)
@@ -745,9 +729,98 @@ class CodeEditor:
             with open(file_path, "w") as file:
                 file.write(code)
 
+class Application:
+    def __init__(self, master):
+        self.master = master
+        # self.file_handling = FileViewerPandas(self.master, self)
+        self.sheet_editor = SheetEditor(self.master, self)
+        self.code_editor = CodeEditor(self.master, self)
+        self.menu_bar = MenuBar(self.master, self)
+        self.calculate = CalculationsPage(self.master, self)
+
+
+class MenuBar:
+    def __init__(self, master, app):
+        self.master = master
+        self.app = app
+        self.menu_bar = tk.Menu(self.master)
+
+
+        file_menu = tk.Menu(self.menu_bar, tearoff=0)
+        file_menu.add_command(label="Novo", accelerator='Ctrl+N',
+                              command = self.app.sheet_editor.open_sheet) # TODO: Create a function that creates a new file. What type of file?
+
+        file_menu.add_command(label="Abrir",
+                              command=self.app.sheet_editor.open_csv,
+                              accelerator='Ctrl+O',
+                              #state='disabled'
+                              )
+
+        file_menu.add_command(label="Salvar",
+                              command=self.app.sheet_editor.save_sheet,
+                              accelerator='Ctrl+S') # TODO: Create a function that saves the file¹
+
+        file_menu.add_command(label="Salvar como...") # TODO: Create a function that saves the file²
+        file_menu.add_separator()
+        file_menu.add_command(label="Sair", command=self.master.quit) # TODO: Closes an app
+        # Adicionar o botão de arquivo ao menu
+        self.menu_bar.add_cascade(label="Arquivo", menu=file_menu)
+
+        # Create an Edit menu
+        edit_menu = tk.Menu(self.menu_bar, tearoff=0)
+        # edit_menu.add_command(label="Abrir PandasGUI", command=self.app.file_handling.view_file)
+        edit_menu.add_command(label="Gerenciar arquivos", command=lambda: ManageFiles(self.master))
+        edit_menu.add_command(label="Editor de texto", command=self.app.code_editor.open_code_editor)
+        edit_menu.add_separator()
+        edit_menu.add_command(label="Cortar", accelerator='Ctrl+X') # TODO: Create a function or implement the method that cuts the selected text
+        edit_menu.add_command(label="Copiar", accelerator='Ctrl+C') # TODO: Create a function or implement the method that copies the selected text
+        edit_menu.add_command(label="Colar", accelerator='Ctrl+V') # TODO: Create a function or implement the method that pastes the selected text
+        # Add the Edit menu to the menu bar
+        # accelerator argument adds the shortcut
+        self.menu_bar.add_cascade(label="Editar", menu=edit_menu)
+
+        calculations_menu = tk.Menu(self.menu_bar, tearoff=0)
+        calculations_menu.add_command(label="Calculadora",
+                                      command=self.app.calculate.open_calculations
+                                      )
+
+        self.menu_bar.add_cascade(label="Calcular", menu=calculations_menu)
+
+        about_menu = tk.Menu(self.menu_bar, tearoff=0)
+        about_menu.add_command(label="Ajuda", command=self.help_window) # TODO: Create a function that shows the about window
+        about_menu.add_command(label="Sobre o GradPress", command=self.about_gradpress_window) # TODO: Create a function that shows the about window
+
+        self.menu_bar.add_cascade(label="Sobre", menu=about_menu)
+
+
+        self.master.config(menu=self.menu_bar)
+
+    def save_file(self):
+        # Get the data from the sheet
+        data = self.sheet_editor.sheet.data()
+
+        # Open a save file dialog
+        filepath = filedialog.asksaveasfilename(defaultextension=".csv")
+
+        # If a file was selected, save the data to the file
+        if filepath:
+            with open(filepath, "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerows(data)
+
+    def about_gradpress_window(self):
+        self.about_page = AboutPage(self.master)
+
+
+    def help_window(self):
+        # TODO: Create a help window
+        pass
+
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
+        # self.file_handling = FileViewerPandas(self, self)
+
         ctk.set_appearance_mode("light")
         self.title("GradPress")
         self.iconbitmap(default="./icon.ico")  # icone
@@ -760,11 +833,14 @@ class App(ctk.CTk):
         self.main_frame.grid(row=0, column=0, padx=10, pady=10)
         self.main_frame.place(relx=0.5, rely=0.5, anchor='center')
 
+        self.sheet_editor = SheetEditor(self, self)
+        self.code_editor = CodeEditor(self, self)
+        self.calculate = CalculationsPage(self, self)
 
-        self.menubar = MenuBar(self)
-        self.startpage = StartPage(self.main_frame)
-        # self.sheet_editor = SheetEditor(self)
+        self.menubar = MenuBar(self, self)
+
         # self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
+        self.sheet_editor.open_sheet()
 
 if __name__ == "__main__":
     app = App()
