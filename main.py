@@ -326,35 +326,36 @@ class CalculationsPage:
         self.master = master
         self.app = app
 
-    def open_calculations(self):
+    def open_calculations_window(self):
         self.cal_window = tk.Toplevel(self.master)
 
         self.cal_window.title("Calculadora")
-        self.cal_window.geometry("700x800")
         # self.cal_window.minsize(600, 600)
         self.cal_window.option_add("*Label.font", "Segoe\\ UI 12")
 
+        centralize_window(self.cal_window, 410, 500)
+
         self.super_calc_win_frame = ctk.CTkFrame(self.cal_window)
-        self.super_calc_win_frame.grid(row=0, column=0, padx=10, pady=10)
+        # self.super_calc_win_frame.grid(row=0, column=0, padx=10, pady=10)
         self.super_calc_win_frame.place(relx=0.5, rely=0.5, anchor='center')
 
-        width=400
+        width=300; height=15
 
         # Criando um frame dentro da imagem
         self.calc_win_frame0 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
-        self.calc_win_frame0.grid(row=0, column=0, padx=10, pady=10, sticky='ew')
+        self.calc_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
 
         self.calc_win_frame1 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
-        self.calc_win_frame1.grid(row=1, column=0, padx=10, pady=10, sticky='ew')
+        self.calc_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
 
         self.calc_win_frame2 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
-        self.calc_win_frame2.grid(row=2, column=0, padx=10, pady=10, sticky='ew')
+        self.calc_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
 
         self.calc_win_frame3 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
-        self.calc_win_frame3.grid(row=3, column=0, padx=10, pady=10, sticky='ew')
+        self.calc_win_frame3.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
 
         self.calc_win_frame4 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
-        self.calc_win_frame4.grid(row=4, column=0, padx=10, pady=10, sticky='ew')
+        self.calc_win_frame4.grid(row=4, column=0, columnspan=2,padx=5, pady=5, sticky='nsew')
 
         self.calculator_text_label = \
             "Preencha os campos abaixo para gerar os \n gráficos ou calcular o gradiente de pressão."
@@ -362,83 +363,124 @@ class CalculationsPage:
                                             text=self.calculator_text_label,
                                             font=("Segoe UI", 19, "bold"),
                                             justify="center",
-                                            width=width)
-        self.calculator_text.grid(row=0, column=0, padx=10, pady=10)
+                                            width=width, height=height)
+        self.calculator_text.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
 
+        #----------------------------- Frame 1 -------------------------------------------
+        # Frame que possui a escolha do arquivo.
+        # Logica para o menu dropdown
         class MyCTkOptionMenu(ctk.CTkOptionMenu):
             def destroy(self):
                 self.tk.call('destroy', self._w)
-        # Logica para o menu dropdown
+
         file_names = os.listdir("./uploads")
         selected_file = tk.StringVar(self.calc_win_frame1)
         self.arq_label = ctk.CTkLabel(self.calc_win_frame1,
                                   text="Selecione o arquivo: ",
                                   font=("Segoe UI", 14),
-                                  width=width)
-        self.arq_label.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky='ew')
+                                  width=width, height=height)
+        self.arq_label.pack(fill='x', padx=5, pady=5)
         self.arq_option_menu = MyCTkOptionMenu(master=self.calc_win_frame1,
                                                 variable=selected_file,
                                                 values= file_names,
                                                 fg_color="#f0f0f0",
                                                 button_color="#840000",
-                                                width=260,
+                                                width=240,
                                                 button_hover_color="#a50000",
                                                 text_color="#212121",
                                                 text_color_disabled="#292929",
+
                                                 )
-        self.arq_option_menu.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
+        self.arq_option_menu.pack(fill='x', padx=5, pady=5)
+        #------------------------------ Frame 2 ----------------------------------------------------
+        # Frame for prof_min
+        self.prof_min_frame = ctk.CTkFrame(self.calc_win_frame2)
+        self.prof_min_frame.pack(side='top', fill='x', padx=5, pady=5)
 
+        self.prof_min_label = ctk.CTkLabel(self.prof_min_frame,
+                                        text="Prof. min: ",
+                                        font=("Segoe UI", 14),
+                                        height=height)
+        self.prof_min_label.pack(fill='x',side='left', padx=5, pady=5)
 
-        self.prof_min_label = ctk.CTkLabel(self.calc_win_frame2,
-                                       text="Prof. min: ",
-                                       font=("Segoe UI", 14),
-                                       width=width//2)
-        self.prof_min_label.grid(row=0, column=0, padx=10, pady=10)
-        self.prof_min_entry = create_custom_entry(self.calc_win_frame2,
-                                                  width=120, placeholder_text="Insira a profundidade mínima")
-        self.prof_min_entry.grid(row=1, column=0, padx=10, pady=10)
+        self.prof_min_entry = create_custom_entry(self.prof_min_frame,
+                                                width=120,
+                                                placeholder_text="Insira aqui...")
+        self.prof_min_entry.pack(fill='x', side='left', padx=5, pady=5)
 
-        self.prof_max_label = ctk.CTkLabel(self.calc_win_frame2,
-                                           text="Prof. min: ",
-                                           font=("Segoe UI", 14),
-                                           width=width//2)
-        self.prof_max_label.grid(row=0, column=1, padx=10, pady=10)
-        self.prof_max_entry = create_custom_entry(self.calc_win_frame2,
-                                                  width=120,
-                                                  placeholder_text="Insira a profundidade máxima")
-        self.prof_max_entry.grid(row=1, column=1, padx=10, pady=10)
+        # Frame for prof_max
+        self.prof_max_frame = ctk.CTkFrame(self.calc_win_frame2)
+        self.prof_max_frame.pack(side='top', fill='x', padx=5, pady=5)
 
-        self.mesa_rot_label = ctk.CTkLabel(self.calc_win_frame3,
-                                           text="Mesa Rotativa: ",
-                                           width=width//2)
-        self.mesa_rot_label.grid(row=2, column=0, padx=10, pady=10)
-        self.mesa_rot_entry = create_custom_entry(self.calc_win_frame3,
-                                                  width=120,
-                                                  placeholder_text="Insira a profundidade da mesa rotativa")
-        self.mesa_rot_entry.grid(row=3, column=0, columnspan=1, padx=10, pady=10)
+        self.prof_max_label = ctk.CTkLabel(self.prof_max_frame,
+                                        text="Prof. max: ",
+                                        font=("Segoe UI", 14),
+                                         height=height)
+        self.prof_max_label.pack(fill='x',side='left', padx=5, pady=5)
 
+        self.prof_max_entry = create_custom_entry(self.prof_max_frame,
+                                                width=120,
+                                                placeholder_text="Insira aqui...")
+        self.prof_max_entry.pack(fill='x', side='left', padx=5, pady=5)
+
+        #---------------------------- Frame 3 --------------------------------------------------------
+        #------------------------ Radio Button Frame -------------------------------------------------
         self.radiobtn_frame = ctk.CTkFrame(self.calc_win_frame3,
-                                           fg_color="#cfcfcf",
-                                           width=width//2)
-        self.radiobtn_frame.grid(row=2, column=1, rowspan=2, columnspan=2, padx=10, pady=10)
+                                   fg_color="#cfcfcf",
+                                   height=height)
+        self.radiobtn_frame.grid(row=0, column=0, padx=5, pady=5)
+
         self.prof_cota_var = tk.StringVar()
-
         self.prof_cota_ou_nao = ctk.CTkLabel(self.radiobtn_frame, text="Profundidade está em cota?: ")
-        self.prof_cota_ou_nao.grid(row=0, column=0, columnspan=2, padx=10, pady=10) #label grid
+        self.prof_cota_ou_nao.grid(row=0, column=0, padx=5, pady=5)
+
         self.prof_cota_radio_y = ctk.CTkRadioButton(self.radiobtn_frame,
-                                                  command=self.radiobutton_event,
-                                                  variable=self.prof_cota_var,
-                                                  value="Sim",
-                                                  text="Sim")
-        self.prof_cota_radio_y.grid(row=1, column=0, padx=10, pady=10, sticky='ew')
+                                                    command=self.radiobutton_event,
+                                                    variable=self.prof_cota_var,
+                                                    value="Sim",
+                                                    text="Sim")
+        self.prof_cota_radio_y.grid(row=1, column=0, padx=5, pady=5)
+
         self.prof_cota_radio_n = ctk.CTkRadioButton(self.radiobtn_frame,
-                                                  command=self.radiobutton_event,
-                                                  variable=self.prof_cota_var,
-                                                  value="Não",
-                                                  text="Não")
-        self.prof_cota_radio_n.grid(row=1, column=1, padx=10, pady=10, sticky='ew')
+                                                    command=self.radiobutton_event,
+                                                    variable=self.prof_cota_var,
+                                                    value="Não",
+                                                    text="Não")
+        self.prof_cota_radio_n.grid(row=2, column=0, padx=5, pady=5)
 
+        self.frame2_within_frame3 = ctk.CTkFrame(self.calc_win_frame3,
+                                                fg_color="#cfcfcf",
+                                                height=height)
+        self.frame2_within_frame3.grid(row=0, column=1, padx=5, pady=5)
 
+        self.mesa_rot_label = ctk.CTkLabel(self.frame2_within_frame3,
+                                        text="Mesa Rotativa: ",
+                                         height=height)
+        self.mesa_rot_label.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+
+        self.mesa_rot_entry = create_custom_entry(self.frame2_within_frame3,
+                                                width=120,
+                                                placeholder_text="Insira aqui...")
+        self.mesa_rot_entry.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+
+        #---------------------------- Frame 4 --------------------------------------------------------
+        self.calc_btn = create_custom_button(root=self.calc_win_frame4,
+                                            text="Plot dos dados",
+                                            command=self.calculate,
+                                            width=120)
+        self.calc_btn.pack(side="top", padx=5, pady=5)
+
+        self.calc_btn = create_custom_button(root=self.calc_win_frame4,
+                                            text="Linhas de tendência",
+                                            command=self.calculate,
+                                            width=120)
+        self.calc_btn.pack(side="top", padx=5, pady=5)
+
+        self.calc_btn = create_custom_button(root=self.calc_win_frame4,
+                                            text="Gradiente de pressão",
+                                            command=self.calculate,
+                                            width=120)
+        self.calc_btn.pack(side="top", padx=5, pady=5)
 
     def radiobutton_event(self):
         # Get the currently selected value
@@ -456,6 +498,10 @@ class CalculationsPage:
 
     def on_button_click():
         print("Button clicked!")
+
+    def plot_dos_dados(self):
+        pass
+
 
     def calculate(self):
         def inv_polynomial(dobs, degree, x):
@@ -781,8 +827,9 @@ class MenuBar:
 
         calculations_menu = tk.Menu(self.menu_bar, tearoff=0)
         calculations_menu.add_command(label="Calculadora",
-                                      command=self.app.calculate.open_calculations
+                                      command=self.app.calculate.open_calculations_window
                                       )
+        calculations_menu.add_command(label="TOMI Index")
 
         self.menu_bar.add_cascade(label="Calcular", menu=calculations_menu)
 
