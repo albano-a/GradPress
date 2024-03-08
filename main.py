@@ -573,6 +573,12 @@ class CalculationsPage:
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
     def open_plot_window(self):
+         # Check radio button selection
+        self.radiobutton_event()
+        
+        if not self.selected_value:
+                return tk.messagebox.showerror("Erro", "É obrigatório selecionar se a profundidade é em cota ou não.")
+        
         self.plot_window = tk.Toplevel(self.master)
         self.plot_window.title("Plotar")
         self.plot_window.option_add("*Label.font", "Segoe\\ UI 12")
@@ -619,7 +625,7 @@ class CalculationsPage:
         self.plot_title_entry.grid(row=0, column=1, padx=5, pady=5)
 
         self.skip_rows = ctk.CTkLabel(self.plot_win_frame1,
-                                        text="Pular quantas linhas: ",
+                                        text="Pular quantas linhas*: ",
                                         font=("Segoe UI", 14),
                                         height=height)
         self.skip_rows.grid(row=1, column=0, padx=5, pady=5)
@@ -659,7 +665,6 @@ class CalculationsPage:
         # Get the currently selected value
         self.selected_value = self.prof_cota_var.get()
 
-        # Add your logic here
         if self.selected_value == "Sim":
             return "Sim"
         elif self.selected_value == "Não":
@@ -681,38 +686,34 @@ class CalculationsPage:
             pressao_df = pressao_df.dropna()
             return pressao_df
         except Exception as e:
-            print(f"Error reading file {self.selected_file.get()}: {e}")
+            tk.messagebox.showerror("Erro", f"Erro ao ler o arquivo {self.selected_file.get()}: {e}")
             return None
 
     # dataframe = self.open_file()
 
     def plot_simples(self, x, y, title, xlabel, ylabel):
+        try:
+            self.boolean = self.radiobutton_event()
 
-        self.boolean = self.radiobutton_event()
+            if self.boolean == "Sim":
+                plt.plot(x, y, 'o')
+                plt.title(title)
+                plt.xlabel(xlabel)
+                plt.ylabel(ylabel)
+                plt.show()
+                print("Sim was selected")
 
-        # Add your logic here
-        if self.boolean == "Sim":
-            # TODO: This function will be the one where the plot is made
-            # without any adaptation to the depth, because is already in cota
-            plt.plot(x, y, 'o')
-            plt.title(title)
-            plt.xlabel(xlabel)
-            plt.ylabel(ylabel)
-            # plt.grid()
-            plt.show()
-            print("Sim was selected")
+            elif self.boolean == "Não":
+                plt.plot(x, y, 'o')
+                plt.title(title)
+                plt.xlabel(xlabel)
+                plt.ylabel(ylabel)
+                plt.gca().invert_yaxis()
+                plt.show()
+                print("Não was selected")
 
-        elif self.boolean == "Não":
-            # TODO: This function will be the one where the plot is made
-            # with adaptations to the depth, because it is not in cota
-            plt.plot(x, y, 'o')
-            plt.title(title)
-            plt.xlabel(xlabel)
-            plt.ylabel(ylabel)
-            plt.gca().invert_yaxis()
-            # plt.grid()
-            plt.show()
-            print("Não was selected")
+        except Exception as e:
+            tk.messagebox.showerror("Error", f"Um erro ocorreu: {e}")
 
     def plot_final(self):
         self.dataframe = self.open_file()
@@ -754,6 +755,76 @@ class CalculationsPage:
 
         # m, G = inv_polynomial(dobs=pressao_ogx_93_ma['Profundidade'], degree=1, x=pressao_ogx_93_ma['Pressão de\nFormação\n(Kgf/cm2)'])
         # print(f"y = {m[0]:.2f} + {m[1]:.2f}x")
+
+class TOMICalc:
+    def __init__(self, master, app):
+        self.master = master
+        self.app = app
+        
+    
+    def open_tomi_window(self):
+        self.tomi_window = tk.Toplevel(self.master)
+        self.tomi_window.title("TOMI Index Calculator")
+        self.tomi_window.option_add("*Label.font", "Segoe\\ UI 12")
+
+        self.super_tomi_win_frame = ctk.CTkFrame(self.tomi_window)
+        self.super_tomi_win_frame.bind("<Configure>", 
+            lambda event: update_and_centralize_geometry(self.tomi_window, 
+                                                        self.super_tomi_win_frame,
+                                                        max_size=True, child_window=True))
+        self.super_tomi_win_frame.place(relx=0.5, rely=0.5, anchor='center')
+
+        width=300; height=15
+
+        self.tomi_win_frame0 = ctk.CTkFrame(self.super_tomi_win_frame, width=width)
+        self.tomi_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.tomi_win_frame1 = ctk.CTkFrame(self.super_tomi_win_frame, width=width)
+        self.tomi_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.tomi_win_frame2 = ctk.CTkFrame(self.super_tomi_win_frame, width=width)
+        self.tomi_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.tomi_text_label = \
+        "Escolha o arquivo para fazer o plot do TOMI Index."
+        self.tomi_text = ctk.CTkLabel(self.tomi_win_frame0,
+                                    text=self.tomi_text_label,
+                                    font=("Segoe UI", 19, "bold"),
+                                    justify="center",
+                                    width=width, height=height)
+        self.tomi_text.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+
+        class MyCTkOptionMenu(ctk.CTkOptionMenu):
+            def destroy(self):
+                self.tk.call('destroy', self._w)
+
+        file_names = os.listdir("./uploads")
+        self.selected_file = tk.StringVar(self.tomi_win_frame1)
+        self.tomi_upload_label = ctk.CTkLabel(self.tomi_win_frame1,
+                                    text="Selecione o arquivo: ",
+                                    font=("Segoe UI", 14),
+                                    width=width, height=height)
+        self.tomi_upload_label.pack(fill='x', padx=5, pady=5)
+        self.tomi_upload_option_menu = MyCTkOptionMenu(master=self.tomi_win_frame1,
+                                                    variable=self.selected_file,
+                                                    values= file_names,
+                                                    fg_color="#f0f0f0",
+                                                    button_color="#840000",
+                                                    width=240,
+                                                    button_hover_color="#a50000",
+                                                    text_color="#212121",
+                                                    text_color_disabled="#292929",
+                                                    )
+        self.tomi_upload_option_menu.pack(fill='x', padx=5, pady=5)
+
+        self.calc_tomi_btn = create_custom_button(root=self.tomi_win_frame2,
+                                            text="Plot Simples",
+                                            command=self.dummy_function,
+                                            width=120)
+        self.calc_tomi_btn.pack(side="top", padx=5, pady=5)
+
+    def dummy_function(self):
+       	pass
 
 class SheetEditor:
     def __init__(self, master, app):
@@ -1016,6 +1087,7 @@ class Application:
         self.code_editor = CodeEditor(self.master, self)
         self.menu_bar = MenuBar(self.master, self)
         self.calculate = CalculationsPage(self.master, self)
+        self.tomi = TOMICalc(self.master, self)
 
 class MenuBar:
     def __init__(self, master, app):
@@ -1061,7 +1133,8 @@ class MenuBar:
         calculations_menu.add_command(label="Calculadora",
                                       command=self.app.calculate.open_calculations_window
                                       )
-        calculations_menu.add_command(label="TOMI Index")
+        calculations_menu.add_command(label="TOMI Index",
+                                      command=self.app.tomi.open_tomi_window)
 
         self.menu_bar.add_cascade(label="Calcular", menu=calculations_menu)
 
@@ -1115,7 +1188,9 @@ class App(ctk.CTk):
         self.sheet_editor = SheetEditor(self, self)
         self.code_editor = CodeEditor(self, self)
         # self.manage_files = ManageFiles(self, self)
+        
         self.calculate = CalculationsPage(self, self)
+        self.tomi = TOMICalc(self, self)
 
 
         self.menubar = MenuBar(self, self)
