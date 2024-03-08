@@ -12,3 +12,4 @@ CTkMessagebox
 CTkMenuBar
 ttkwidgets
 tkinterdnd2
+pykrige

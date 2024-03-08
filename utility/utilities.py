@@ -12,7 +12,7 @@ def create_custom_button(root,
                             text=text,
                             fg_color=fg_color,
                             command=command,
-                            corner_radius=10,
+                            corner_radius=5,
                             border_width=1,
                             border_color="#aeaeae",
                             hover_color=hover_color,
@@ -69,11 +69,28 @@ def centralize_window(window,
             window.geometry(f"{width}x{height}+{position_right}+{position_top}")
 
 
-def update_and_centralize_geometry(window, frame, drift=0, max_size=False, child_window=False, maxwidth=0, maxheight=0):
+def update_and_centralize_geometry(window,
+                                   frame,
+                                   drift=0,
+                                   max_size=False,
+                                   child_window=False,
+                                   maxwidth=0,
+                                   maxheight=0):
+    """
+    Update the geometry of the window based on the current size of the frame and centralize the window on the screen.
+
+    Parameters:
+    window: The window to update and centralize.
+    frame: The frame whose size is used to update the window's geometry.
+    drift: The amount to offset the window's position from the center of the screen.
+    max_size: A boolean indicating whether to set the window's maximum size.
+    child_window: A boolean indicating whether the window is a child window.
+    maxwidth: The maximum width of the window.
+    maxheight: The maximum height of the window.
+    """
     # Update the geometry of the window based on the current size of the frame
     frame_width = frame.winfo_width()
     frame_height = frame.winfo_height()
-    window.geometry(f"{frame_width}x{frame_height}")
 
     # Centralize the window on the screen
     screen_width = window.winfo_screenwidth()
@@ -81,8 +98,11 @@ def update_and_centralize_geometry(window, frame, drift=0, max_size=False, child
     position_top = int(screen_height / 2 - frame_height / 2) - drift
     position_right = int(screen_width / 2 - frame_width / 2) - drift
     window.geometry(f"{frame_width}x{frame_height}+{position_right}+{position_top}")
+
     window.minsize(frame_width, frame_height)
-    if max_size == True and child_window == False:
-        window.maxsize(maxwidth, maxheight)
-    elif max_size == True and child_window == True:
-        window.maxsize(frame_width, frame_height)
+
+    if max_size:
+        if child_window:
+            window.maxsize(frame_width, frame_height)
+        else:
+            window.maxsize(maxwidth, maxheight)
