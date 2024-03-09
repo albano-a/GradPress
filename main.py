@@ -575,10 +575,10 @@ class CalculationsPage:
     def open_plot_window(self):
          # Check radio button selection
         self.radiobutton_event()
-        
+
         if not self.selected_value:
                 return tk.messagebox.showerror("Erro", "É obrigatório selecionar se a profundidade é em cota ou não.")
-        
+
         self.plot_window = tk.Toplevel(self.master)
         self.plot_window.title("Plotar")
         self.plot_window.option_add("*Label.font", "Segoe\\ UI 12")
@@ -760,16 +760,16 @@ class TOMICalc:
     def __init__(self, master, app):
         self.master = master
         self.app = app
-        
-    
+
+
     def open_tomi_window(self):
         self.tomi_window = tk.Toplevel(self.master)
         self.tomi_window.title("TOMI Index Calculator")
         self.tomi_window.option_add("*Label.font", "Segoe\\ UI 12")
 
         self.super_tomi_win_frame = ctk.CTkFrame(self.tomi_window)
-        self.super_tomi_win_frame.bind("<Configure>", 
-            lambda event: update_and_centralize_geometry(self.tomi_window, 
+        self.super_tomi_win_frame.bind("<Configure>",
+            lambda event: update_and_centralize_geometry(self.tomi_window,
                                                         self.super_tomi_win_frame,
                                                         max_size=True, child_window=True))
         self.super_tomi_win_frame.place(relx=0.5, rely=0.5, anchor='center')
@@ -1174,7 +1174,7 @@ class App(ctk.CTk):
         # self.file_handling = FileViewerPandas(self, self)
 
         ctk.set_appearance_mode("light")
-        self.title("GradPress")
+        self.title("Kraken")
         self.iconbitmap(default="./icon.ico")  # icone
         self.option_add("*Label.font", "Helvetica 15")  # for the font
         centralize_window(self, 800, 600)
@@ -1188,7 +1188,7 @@ class App(ctk.CTk):
         self.sheet_editor = SheetEditor(self, self)
         self.code_editor = CodeEditor(self, self)
         # self.manage_files = ManageFiles(self, self)
-        
+
         self.calculate = CalculationsPage(self, self)
         self.tomi = TOMICalc(self, self)
 
