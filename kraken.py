@@ -19,7 +19,6 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import pygments.lexers
 from pygments.styles import get_style_by_name
-import pandasgui as pg
 from numpy.linalg import inv
 from CTkMenuBar import *
 from ttkwidgets.font import *
@@ -416,6 +415,7 @@ class CalculationsPage:
 
     def open_calculations_window(self):
         self.cal_window = tk.Toplevel(self.master)
+        self.cal_window.attributes('-toolwindow', True)
 
         self.cal_window.title("Calculadora")
         # self.cal_window.minsize(600, 600)
@@ -574,6 +574,7 @@ class CalculationsPage:
 
     def open_plot_window(self):
          # Check radio button selection
+        self.cal_window.attributes('-toolwindow', True)
         self.radiobutton_event()
 
         if not self.selected_value:
