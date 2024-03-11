@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
 
 def create_custom_button(root,
                          text,
@@ -106,3 +107,6 @@ def update_and_centralize_geometry(window,
             window.maxsize(frame_width, frame_height)
         else:
             window.maxsize(maxwidth, maxheight)
+
+def placeholder_function():
+    CTkMessagebox(title="Info", message="Essa funcionalidade ainda não foi implementada!", width=400)

@@ -21,6 +21,7 @@ import pygments.lexers
 from pygments.styles import get_style_by_name
 from numpy.linalg import inv
 from CTkMenuBar import *
+from CTkMessagebox import CTkMessagebox
 from ttkwidgets.font import *
 # Local application/library specific imports #
 from utility.fluid_pressure import fluid_pressure
@@ -28,7 +29,7 @@ from chlorophyll import CodeView
 from utility.icons import add_img, remove_img, font_img
 from utility.utilities import (create_custom_button, custom_dropdown,
                                centralize_window, create_custom_entry,
-                               update_and_centralize_geometry)
+                               update_and_centralize_geometry, placeholder_function)
 import scienceplots
 
 plt.style.use(['science', 'notebook', 'grid'])
@@ -195,7 +196,8 @@ class FilesFrame(ctk.CTkScrollableFrame):
             new_file = os.path.basename(filename)
             self.listbox.insert(tk.END, new_file)
             self.files.append(new_file)  # Update the files list
-            tk.messagebox.showinfo("Sucesso", "Arquivo carregado com sucesso!")
+            CTkMessagebox(title="Sucesso", message="Arquivo carregado com sucesso!",
+                          icon="check", option_1="OK", width=400)
 
     def rename_file(self):
         if self.listbox.curselection():  # Check if a file is selected
@@ -209,9 +211,11 @@ class FilesFrame(ctk.CTkScrollableFrame):
                     self.listbox.delete(index)
                     self.listbox.insert(index, new_name)
                     self.files[index] = new_name  # Update the files list
-                    tk.messagebox.showinfo("Sucesso", "Arquivo renomeado com sucesso!")
+                    CTkMessagebox(title="Sucesso", message="Arquivo renomeado com sucesso!",
+                                  icon="check", option_1="OK", width=400)
                 else:
-                    tk.messagebox.showerror("Error", "Esse nome já existe!")
+                    CTkMessagebox(title="Aviso!", message="Esse nome já existe!",
+                                  icon="warning", option_1="OK", width=400)
 
     def delete_file(self):
         if self.listbox.curselection():  # Check if a file is selected
@@ -220,7 +224,8 @@ class FilesFrame(ctk.CTkScrollableFrame):
             os.remove(os.path.join("./uploads", selected_file))
             self.listbox.delete(index)
             del self.files[index]  # Update the files list
-            tk.messagebox.showinfo("Sucesso", "Arquivo deletado com sucesso!")
+            CTkMessagebox(title="Sucesso", message="Arquivo deletado com sucesso!",
+                          icon="check", option_1="OK", width=400)
 
 class ManageFiles:
     def __init__(self, master, app):
@@ -406,7 +411,8 @@ class WellInfoInput:
                         prof_max=self.prof_max,
                         mesa_rot=self.mesa_rot)
         except Exception as e:
-            tk.messagebox.showerror("Error", str(e))
+            CTkMessagebox(title="Error", message=str(e),
+                          icon="cancel", option_1="OK", width=400)
 
 class CalculationsPage:
     def __init__(self, master, app):
@@ -562,23 +568,31 @@ class CalculationsPage:
 
         self.calc_btn = create_custom_button(root=self.calc_win_frame4,
                                             text="Linhas de tendência",
-                                            command=self.calculate,
+                                            command=placeholder_function,
                                             width=120)
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
         self.calc_btn = create_custom_button(root=self.calc_win_frame4,
                                             text="Gradiente de pressão",
-                                            command=self.calculate,
+                                            command=placeholder_function,
                                             width=120)
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
     def open_plot_window(self):
          # Check radio button selection
         self.cal_window.attributes('-toolwindow', True)
+
         self.radiobutton_event()
 
-        if not self.selected_value:
-                return tk.messagebox.showerror("Erro", "É obrigatório selecionar se a profundidade é em cota ou não.")
+        while True:
+            # Check radio button selection
+            if not self.selected_value:  # substitua 'selected_value' por 'selected_file'
+                msg = CTkMessagebox(title="Erro", message="É obrigatório selecionar se a profundidade é em cota ou não.",
+                                    icon="warning", option_1="Cancelar", option_2="Tentar Novamente", width=400)
+                if msg.get() == "Cancelar":
+                    continue
+                else:
+                    break
 
         self.plot_window = tk.Toplevel(self.master)
         self.plot_window.title("Plotar")
@@ -687,7 +701,8 @@ class CalculationsPage:
             pressao_df = pressao_df.dropna()
             return pressao_df
         except Exception as e:
-            tk.messagebox.showerror("Erro", f"Erro ao ler o arquivo {self.selected_file.get()}: {e}")
+            CTkMessagebox(title="Erro", message=f"Erro ao ler o arquivo {self.selected_file.get()}: {e}",
+                          icon="cancel", option_1="OK", width=400)
             return None
 
     # dataframe = self.open_file()
@@ -714,7 +729,8 @@ class CalculationsPage:
                 print("Não was selected")
 
         except Exception as e:
-            tk.messagebox.showerror("Error", f"Um erro ocorreu: {e}")
+            CTkMessagebox(title="Error", message=f"Um erro ocorreu: {e}",
+                          icon="cancel", option_1="OK", width=400)
 
     def plot_final(self):
         self.dataframe = self.open_file()
@@ -758,6 +774,7 @@ class CalculationsPage:
         # print(f"y = {m[0]:.2f} + {m[1]:.2f}x")
 
 class TOMICalc:
+    # TODO - Completely implement this functionality
     def __init__(self, master, app):
         self.master = master
         self.app = app
@@ -828,6 +845,14 @@ class TOMICalc:
        	pass
 
 class SheetEditor:
+    """
+    A class used to represent a Sheet Editor.
+    This class provides the functionality to create and manipulate a sheet within a GUI.
+    It allows for operations such as adding and removing rows
+    and columns, opening and saving the sheet as a CSV file,
+    and various other operations provided by the underlying `Sheet` class from the `ctk` library.
+    """
+
     def __init__(self, master, app):
         self.master = master
         self.app = app
@@ -901,12 +926,9 @@ class SheetEditor:
                                    fg_color="#de7575")
         rm_col_btn.grid(row=0,column=2, padx=10, pady=10)
 
-        def open_font_chooser():
-            FontChooser(self.master)
-
         font_selector = ctk.CTkButton(self.font_frame,
                                       text="",
-                                      command=open_font_chooser,
+                                      command=placeholder_function,
                                       image=font_img,
                                       width=10,
                                       height=10,
@@ -932,7 +954,7 @@ class SheetEditor:
                         total_columns=100,
                         total_rows=100,
                         startup_select=(0, 1, "rows"),
-                        data=[["" for _ in range(6)] for _ in range(3)],
+                        data=[["" for _ in range(26)] for _ in range(100)],
                         theme="light green")
 
         self.sheet.grid(row=0, column=0, sticky='nsew')  # Place the sheet in the grid
@@ -994,9 +1016,9 @@ class SheetEditor:
                 )
                 for row in self.sheet.data:
                     # Clean the data: remove leading/trailing white space
-                    cleaned_row = [cell.strip() for cell in row]
+                    cleaned_row = [cell.strip() for cell in row if cell.strip() != '']
                     # Ignore rows that only contain empty cells
-                    if any(cell != '' for cell in cleaned_row):
+                    if cleaned_row:
                         writer.writerow(cleaned_row)
         except Exception as error:
             print(error)
