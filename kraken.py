@@ -138,6 +138,92 @@ class AboutPage:
         self.label = tk.Label(self.about_frame, text=texto_inicial, font=("Segoe UI", 10, "bold"))
         self.label.grid(row=2, column=0, columnspan=2, padx=15, pady=10)
 
+class HelpWindow(tk.Toplevel):
+    def __init__(self, master):
+        self.master = master
+        self.help_window = tk.Toplevel(self.master)
+        # self.help_window.attributes('-toolwindow', True)
+
+        self.help_window.title("Ajuda")
+        self.help_window.option_add("*Label.font", "Segoe\\ UI 12")
+
+        # Create a PanedWindow to divide the window into two parts
+        self.paned_window = tk.PanedWindow(self.help_window)
+        self.paned_window.pack(fill=tk.BOTH, expand=1)
+
+        # Create the Treeview on the left side
+        self.treeview = ttk.Treeview(self.paned_window)
+        self.paned_window.add(self.treeview)
+
+        # Create a Text widget on the right side to display the content
+        self.text = tk.Text(self.paned_window,
+                            state='normal',
+                            font=("Consolas", 12),  # Set the font and size
+                            fg="#212121",  # Set the text color
+                            bg="#f0f0f0",  # Set the background color
+                            insertbackground="black",  # Set the cursor color
+                            selectbackground="yellow",  # Set the selection background color
+                            selectforeground="black",  # Set the selection text color
+                            wrap="word",  # Set word wrapping
+                            undo=True,  # Enable the undo feature
+                            padx=10,  # Set the left and right padding
+                            pady=10)  # Set the top and bottom padding
+        self.paned_window.add(self.text)
+        # Insert the placeholder text
+        self.text.insert(tk.END, "Select an item to view its content")
+
+        # Add some items to the Treeview
+        self.help_options = {
+            "Primeiros passos": "getting_started",
+            "Introdução": "introduction",
+            "Como funciona": "como_funciona",
+            "Primeiros passos": "first_steps",
+            "FAQ": "faq",
+            "Perguntas Gerais": "general_questions",
+            "Perguntas Técnicas": "technical_questions",
+            "Resolução de Problemas": "troubleshooting",
+            "Problemas comuns": "common_issues",
+            "Reportar Bugs": "reporting_bugs",
+            "Sobre": "about",
+            "Info da Versão": "version_info",
+            "Créditos": "credits"
+        }
+        self.help_more_options = {
+            "Primeiros passos": ["Introdução", "Como funciona", "Primeiros passos"],
+            "FAQ": ["Perguntas Gerais", "Perguntas Técnicas"],
+            "Resolução de Problemas": ["Problemas comuns", "Reportar Bugs"],
+            "Sobre": ["Info da Versão", "Créditos"]
+        }
+
+        # Add the items to the Treeview
+        for category, subcategories in self.help_more_options.items():
+            parent_item = self.treeview.insert('', 'end', text=category)
+            for subcategory in subcategories:
+                self.treeview.insert(parent_item, 'end', text=subcategory)
+
+        # Bind the click event on the Treeview to a function
+        self.treeview.bind('<<TreeviewSelect>>', self.on_treeview_select)
+
+
+    def on_treeview_select(self, event):
+        # Get the selected item's text
+        selected_item = self.treeview.selection()[0]
+        selected_text = self.treeview.item(selected_item, 'text')
+
+        # Get the corresponding file name
+        file_name = self.help_options.get(selected_text, selected_text)
+
+        # Try to open the corresponding text file and read its contents
+        try:
+            with open(f'./guides/{file_name}.txt', 'r', encoding='utf-8') as file:
+                file_contents = file.read()
+        except FileNotFoundError:
+            file_contents = f"No help file found for {selected_text}"
+
+        # Display the contents in the Text widget
+        self.text.delete(1.0, tk.END)
+        self.text.insert(tk.END, file_contents)
+
 class FilesFrame(ctk.CTkScrollableFrame):
     """
     A class used to create a scrollable frame that displays a list of files.
@@ -292,7 +378,7 @@ class ManageFiles:
                                                   width=75)
         self.return_button.grid(row=2, column=3, padx=10, pady=10)
 
-class WellInfoInput:
+class WellInfoInput: # NOT WORKING RIGHT NOW
     def __init__(self, master, file_uploader):
         self.master = master
         self.file_uploader = file_uploader
@@ -837,7 +923,7 @@ class TOMICalc:
 
         self.calc_tomi_btn = create_custom_button(root=self.tomi_win_frame2,
                                             text="Plot Simples",
-                                            command=self.dummy_function,
+                                            command=placeholder_function,
                                             width=120)
         self.calc_tomi_btn.pack(side="top", padx=5, pady=5)
 
@@ -1118,24 +1204,26 @@ class MenuBar:
         self.app = app
         self.menu_bar = tk.Menu(self.master)
 
-
         file_menu = tk.Menu(self.menu_bar, tearoff=0)
         file_menu.add_command(label="Novo", accelerator='Ctrl+N',
-                              command = self.app.sheet_editor.open_sheet) # TODO: Create a function that creates a new file. What type of file?
+                              command = self.app.sheet_editor.open_sheet)
+        self.master.bind_all('<Control-n>', lambda event: self.app.sheet_editor.open_sheet())
 
         file_menu.add_command(label="Abrir",
                               command=self.app.sheet_editor.open_csv,
                               accelerator='Ctrl+O',
                               #state='disabled'
                               )
+        self.master.bind_all('<Control-o>', lambda event: self.app.sheet_editor.open_csv())
 
         file_menu.add_command(label="Salvar",
                               command=self.app.sheet_editor.save_sheet,
-                              accelerator='Ctrl+S') # TODO: Create a function that saves the file¹
+                              accelerator='Ctrl+S')
+        self.master.bind_all('<Control-s>', lambda event: self.app.sheet_editor.save_sheet())
 
-        file_menu.add_command(label="Salvar como...") # TODO: Create a function that saves the file²
+
         file_menu.add_separator()
-        file_menu.add_command(label="Sair", command=self.master.quit) # TODO: Closes an app
+        file_menu.add_command(label="Sair", command=self.master.quit) # TODO: If something is not saved, ask if the user wants to save it
         # Adicionar o botão de arquivo ao menu
         self.menu_bar.add_cascade(label="Arquivo", menu=file_menu)
 
@@ -1163,7 +1251,8 @@ class MenuBar:
 
         about_menu = tk.Menu(self.menu_bar, tearoff=0)
         about_menu.add_command(label="Ajuda", command=self.help_window) # TODO: Create a function that shows the about window
-        about_menu.add_command(label="Sobre o GradPress", command=self.about_gradpress_window) # TODO: Create a function that shows the about window
+        self.master.bind_all('<Control-h>', lambda event: self.help_window())
+        about_menu.add_command(label="Sobre o GradPress", command=self.about_gradpress_window)
 
         self.menu_bar.add_cascade(label="Sobre", menu=about_menu)
 
@@ -1189,7 +1278,7 @@ class MenuBar:
 
     def help_window(self):
         # TODO: Create a help window
-        pass
+        help_window = HelpWindow(self.master)
 
 class App(ctk.CTk):
     def __init__(self):
