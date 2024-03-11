@@ -669,16 +669,10 @@ class CalculationsPage:
         self.cal_window.attributes('-toolwindow', True)
 
         self.radiobutton_event()
-
-        while True:
-            # Check radio button selection
-            if not self.selected_value:  # substitua 'selected_value' por 'selected_file'
-                msg = CTkMessagebox(title="Erro", message="É obrigatório selecionar se a profundidade é em cota ou não.",
-                                    icon="warning", option_1="Cancelar", option_2="Tentar Novamente", width=400)
-                if msg.get() == "Cancelar":
-                    continue
-                else:
-                    break
+        # Check radio button selection
+        if not self.selected_value:  # substitua 'selected_value' por 'selected_file'
+            msg = CTkMessagebox(title="Erro", message="É obrigatório selecionar se a profundidade é em cota ou não.",
+                                icon="cancel", option_1="Cancelar", width=400)
 
         self.plot_window = tk.Toplevel(self.master)
         self.plot_window.title("Plotar")
