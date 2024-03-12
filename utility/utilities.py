@@ -109,4 +109,18 @@ def update_and_centralize_geometry(window,
             window.maxsize(maxwidth, maxheight)
 
 def placeholder_function():
-    CTkMessagebox(title="Info", message="Essa funcionalidade ainda não foi implementada!", width=400)
+    custom_messagebox(title="Info", message="Essa funcionalidade ainda não foi implementada!",
+                  icon="./img/icons/info.png", width=400)
+
+
+def custom_messagebox(title, message, icon, width=400, *args, **kwargs):
+    CTkMessagebox(title=title,
+                  message=message,
+                  icon=icon,
+                  width=width,
+                  font=("Segoe UI", 16),
+                  bg_color="#e5e7eb",
+                  fg_color="#f3f4f6",
+                  text_color="#212121",
+                #   button_bg_color="#d1d5db",
+                  button_hover_color="#9ca3af")

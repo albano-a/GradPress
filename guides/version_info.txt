@@ -1,4 +1,4 @@
-Kraken Geophysics v0.1.3
+Kraken Geophysics v0.1.6
 Todos os direitos reservados.
 
 Este software atualmente não está sob nenhuma licença.

@@ -26,10 +26,12 @@ from ttkwidgets.font import *
 # Local application/library specific imports #
 from utility.fluid_pressure import fluid_pressure
 from chlorophyll import CodeView
-from utility.icons import add_img, remove_img, font_img
+from utility.icons import (add_img, remove_img, font_img, show_plot_img,
+                           inventory_img, code_img, folder_img, save_img, new_file_img)
 from utility.utilities import (create_custom_button, custom_dropdown,
                                centralize_window, create_custom_entry,
-                               update_and_centralize_geometry, placeholder_function)
+                               update_and_centralize_geometry, placeholder_function,
+                               custom_messagebox)
 import scienceplots
 
 plt.style.use(['science', 'notebook', 'grid'])
@@ -177,7 +179,7 @@ class HelpWindow(tk.Toplevel):
             "Primeiros passos": "getting_started",
             "Introdução": "introduction",
             "Como funciona": "como_funciona",
-            "Primeiros passos": "first_steps",
+            "Dicas": "first_steps",
             "FAQ": "faq",
             "Perguntas Gerais": "general_questions",
             "Perguntas Técnicas": "technical_questions",
@@ -189,7 +191,7 @@ class HelpWindow(tk.Toplevel):
             "Créditos": "credits"
         }
         self.help_more_options = {
-            "Primeiros passos": ["Introdução", "Como funciona", "Primeiros passos"],
+            "Primeiros passos": ["Introdução", "Como funciona", "Dicas"],
             "FAQ": ["Perguntas Gerais", "Perguntas Técnicas"],
             "Resolução de Problemas": ["Problemas comuns", "Reportar Bugs"],
             "Sobre": ["Info da Versão", "Créditos"]
@@ -282,8 +284,8 @@ class FilesFrame(ctk.CTkScrollableFrame):
             new_file = os.path.basename(filename)
             self.listbox.insert(tk.END, new_file)
             self.files.append(new_file)  # Update the files list
-            CTkMessagebox(title="Sucesso", message="Arquivo carregado com sucesso!",
-                          icon="check", option_1="OK", width=400)
+            custom_messagebox(title="Sucesso", message="Arquivo carregado com sucesso!",
+                          icon="./img/icons/check.png", option_1="OK", width=400)
 
     def rename_file(self):
         if self.listbox.curselection():  # Check if a file is selected
@@ -297,11 +299,11 @@ class FilesFrame(ctk.CTkScrollableFrame):
                     self.listbox.delete(index)
                     self.listbox.insert(index, new_name)
                     self.files[index] = new_name  # Update the files list
-                    CTkMessagebox(title="Sucesso", message="Arquivo renomeado com sucesso!",
-                                  icon="check", option_1="OK", width=400)
+                    custom_messagebox(title="Sucesso", message="Arquivo renomeado com sucesso!",
+                                  icon="./img/icons/check.png", option_1="OK", width=400)
                 else:
-                    CTkMessagebox(title="Aviso!", message="Esse nome já existe!",
-                                  icon="warning", option_1="OK", width=400)
+                    custom_messagebox(title="Aviso!", message="Esse nome já existe!",
+                                  icon="./img/icons/warning.png", option_1="OK", width=400)
 
     def delete_file(self):
         if self.listbox.curselection():  # Check if a file is selected
@@ -310,8 +312,8 @@ class FilesFrame(ctk.CTkScrollableFrame):
             os.remove(os.path.join("./uploads", selected_file))
             self.listbox.delete(index)
             del self.files[index]  # Update the files list
-            CTkMessagebox(title="Sucesso", message="Arquivo deletado com sucesso!",
-                          icon="check", option_1="OK", width=400)
+            custom_messagebox(title="Sucesso", message="Arquivo deletado com sucesso!",
+                          icon="./img/icons/check.png", option_1="OK", width=400)
 
 class ManageFiles:
     def __init__(self, master, app):
@@ -319,6 +321,7 @@ class ManageFiles:
         self.app = app
         self.manage_window = NewWindow(self.master, self.app)
         self.manage_window.title("Gerenciar arquivos")
+        centralize_window(self.manage_window, 600, 500)
         self.manage_window.geometry("600x500")
         self.manage_window.minsize(600, 500)
         self.manage_window.option_add("*Label.font", "Helvetica 15")  # for the font
@@ -326,8 +329,10 @@ class ManageFiles:
         # Create a frame within the new window
         self.manage_files_frame = tk.Frame(self.manage_window#, bg='#ebebeb'
                                            )
+
         self.manage_files_frame.grid(row=0, column=0, padx=10, pady=10)
         self.manage_files_frame.place(relx=0.5, rely=0.5, anchor='center')
+
 
         gerenciar_texto = "Gerenciar arquivos"
         self.label = ctk.CTkLabel(self.manage_files_frame,
@@ -347,8 +352,8 @@ class ManageFiles:
                                                 text="Adicionar",
                                                 command=self.files_frame.add_file,
                                                 width=75,
-                                                fg_color="#34bf49",
-                                                hover_color="#279b37",
+                                                fg_color="#28a745",
+                                                hover_color="#1f7f35",
                                                 text_color="#212121")
         self.add_button.grid(row=2, column=0, padx=10, pady=10)
 
@@ -357,8 +362,8 @@ class ManageFiles:
                                                   text="Renomear",
                                                   command=self.files_frame.rename_file,
                                                   width=75,
-                                                  fg_color="#0099e5",
-                                                  hover_color="#037ef3",
+                                                  fg_color="#ffc107",
+                                                  hover_color="#d19d00",
                                                   text_color="#212121")
         self.rename_button.grid(row=2, column=1, padx=10, pady=10)
 
@@ -367,14 +372,16 @@ class ManageFiles:
                                                   text="Deletar",
                                                   command=self.files_frame.delete_file,
                                                   width=75,
-                                                  fg_color="#ff4c4c",
-                                                  hover_color="#be0027",
+                                                  fg_color="#dc3545",
+                                                  hover_color="#bf2231",
                                                   text_color="#212121")
         self.delete_button.grid(row=2, column=2, padx=10, pady=10)
 
         self.return_button = create_custom_button(self.manage_files_frame,
                                                   text="Voltar",
                                                   command=self.manage_window.destroy,
+                                                  fg_color="#17a2b8",
+                                                  hover_color="#117c8d",
                                                   width=75)
         self.return_button.grid(row=2, column=3, padx=10, pady=10)
 
@@ -497,8 +504,8 @@ class WellInfoInput: # NOT WORKING RIGHT NOW
                         prof_max=self.prof_max,
                         mesa_rot=self.mesa_rot)
         except Exception as e:
-            CTkMessagebox(title="Error", message=str(e),
-                          icon="cancel", option_1="OK", width=400)
+            custom_messagebox(title="Error", message=str(e),
+                          icon="./img/icons/cancel.png", option_1="OK", width=400)
 
 class CalculationsPage:
     def __init__(self, master, app):
@@ -671,8 +678,8 @@ class CalculationsPage:
         self.radiobutton_event()
         # Check radio button selection
         if not self.selected_value:  # substitua 'selected_value' por 'selected_file'
-            msg = CTkMessagebox(title="Erro", message="É obrigatório selecionar se a profundidade é em cota ou não.",
-                                icon="cancel", option_1="Cancelar", width=400)
+            msg = custom_messagebox(title="Erro", message="É obrigatório selecionar se a profundidade é em cota ou não.",
+                                icon="./img/icons/cancel.png", option_1="Cancelar", width=400)
 
         self.plot_window = tk.Toplevel(self.master)
         self.plot_window.title("Plotar")
@@ -781,8 +788,8 @@ class CalculationsPage:
             pressao_df = pressao_df.dropna()
             return pressao_df
         except Exception as e:
-            CTkMessagebox(title="Erro", message=f"Erro ao ler o arquivo {self.selected_file.get()}: {e}",
-                          icon="cancel", option_1="OK", width=400)
+            custom_messagebox(title="Erro", message=f"Erro ao ler o arquivo {self.selected_file.get()}: {e}",
+                          icon="./img/icons/cancel.png", option_1="OK", width=400)
             return None
 
     # dataframe = self.open_file()
@@ -809,8 +816,8 @@ class CalculationsPage:
                 print("Não was selected")
 
         except Exception as e:
-            CTkMessagebox(title="Error", message=f"Um erro ocorreu: {e}",
-                          icon="cancel", option_1="OK", width=400)
+            custom_messagebox(title="Error", message=f"Um erro ocorreu: {e}",
+                          icon="./img/icons/cancel.png", option_1="OK", width=400)
 
     def plot_final(self):
         self.dataframe = self.open_file()
@@ -939,35 +946,76 @@ class SheetEditor:
         self.sheet = Sheet(self.master)
 
     def open_sheet(self):
-        self.toolbar_frame = ctk.CTkFrame(self.master)
+        self.toolbar_frame = ctk.CTkFrame(self.master, fg_color="#fff")
         self.toolbar_frame.grid(row=0, column=0, sticky='ew', padx=10, pady=10)
 
-        self.row_frame = ctk.CTkFrame(self.toolbar_frame,
-                                      corner_radius=10,
-                                      border_width=0,
-                                      fg_color="#fff")
-        self.row_frame.grid(row=0, column=0, padx=10, pady=10)
+        self.new_file_frame = ctk.CTkFrame(self.toolbar_frame,
+                                            corner_radius=10,
+                                            border_width=0,
+                                            fg_color="transparent")
+        self.new_file_frame.pack(side='left', padx=5, pady=5)
 
-        self.col_frame = ctk.CTkFrame(self.toolbar_frame,
-                                      corner_radius=10,
-                                      border_width=0,
-                                      fg_color="#fff")
-        self.col_frame.grid(row=0, column=1, padx=10, pady=10)
+        self.folder_icon_frame = ctk.CTkFrame(self.toolbar_frame,
+                                                corner_radius=10,
+                                                border_width=0,
+                                                fg_color="transparent")
+        self.folder_icon_frame.pack(side='left', padx=5, pady=5)
+
+        self.save_icon_frame = ctk.CTkFrame(self.toolbar_frame,
+                                            corner_radius=10,
+                                            border_width=0,
+                                            fg_color="transparent")
+        self.save_icon_frame.pack(side='left', padx=5, pady=5)
+
+        self.inventory_frame = ctk.CTkFrame(self.toolbar_frame,
+                                            corner_radius=10,
+                                            border_width=0,
+                                            fg_color="transparent")
+        self.inventory_frame.pack(side='left', padx=5, pady=5)
+
+        self.plot_frame = ctk.CTkFrame(self.toolbar_frame,
+                                    corner_radius=10,
+                                        border_width=0,
+                                        fg_color="transparent")
+        self.plot_frame.pack(side='left', padx=5, pady=5)
+
+        self.code_icon_frame = ctk.CTkFrame(self.toolbar_frame,
+                                            corner_radius=10,
+                                            border_width=0,
+                                            fg_color="transparent")
+        self.code_icon_frame.pack(side='left', padx=5, pady=5)
 
         self.font_frame = ctk.CTkFrame(self.toolbar_frame,
-                                      corner_radius=10,
-                                      border_width=0,
-                                      fg_color="#fff")
-        self.font_frame.grid(row=0, column=3, padx=10, pady=10)
+                                    corner_radius=10,
+                                    border_width=0,
+                                    fg_color="transparent")
+        self.font_frame.pack(side='left', padx=5, pady=5)
+
+        self.col_frame = ctk.CTkFrame(self.toolbar_frame,
+                                    corner_radius=10,
+                                    border_width=0,
+                                    fg_color="transparent")
+        self.col_frame.pack(side='right', padx=5, pady=5)
+
+        self.row_frame = ctk.CTkFrame(self.toolbar_frame,
+                                    corner_radius=10,
+                                    border_width=0,
+                                    fg_color="transparent")
+        self.row_frame.pack(side='right', padx=5, pady=5)
+
+
 
         add_row_btn = ctk.CTkButton(self.row_frame,
                                     command=self.add_row,
+                                    border_width=0,
                                     text="",
                                     image=add_img,
                                     width=10,
                                     height=10,
-                                    fg_color="#75AFDE")
-        add_row_btn.grid(row=0,column=0, padx=10, pady=10)
+                                    fg_color="transparent",
+                                    hover_color="#6da3d1"
+                                    )
+        add_row_btn.grid(row=0,column=0, padx=5, pady=5)
 
         add_row_txt = "Linhas"
         add_row_label = ctk.CTkLabel(self.row_frame, text=add_row_txt, font=("Segoe UI",14,"bold"))
@@ -981,8 +1029,10 @@ class SheetEditor:
                                 image=remove_img,
                                 width=10,
                                 height=10,
-                                fg_color="#de7575")
-        rm_row_btn.grid(row=0,column=2, padx=10, pady=10)
+                                fg_color="transparent",
+                                hover_color="#d97373"
+                                )
+        rm_row_btn.grid(row=0,column=2, padx=5, pady=5)
 
         add_col_btn = ctk.CTkButton(self.col_frame,
                                     text="",
@@ -990,8 +1040,10 @@ class SheetEditor:
                                     image=add_img,
                                     width=10,
                                     height=10,
-                                    fg_color="#75AFDE")
-        add_col_btn.grid(row=0,column=0, padx=10, pady=10)
+                                    fg_color="transparent",
+                                    hover_color="#6da3d1"
+                                    )
+        add_col_btn.grid(row=0,column=0, padx=5, pady=5)
 
         add_col_txt = "Colunas"
         add_col_label = ctk.CTkLabel(self.col_frame, text=add_col_txt, font=("Segoe UI",14,"bold"))
@@ -1003,8 +1055,10 @@ class SheetEditor:
                                    image=remove_img,
                                    width=10,
                                    height=10,
-                                   fg_color="#de7575")
-        rm_col_btn.grid(row=0,column=2, padx=10, pady=10)
+                                   fg_color="transparent",
+                                   hover_color="#d97373"
+                                   )
+        rm_col_btn.grid(row=0,column=2, padx=5, pady=5)
 
         font_selector = ctk.CTkButton(self.font_frame,
                                       text="",
@@ -1012,8 +1066,70 @@ class SheetEditor:
                                       image=font_img,
                                       width=10,
                                       height=10,
-                                      fg_color="transparent")
-        font_selector.grid(row=0, column=0, padx=10, pady=10)
+                                      fg_color="transparent",
+                                      hover_color="#e2e8f0")
+        font_selector.grid(row=0, column=0, padx=0, pady=0)
+
+        plot_btn_toolbar = ctk.CTkButton(self.plot_frame,
+                                        text="",
+                                        command=self.app.calculate.open_calculations_window,
+                                        image=show_plot_img,
+                                        width=10,
+                                        height=10,
+                                        fg_color="transparent",
+                                      hover_color="#e2e8f0")
+        plot_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+
+        inventory_btn_toolbar = ctk.CTkButton(self.inventory_frame,
+                                            text="",
+                                            command=lambda: ManageFiles(self.master, self.app),
+                                            image=inventory_img,
+                                            width=10,
+                                            height=10,
+                                            fg_color="transparent",
+                                            hover_color="#e2e8f0")
+        inventory_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+
+        code_btn_toolbar = ctk.CTkButton(self.code_icon_frame,
+                                        text="",
+                                        command=self.app.code_editor.open_code_editor,
+                                        image=code_img,
+                                        width=10,
+                                        height=10,
+                                        fg_color="transparent",
+                                        hover_color="#e2e8f0")
+        code_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+
+        save_btn_toolbar = ctk.CTkButton(self.save_icon_frame,
+                                        text="",
+                                        command=self.app.sheet_editor.save_sheet,
+                                        image=save_img,
+                                        width=10,
+                                        height=10,
+                                        fg_color="transparent",
+                                        hover_color="#e2e8f0")
+        save_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+
+        folder_btn_toolbar = ctk.CTkButton(self.folder_icon_frame,
+                                        text="",
+                                        command=self.app.sheet_editor.open_csv,
+                                        image=folder_img,
+                                        width=10,
+                                        height=10,
+                                        fg_color="transparent",
+                                        hover_color="#e2e8f0")
+        folder_btn_toolbar.grid(row=0, column=0, padx=0, pady=0) # Open
+
+        new_file_btn_toolbar = ctk.CTkButton(self.new_file_frame,
+                                            text="",
+                                            command=self.app.sheet_editor.open_sheet,
+                                            image=new_file_img,
+                                            width=10,
+                                            height=10,
+                                            fg_color="transparent",
+                                            hover_color="#e2e8f0")
+        new_file_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+
 
         # Create a frame for the sheet
         self.sheet_editor_frame = ctk.CTkFrame(self.master)
@@ -1280,10 +1396,10 @@ class App(ctk.CTk):
         # self.file_handling = FileViewerPandas(self, self)
 
         ctk.set_appearance_mode("light")
-        self.title("Kraken")
+        self.title("Kraken Geophysics")
         self.iconbitmap(default="./icon.ico")  # icone
         self.option_add("*Label.font", "Helvetica 15")  # for the font
-        centralize_window(self, 800, 600)
+        centralize_window(self, 900, 600)
         self.minsize(800, 600)
 
         # Determinação de um frame para centralizar o conteúdo da página
