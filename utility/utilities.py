@@ -5,43 +5,47 @@ def create_custom_button(root,
                          text,
                          command,
                          width=200,
-                         fg_color="#840000",
-                         hover_color="#a50000",
-                         text_color="#f0f0f0"):
+                         fg_color="#f4f4f4",
+                         hover_color="#efefef",
+                         text_color="#212121"):
         # Your implementation of create_custom_button goes here
         return ctk.CTkButton(root,
                             text=text,
                             fg_color=fg_color,
                             command=command,
-                            corner_radius=5,
+                            border_spacing=1,
+                            corner_radius=3,
                             border_width=1,
                             border_color="#aeaeae",
                             hover_color=hover_color,
                             width=width,
                             text_color=text_color,
-                            font=("Helvetica", 15, "bold"))
+                            font=("Segoe UI", 15))
 
 
 def create_custom_entry(root,
                         placeholder_text,
-                        width=120
+                        width=240,
+                        *args, **kwargs
                         ):
     return ctk.CTkEntry(root,
-                          width=width,
+                        #   width=width,
                           font=("Segoe UI", 14),
-                          corner_radius=10,
+                          width=width,
+                          corner_radius=3,
                           border_width=0,
                           fg_color="#f0f0f0",
                           placeholder_text=placeholder_text,
                           placeholder_text_color="#999999",
                           justify="center")
 
+
 def custom_dropdown(root, values, variable, width=200):
         # Your implementation of custom_dropdown goes here
         return ctk.CTkComboBox(root,
                                values=values,
                                variable=variable,
-                               corner_radius=10,
+                               corner_radius=3,
                                fg_color="#fff",
                                button_color="#840000",
                                width=width,
