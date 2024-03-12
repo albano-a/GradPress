@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
+from CTkToolTip import CTkToolTip
 
 def create_custom_button(root,
                          text,
@@ -14,7 +15,7 @@ def create_custom_button(root,
                             fg_color=fg_color,
                             command=command,
                             border_spacing=1,
-                            corner_radius=3,
+                            corner_radius=5,
                             border_width=1,
                             border_color="#aeaeae",
                             hover_color=hover_color,
@@ -32,7 +33,7 @@ def create_custom_entry(root,
                         #   width=width,
                           font=("Segoe UI", 14),
                           width=width,
-                          corner_radius=3,
+                          corner_radius=5,
                           border_width=0,
                           fg_color="#f0f0f0",
                           placeholder_text=placeholder_text,
@@ -128,3 +129,14 @@ def custom_messagebox(title, message, icon, width=400, *args, **kwargs):
                   text_color="#212121",
                 #   button_bg_color="#d1d5db",
                   button_hover_color="#9ca3af")
+    
+def custom_tooltip(widget, text, delay, *args, **kwargs):
+    return CTkToolTip(widget, 
+                      text, 
+                      bg_color="#f3f4f6", 
+                      fg_color="#f0f0f0", 
+                      text_color="#212121",
+                      corner_radius=3,
+                      font=("Segoe UI", 12),
+                      border_width=1,
+                      border_color="#d1d1d1",)

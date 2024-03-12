@@ -6,6 +6,7 @@ import csv
 import io
 from textwrap import fill
 # Related third party imports #
+from tkinter import scrolledtext
 from click import command
 import customtkinter as ctk
 import matplotlib.pyplot as plt
@@ -24,6 +25,7 @@ from pygments.styles import get_style_by_name
 from numpy.linalg import inv
 from CTkMenuBar import *
 from CTkMessagebox import CTkMessagebox
+from CTkToolTip import CTkToolTip
 from ttkwidgets.font import *
 # Local application/library specific imports #
 from utility.fluid_pressure import fluid_pressure
@@ -33,7 +35,7 @@ from utility.icons import (add_img, remove_img, font_img, show_plot_img,
 from utility.utilities import (create_custom_button, custom_dropdown,
                                centralize_window, create_custom_entry,
                                update_and_centralize_geometry, placeholder_function,
-                               custom_messagebox)
+                               custom_messagebox, custom_tooltip)
 import scienceplots
 
 plt.style.use(['science', 'notebook', 'grid'])
@@ -128,9 +130,7 @@ class AboutPage:
                                                 text="GIECAR",
                                                 command=lambda: \
                                                 webbrowser.open(GIECAR_URL),
-                                                width=100,
-                                                fg_color="#840000",
-                                                hover_color="#a50000")
+                                                width=100)
         self.giecar_link.grid(row=1, column=0, padx=10, pady=10)
 
         self.github_link = create_custom_button(self.about_frame,
@@ -163,14 +163,11 @@ class HelpWindow(tk.Toplevel):
         self.paned_window.add(self.treeview)
 
         # Create a Text widget on the right side to display the content
-        self.text = tk.Text(self.paned_window,
+        self.text = scrolledtext.ScrolledText(self.paned_window,
                             state='normal',
                             font=("Consolas", 12),  # Set the font and size
                             fg="#212121",  # Set the text color
                             bg="#f0f0f0",  # Set the background color
-                            insertbackground="black",  # Set the cursor color
-                            selectbackground="yellow",  # Set the selection background color
-                            selectforeground="black",  # Set the selection text color
                             wrap="word",  # Set word wrapping
                             undo=True,  # Enable the undo feature
                             padx=10,  # Set the left and right padding
@@ -181,10 +178,10 @@ class HelpWindow(tk.Toplevel):
 
         # Add some items to the Treeview
         self.help_options = {
-            "Primeiros passos": "getting_started",
+            "Página inicial": "getting_started",
             "Introdução": "introduction",
             "Como funciona": "como_funciona",
-            "Dicas": "first_steps",
+            "Primeiros passos": "first_steps",
             "FAQ": "faq",
             "Perguntas Gerais": "general_questions",
             "Perguntas Técnicas": "technical_questions",
@@ -196,7 +193,7 @@ class HelpWindow(tk.Toplevel):
             "Créditos": "credits"
         }
         self.help_more_options = {
-            "Primeiros passos": ["Introdução", "Como funciona", "Dicas"],
+            "Página inicial": ["Introdução", "Como funciona", "Primeiros passos"],
             "FAQ": ["Perguntas Gerais", "Perguntas Técnicas"],
             "Resolução de Problemas": ["Problemas comuns", "Reportar Bugs"],
             "Sobre": ["Info da Versão", "Créditos"]
@@ -230,6 +227,7 @@ class HelpWindow(tk.Toplevel):
         # Display the contents in the Text widget
         self.text.delete(1.0, tk.END)
         self.text.insert(tk.END, file_contents)
+        # self.text.config(state='disabled')  # Make the text read-only
 
 class FilesFrame(ctk.CTkScrollableFrame):
     """
@@ -990,8 +988,9 @@ class SheetEditor:
         self.master = master
         self.app = app
         self.sheet = Sheet(self.master)
-
-    def open_sheet(self):
+        
+    def toolbar(self):
+        ########################## TOOLBAR ##############################
         self.toolbar_frame = ctk.CTkFrame(self.master, fg_color="#fff")
         self.toolbar_frame.grid(row=0, column=0, sticky='ew', padx=10, pady=10)
 
@@ -1062,8 +1061,9 @@ class SheetEditor:
                                     hover_color="#6da3d1"
                                     )
         add_row_btn.grid(row=0,column=0, padx=5, pady=5)
+        custom_tooltip(add_row_btn, "+Linhas", delay=0.5)
 
-        add_row_txt = "Linhas"
+        add_row_txt = "L"
         add_row_label = ctk.CTkLabel(self.row_frame, text=add_row_txt, font=("Segoe UI",16,"bold"))
         add_row_label.grid(row=0,column=1, padx=2, pady=2)
         # Add buttons to the toolbar
@@ -1079,6 +1079,7 @@ class SheetEditor:
                                 hover_color="#d97373"
                                 )
         rm_row_btn.grid(row=0,column=2, padx=5, pady=5)
+        custom_tooltip(rm_row_btn, "-Linhas", delay=0.5)
 
         add_col_btn = ctk.CTkButton(self.col_frame,
                                     text="",
@@ -1090,8 +1091,9 @@ class SheetEditor:
                                     hover_color="#6da3d1"
                                     )
         add_col_btn.grid(row=0,column=0, padx=5, pady=5)
-
-        add_col_txt = "Colunas"
+        custom_tooltip(add_col_btn, "+Colunas", delay=0.5)
+        
+        add_col_txt = "C"
         add_col_label = ctk.CTkLabel(self.col_frame, text=add_col_txt, font=("Segoe UI",16,"bold"))
         add_col_label.grid(row=0,column=1, padx=2, pady=2)
 
@@ -1105,6 +1107,7 @@ class SheetEditor:
                                    hover_color="#d97373"
                                    )
         rm_col_btn.grid(row=0,column=2, padx=5, pady=5)
+        custom_tooltip(rm_col_btn, "-Colunas", delay=0.5)
 
         font_selector = ctk.CTkButton(self.font_frame,
                                       text="",
@@ -1115,6 +1118,7 @@ class SheetEditor:
                                       fg_color="transparent",
                                       hover_color="#e2e8f0")
         font_selector.grid(row=0, column=0, padx=0, pady=0)
+        custom_tooltip(font_selector, "Selecionar fonte", delay=0.5)
 
         plot_btn_toolbar = ctk.CTkButton(self.plot_frame,
                                         text="",
@@ -1125,6 +1129,7 @@ class SheetEditor:
                                         fg_color="transparent",
                                       hover_color="#e2e8f0")
         plot_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+        custom_tooltip(plot_btn_toolbar, "Abrir Calculadora", delay=0.5)
 
         inventory_btn_toolbar = ctk.CTkButton(self.inventory_frame,
                                             text="",
@@ -1135,6 +1140,7 @@ class SheetEditor:
                                             fg_color="transparent",
                                             hover_color="#e2e8f0")
         inventory_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+        custom_tooltip(inventory_btn_toolbar, "Gerenciador de Arquivos", delay=0.5)
 
         code_btn_toolbar = ctk.CTkButton(self.code_icon_frame,
                                         text="",
@@ -1145,6 +1151,7 @@ class SheetEditor:
                                         fg_color="transparent",
                                         hover_color="#e2e8f0")
         code_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+        custom_tooltip(code_btn_toolbar, "Editor de Texto", delay=0.5)
 
         save_btn_toolbar = ctk.CTkButton(self.save_icon_frame,
                                         text="",
@@ -1155,6 +1162,7 @@ class SheetEditor:
                                         fg_color="transparent",
                                         hover_color="#e2e8f0")
         save_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+        custom_tooltip(save_btn_toolbar, "Salvar", delay=0.5)
 
         folder_btn_toolbar = ctk.CTkButton(self.folder_icon_frame,
                                         text="",
@@ -1165,6 +1173,7 @@ class SheetEditor:
                                         fg_color="transparent",
                                         hover_color="#e2e8f0")
         folder_btn_toolbar.grid(row=0, column=0, padx=0, pady=0) # Open
+        custom_tooltip(folder_btn_toolbar, "Abrir", delay=0.5)
 
         new_file_btn_toolbar = ctk.CTkButton(self.new_file_frame,
                                             text="",
@@ -1175,8 +1184,10 @@ class SheetEditor:
                                             fg_color="transparent",
                                             hover_color="#e2e8f0")
         new_file_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
+        custom_tooltip(new_file_btn_toolbar, "Novo", delay=0.5)        
 
-
+    def open_sheet(self):
+        self.toolbar()
         # Create a frame for the sheet
         self.sheet_editor_frame = ctk.CTkFrame(self.master)
         self.sheet_editor_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=10)
@@ -1262,6 +1273,8 @@ class SheetEditor:
                     # Ignore rows that only contain empty cells
                     if cleaned_row:
                         writer.writerow(cleaned_row)
+            # Updating the backup
+            self.sheet.data_backup = self.sheet.data.copy()
         except Exception as error:
             print(error)
 
@@ -1287,6 +1300,7 @@ class SheetEditor:
     def new_sheet(self):
         self.sheet.reset()
         self.menu_bar.entryconfig(self.open_command, state='normal')
+        
 
 class CodeEditor:
     def __init__(self, master, app):
@@ -1469,6 +1483,7 @@ class App(ctk.CTk):
         self.sheet_editor.open_sheet()
 
 
+    
 if __name__ == "__main__":
     app = App()
     app.mainloop()

@@ -13,3 +13,4 @@ CTkMenuBar
 ttkwidgets
 tkinterdnd2
 pykrige
+CTkToolTip
