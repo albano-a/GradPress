@@ -1,14 +1,15 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 from CTkToolTip import CTkToolTip
+from utility.color_constants import TEXT_COLOR, BORDER_COLOR, BTN_FG_COLOR, BTN_FG_HOVER_COLOR
 
 def create_custom_button(root,
                          text,
                          command,
                          width=200,
-                         fg_color="#f4f4f4",
-                         hover_color="#efefef",
-                         text_color="#212121"):
+                         fg_color=BTN_FG_COLOR,
+                         hover_color=BTN_FG_HOVER_COLOR,
+                         text_color=TEXT_COLOR):
         # Your implementation of create_custom_button goes here
         return ctk.CTkButton(root,
                             text=text,
@@ -17,7 +18,7 @@ def create_custom_button(root,
                             border_spacing=1,
                             corner_radius=5,
                             border_width=1,
-                            border_color="#aeaeae",
+                            border_color=BORDER_COLOR,
                             hover_color=hover_color,
                             width=width,
                             text_color=text_color,
@@ -35,7 +36,7 @@ def create_custom_entry(root,
                           width=width,
                           corner_radius=5,
                           border_width=0,
-                          fg_color="#f0f0f0",
+                          fg_color="#f7f7f7",
                           placeholder_text=placeholder_text,
                           placeholder_text_color="#999999",
                           justify="center")
@@ -129,12 +130,12 @@ def custom_messagebox(title, message, icon, width=400, *args, **kwargs):
                   text_color="#212121",
                 #   button_bg_color="#d1d5db",
                   button_hover_color="#9ca3af")
-    
+
 def custom_tooltip(widget, text, delay, *args, **kwargs):
-    return CTkToolTip(widget, 
-                      text, 
-                      bg_color="#f3f4f6", 
-                      fg_color="#f0f0f0", 
+    return CTkToolTip(widget,
+                      text,
+                      bg_color="#f3f4f6",
+                      fg_color="#f0f0f0",
                       text_color="#212121",
                       corner_radius=3,
                       font=("Segoe UI", 12),

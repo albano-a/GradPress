@@ -15,9 +15,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import pandas as pd
 import webbrowser
-from sympy import expand
 from tksheet import Sheet
-from tkinter import filedialog, ttk, Label
+from tkinter import filedialog
 import tkinter as tk
 from PIL import Image, ImageTk
 import pygments.lexers
@@ -28,6 +27,8 @@ from CTkMessagebox import CTkMessagebox
 from CTkToolTip import CTkToolTip
 from ttkwidgets.font import *
 # Local application/library specific imports #
+from components.about import AboutPage
+from components.help_window import HelpWindow
 from utility.fluid_pressure import fluid_pressure
 from chlorophyll import CodeView
 from utility.icons import (add_img, remove_img, font_img, show_plot_img,
@@ -36,19 +37,16 @@ from utility.utilities import (create_custom_button, custom_dropdown,
                                centralize_window, create_custom_entry,
                                update_and_centralize_geometry, placeholder_function,
                                custom_messagebox, custom_tooltip)
+from utility.color_constants import (TEXT_COLOR, BORDER_COLOR, BTN_FG_COLOR,
+                             BTN_FG_HOVER_COLOR, FG_COLOR_OUT, FG_COLOR_IN)
 import scienceplots
 
 plt.style.use(['science', 'notebook', 'grid'])
-
 
 # GLOBAL VARIABLES
 GIECAR_URL = "http://gcr.sites.uff.br/"
 GITHUB_URL = "https://github.com/albano-a/GradPress"
 SMALL_WINDOW_SIZE = (300, 200)
-FG_COLOR_OUT = "#f0f0f0"
-FG_COLOR_IN = "#E0E0E0"
-TEXT_COLOR = "#212121"
-BORDER_COLOR = "#d1d1d1"
 
 class NewWindow(tk.Toplevel):
     """
@@ -73,161 +71,6 @@ class NewWindow(tk.Toplevel):
         self.app = app
         self.menu_bar = MenuBar(self, self.app)
         self.config(menu=self.menu_bar.menu_bar)
-
-class AboutPage:
-    """
-    A class used to create an 'About' page in a tkinter application.
-
-    Attributes
-    ----------
-    master : object
-        The parent window.
-    about_window : object
-        The 'About' window.
-    about_frame : object
-        The frame in the 'About' window.
-    giecar_link : object
-        The 'GIECAR' link button.
-    github_link : object
-        The 'GitHub' link button.
-    label : object
-        The label displaying the initial text.
-
-    Methods
-    -------
-    __init__(self, master)
-        Initializes the AboutPage instance and sets up the window, links, and label.
-    setup_window(self)
-        Sets up the 'About' window.
-    setup_links(self)
-        Sets up the 'GIECAR' and 'GitHub' link buttons.
-    setup_label(self)
-        Sets up the label displaying the initial text.
-    """
-    def __init__(self, master):
-        self.master = master
-        self.about_window = tk.Toplevel(self.master)
-        self.about_window.title("Sobre o GradPress")
-
-        # Função que centraliza a janela
-        centralize_window(self.about_window, *SMALL_WINDOW_SIZE)
-
-        self.setup_window() # Inicia a janela de about
-        self.setup_links() # Inicia os links
-        self.setup_label()
-
-    def setup_window(self):
-        self.about_window.minsize(*SMALL_WINDOW_SIZE)
-        self.about_window.maxsize(*SMALL_WINDOW_SIZE)
-        self.about_window.option_add("*Label.font", "Segoe\\ UI 15")
-
-        self.about_frame = tk.Frame(self.about_window)
-        self.about_frame.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
-        self.about_frame.place(relx=0.5, rely=0.5, anchor='center')
-
-    def setup_links(self):
-        self.giecar_link = create_custom_button(self.about_frame,
-                                                text="GIECAR",
-                                                command=lambda: \
-                                                webbrowser.open(GIECAR_URL),
-                                                width=100)
-        self.giecar_link.grid(row=1, column=0, padx=10, pady=10)
-
-        self.github_link = create_custom_button(self.about_frame,
-                                                text="GitHub",
-                                                command=lambda: \
-                                                webbrowser.open(GITHUB_URL),
-                                                width=100)
-        self.github_link.grid(row=1, column=1, padx=10, pady=10)
-
-    def setup_label(self):
-        texto_inicial = "Desenvolvido por André Albano\nGIECAR - UFF\n2024"
-        self.label = tk.Label(self.about_frame, text=texto_inicial, font=("Segoe UI", 10, "bold"))
-        self.label.grid(row=2, column=0, columnspan=2, padx=15, pady=10)
-
-class HelpWindow(tk.Toplevel):
-    def __init__(self, master):
-        self.master = master
-        self.help_window = tk.Toplevel(self.master)
-        # self.help_window.attributes('-toolwindow', True)
-
-        self.help_window.title("Ajuda")
-        self.help_window.option_add("*Label.font", "Segoe\\ UI 12")
-
-        # Create a PanedWindow to divide the window into two parts
-        self.paned_window = tk.PanedWindow(self.help_window)
-        self.paned_window.pack(fill=tk.BOTH, expand=1)
-
-        # Create the Treeview on the left side
-        self.treeview = ttk.Treeview(self.paned_window)
-        self.paned_window.add(self.treeview)
-
-        # Create a Text widget on the right side to display the content
-        self.text = scrolledtext.ScrolledText(self.paned_window,
-                            state='normal',
-                            font=("Consolas", 12),  # Set the font and size
-                            fg="#212121",  # Set the text color
-                            bg="#f0f0f0",  # Set the background color
-                            wrap="word",  # Set word wrapping
-                            undo=True,  # Enable the undo feature
-                            padx=10,  # Set the left and right padding
-                            pady=10)  # Set the top and bottom padding
-        self.paned_window.add(self.text)
-        # Insert the placeholder text
-        self.text.insert(tk.END, "Select an item to view its content")
-
-        # Add some items to the Treeview
-        self.help_options = {
-            "Página inicial": "getting_started",
-            "Introdução": "introduction",
-            "Como funciona": "como_funciona",
-            "Primeiros passos": "first_steps",
-            "FAQ": "faq",
-            "Perguntas Gerais": "general_questions",
-            "Perguntas Técnicas": "technical_questions",
-            "Resolução de Problemas": "troubleshooting",
-            "Problemas comuns": "common_issues",
-            "Reportar Bugs": "reporting_bugs",
-            "Sobre": "about",
-            "Info da Versão": "version_info",
-            "Créditos": "credits"
-        }
-        self.help_more_options = {
-            "Página inicial": ["Introdução", "Como funciona", "Primeiros passos"],
-            "FAQ": ["Perguntas Gerais", "Perguntas Técnicas"],
-            "Resolução de Problemas": ["Problemas comuns", "Reportar Bugs"],
-            "Sobre": ["Info da Versão", "Créditos"]
-        }
-
-        # Add the items to the Treeview
-        for category, subcategories in self.help_more_options.items():
-            parent_item = self.treeview.insert('', 'end', text=category)
-            for subcategory in subcategories:
-                self.treeview.insert(parent_item, 'end', text=subcategory)
-
-        # Bind the click event on the Treeview to a function
-        self.treeview.bind('<<TreeviewSelect>>', self.on_treeview_select)
-
-
-    def on_treeview_select(self, event):
-        # Get the selected item's text
-        selected_item = self.treeview.selection()[0]
-        selected_text = self.treeview.item(selected_item, 'text')
-
-        # Get the corresponding file name
-        file_name = self.help_options.get(selected_text, selected_text)
-
-        # Try to open the corresponding text file and read its contents
-        try:
-            with open(f'./guides/{file_name}.txt', 'r', encoding='utf-8') as file:
-                file_contents = file.read()
-        except FileNotFoundError:
-            file_contents = f"No help file found for {selected_text}"
-
-        # Display the contents in the Text widget
-        self.text.delete(1.0, tk.END)
-        self.text.insert(tk.END, file_contents)
-        # self.text.config(state='disabled')  # Make the text read-only
 
 class FilesFrame(ctk.CTkScrollableFrame):
     """
@@ -322,7 +165,7 @@ class ManageFiles:
     def __init__(self, master, app):
         self.master = master
         self.app = app
-        
+
     def open_manage_window(self):
         self.manage_window = NewWindow(self.master, self.app)
         self.manage_window.title("Gerenciar arquivos")
@@ -542,21 +385,21 @@ class CalculationsPage:
         self.calc_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
 
         self.calc_win_frame1 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3, 
+                                            corner_radius=3,
                                             width=width, fg_color=FG_COLOR_IN,
                                             border_width=1.2,
                                             border_color=BORDER_COLOR)
         self.calc_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
 
         self.calc_win_frame2 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3, 
+                                            corner_radius=3,
                                             width=width, fg_color=FG_COLOR_IN,
                                             border_width=1.2,
                                             border_color=BORDER_COLOR)
         self.calc_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
 
         self.calc_win_frame3 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3, 
+                                            corner_radius=3,
                                             width=width, fg_color=FG_COLOR_IN,
                                             border_width=1.2,
                                             border_color=BORDER_COLOR)
@@ -564,7 +407,7 @@ class CalculationsPage:
 
         #btns frames
         self.calc_win_frame4 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3, 
+                                            corner_radius=3,
                                             width=width, fg_color="transparent")
         self.calc_win_frame4.grid(row=4, column=0, columnspan=2,padx=5, pady=5, sticky='nsew')
 
@@ -572,10 +415,19 @@ class CalculationsPage:
         # self.calc_win_frame5.grid(row=5, column=0, columnspan=2,padx=5, pady=5, sticky='nsew')
 
         self.calculator_text_label = \
-            "Preencha os campos abaixo para gerar os \n gráficos ou calcular o gradiente de pressão."
+            "Calculadora"
         self.calculator_text = ctk.CTkLabel(self.calc_win_frame0,
                                             text=self.calculator_text_label,
                                             font=("Segoe UI", 18, "bold"),
+                                            justify="center",
+                                            width=width, height=height)
+        self.calculator_text.pack(fill='x', expand=True, padx=5, pady=5)
+
+        self.calculator_text_label = \
+            "Preencha os campos abaixo para gerar os \n gráficos ou calcular o gradiente de pressão."
+        self.calculator_text = ctk.CTkLabel(self.calc_win_frame0,
+                                            text=self.calculator_text_label,
+                                            font=("Segoe UI", 16),
                                             justify="center",
                                             width=width, height=height)
         self.calculator_text.pack(fill='x', expand=True, padx=5, pady=5)
@@ -598,16 +450,16 @@ class CalculationsPage:
                                                 variable=self.selected_file,
                                                 values= file_names,
                                                 fg_color="#f7f7f7",
-                                                button_color="#c5c5c5",
+                                                button_color=BTN_FG_COLOR,
                                                 width=240,
-                                                button_hover_color="#b3b3b3",
+                                                button_hover_color=BTN_FG_HOVER_COLOR,
                                                 text_color=TEXT_COLOR,
                                                 text_color_disabled="#292929",
                                                 )
         self.arq_option_menu.pack(fill='x', padx=5, pady=5)
         #------------------------------ Frame 2 ----------------------------------------------------
         # Frame for prof_min
-        self.prof_min_frame = ctk.CTkFrame(self.calc_win_frame2, 
+        self.prof_min_frame = ctk.CTkFrame(self.calc_win_frame2,
                                            fg_color="transparent")
         self.prof_min_frame.pack(side='top', fill='both', padx=5, pady=5)
 
@@ -621,7 +473,7 @@ class CalculationsPage:
                                                   width=120,
                                                 placeholder_text="Insira aqui...")
         self.prof_min_entry.pack(fill='x', expand=True, side='left', padx=5, pady=5)
-        
+
         # Frame for prof_max
         self.prof_max_frame = ctk.CTkFrame(self.calc_win_frame2, fg_color="transparent")
         self.prof_max_frame.pack(side='top', fill='x', padx=5, pady=5)
@@ -645,7 +497,8 @@ class CalculationsPage:
         self.radiobtn_frame.pack(side="left", padx=5, pady=5)
 
         self.prof_cota_var = tk.StringVar()
-        self.prof_cota_ou_nao = ctk.CTkLabel(self.radiobtn_frame, text="Profundidade está em cota?: ")
+        self.prof_cota_ou_nao = ctk.CTkLabel(self.radiobtn_frame, text="Profundidade está em cota?: ",
+                                                font=("Segoe UI", 16))
         self.prof_cota_ou_nao.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
 
         self.prof_cota_radio_y = ctk.CTkRadioButton(self.radiobtn_frame,
@@ -669,7 +522,8 @@ class CalculationsPage:
 
         self.mesa_rot_label = ctk.CTkLabel(self.mesa_rot_frame,
                                         text="Mesa Rotativa: ",
-                                         height=height)
+                                         height=height,
+                                         font=("Segoe UI", 16))
         self.mesa_rot_label.pack(side="top", padx=5, pady=5)
 
         self.mesa_rot_entry = create_custom_entry(self.mesa_rot_frame,
@@ -718,23 +572,23 @@ class CalculationsPage:
         width=300; height=15
 
         # Organização dos frames
-        self.plot_win_frame0 = ctk.CTkFrame(self.super_plot_win_frame, 
-                                            width=width, fg_color=FG_COLOR_IN, 
+        self.plot_win_frame0 = ctk.CTkFrame(self.super_plot_win_frame,
+                                            width=width, fg_color=FG_COLOR_IN,
                                             border_width=1.2, border_color=BORDER_COLOR)
         self.plot_win_frame0.pack(fill="x", padx=5, pady=5)
 
-        self.plot_win_frame1 = ctk.CTkFrame(self.super_plot_win_frame, 
-                                            width=width, fg_color=FG_COLOR_IN, 
+        self.plot_win_frame1 = ctk.CTkFrame(self.super_plot_win_frame,
+                                            width=width, fg_color=FG_COLOR_IN,
                                             border_width=1.2, border_color=BORDER_COLOR)
         self.plot_win_frame1.pack(fill="x", padx=5, pady=5)
 
-        self.plot_win_frame2 = ctk.CTkFrame(self.super_plot_win_frame, 
-                                            width=width, fg_color=FG_COLOR_IN, 
+        self.plot_win_frame2 = ctk.CTkFrame(self.super_plot_win_frame,
+                                            width=width, fg_color=FG_COLOR_IN,
                                             border_width=1.2, border_color=BORDER_COLOR)
         self.plot_win_frame2.pack(fill="x", padx=5, pady=5)
 
         #btns frames
-        self.plot_win_frame3 = ctk.CTkFrame(self.super_plot_win_frame, 
+        self.plot_win_frame3 = ctk.CTkFrame(self.super_plot_win_frame,
                                             width=width, fg_color="transparent")
         self.plot_win_frame3.pack(fill="x", padx=5, pady=5)
 
@@ -828,7 +682,7 @@ class CalculationsPage:
     def plot_simples(self, x, y, title, xlabel, ylabel, ymin, ymax, dataframe):
         ymin = int(self.prof_min_entry.get()) if self.prof_min_entry.get() else None
         ymax = int(self.prof_max_entry.get()) if self.prof_max_entry.get() else None
-        
+
         try:
             self.boolean = self.radiobutton_event()
 
@@ -859,7 +713,7 @@ class CalculationsPage:
 
     def plot_final(self):
         self.dataframe = self.open_file()
-        self.plot_simples(self.dataframe.iloc[:, 1], 
+        self.plot_simples(self.dataframe.iloc[:, 1],
                           self.dataframe.iloc[:, 0],
                           self.plot_title_entry.get(),
                           self.x_label_entry.get(),
@@ -988,7 +842,7 @@ class SheetEditor:
         self.master = master
         self.app = app
         self.sheet = Sheet(self.master)
-        
+
     def toolbar(self):
         ########################## TOOLBAR ##############################
         self.toolbar_frame = ctk.CTkFrame(self.master, fg_color="#fff")
@@ -1092,7 +946,7 @@ class SheetEditor:
                                     )
         add_col_btn.grid(row=0,column=0, padx=5, pady=5)
         custom_tooltip(add_col_btn, "+Colunas", delay=0.5)
-        
+
         add_col_txt = "C"
         add_col_label = ctk.CTkLabel(self.col_frame, text=add_col_txt, font=("Segoe UI",16,"bold"))
         add_col_label.grid(row=0,column=1, padx=2, pady=2)
@@ -1184,7 +1038,7 @@ class SheetEditor:
                                             fg_color="transparent",
                                             hover_color="#e2e8f0")
         new_file_btn_toolbar.grid(row=0, column=0, padx=0, pady=0)
-        custom_tooltip(new_file_btn_toolbar, "Novo", delay=0.5)        
+        custom_tooltip(new_file_btn_toolbar, "Novo", delay=0.5)
 
     def open_sheet(self):
         self.toolbar()
@@ -1300,7 +1154,6 @@ class SheetEditor:
     def new_sheet(self):
         self.sheet.reset()
         self.menu_bar.entryconfig(self.open_command, state='normal')
-        
 
 class CodeEditor:
     def __init__(self, master, app):
@@ -1482,8 +1335,6 @@ class App(ctk.CTk):
         # self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
         self.sheet_editor.open_sheet()
 
-
-    
 if __name__ == "__main__":
     app = App()
     app.mainloop()
