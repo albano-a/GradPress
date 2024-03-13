@@ -34,7 +34,7 @@ from chlorophyll import CodeView
 from utility.icons import (add_img, remove_img, font_img, show_plot_img,
                            inventory_img, code_img, folder_img, save_img, new_file_img)
 from utility.utilities import (create_custom_button, custom_dropdown,
-                               centralize_window, create_custom_entry,
+                               centralize_window, custom_CTkEntry,
                                update_and_centralize_geometry, placeholder_function,
                                custom_messagebox, custom_tooltip)
 from utility.color_constants import (TEXT_COLOR, BORDER_COLOR, BTN_FG_COLOR,
@@ -233,128 +233,6 @@ class ManageFiles:
                                                   width=75)
         self.return_button.grid(row=2, column=3, padx=10, pady=10)
 
-class WellInfoInput: # NOT WORKING RIGHT NOW
-    def __init__(self, master, file_uploader):
-        self.master = master
-        self.file_uploader = file_uploader
-        ######################################################
-        self.well_info_frame = tk.Frame(self.master, bg='#ebebeb')
-        self.well_info_frame.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
-        ######################################################
-
-        texto_inicial = "Preencha as informações abaixo para plotar o gráfico de pressão.\n *Obrigatório"
-        self.label = tk.Label(self.well_info_frame, text=texto_inicial, bg='#ebebeb')
-        self.label.grid(row=0, column=0, columnspan=2, padx=15, pady=10)
-
-        # Input do nome do poço
-        tk.Label(self.well_info_frame, text="Digite o nome do poço: ", bg='#ebebeb') \
-            .grid(row=1, columnspan=2, padx=10, pady=10)
-        self.nome_entry = tk.Entry(self.well_info_frame,
-                                   borderwidth=1,
-                                   width=42,
-                                   justify="center",
-                                   relief="solid",
-                                   font=("Helvetica", 12))
-        self.nome_entry.grid(row=2, columnspan=2, padx=10, pady=10)
-
-        # Depth inputs
-        tk.Label(self.well_info_frame, text="Prof. Inicial", bg='#ebebeb') \
-            .grid(row=3, column=0, padx=10, pady=10)
-        self.prof_min = tk.Entry(self.well_info_frame,
-                                 borderwidth=1,
-                                 width=18,
-                                 justify="center",
-                                 relief="solid",
-                                 font=("Helvetica", 12))
-        self.prof_min.grid(row=4, column=0, padx=10, pady=10)
-
-        tk.Label(self.well_info_frame, text="Prof. Final", bg='#ebebeb') \
-            .grid(row=5, column=0, padx=10, pady=10)
-        self.prof_max = tk.Entry(self.well_info_frame,
-                                 borderwidth=1,
-                                 width=18,
-                                 justify="center",
-                                 relief="solid",
-                                 font=("Helvetica", 12))
-        self.prof_max.grid(row=6, column=0, padx=10, pady=10)
-
-        # Other options
-        tk.Label(self.well_info_frame, text="Mesa Rotativa*", bg='#ebebeb') \
-            .grid(row=3, column=1, padx=10, pady=10)
-        self.mesa_rot = tk.Entry(self.well_info_frame,
-                                 borderwidth=1,
-                                 width=18,
-                                 justify="center",
-                                 relief="solid",
-                                 font=("Helvetica", 12))
-        self.mesa_rot.grid(row=4, column=1, padx=10, pady=10)
-
-        self.plot_btn = create_custom_button(root=self.well_info_frame,
-                            text="Plotar",
-                            command=self.main_plot_pressure,
-                            width=300)
-        self.plot_btn.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
-
-        self.calculate_btn = create_custom_button(root=self.well_info_frame,
-                                                  text="Cálculos",
-                                                  command=lambda: CalculationsPage(self.master),
-                                                    width=300)
-        self.calculate_btn.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
-
-
-
-    def plot_simples_pressao(self, x, y, title, xlabel, ylabel, pressao_df, prof_min, prof_max, mesa_rot):
-        """
-        Função que plota a pressão de formação em função da profundidade (cota)
-        """
-        ymin = int(prof_min.get()) if prof_min.get() else min(pressao_df['Profundidade'])
-        ymax = int(prof_max.get()) if prof_max.get() else max(pressao_df['Profundidade'])
-
-        ymin = int(mesa_rot.get()) - ymin
-        ymax = int(mesa_rot.get()) - ymax
-
-        plt.plot(x, y, 'o')
-        plt.title(title)
-        plt.xlabel(xlabel)
-        plt.ylabel(ylabel)
-
-        plt.ylim(ymin, ymax)
-        plt.gca().invert_yaxis()
-        plt.grid()
-        plt.show()
-
-    def main_plot_pressure(self):
-        """
-        Plota os dados de pressão em relação à profundidade.
-
-        Esta função lê um arquivo CSV contendo dados de pressão e os plota em relação
-        aos valores de profundidade (em cota) correspondentes.
-        Elimina quaisquer linhas com valores NaN.
-        Os valores de profundidade em cota são calculados subtraindo
-        os valores de 'Profundidade' do valor de 'mesa_rot'.
-        """
-        try:
-            filename = self.file_uploader.selected_file.get()
-            pressao_df = pd.read_csv(filename,
-                                     delimiter='[;,]',
-                                     names=["Profundidade", "Pressão"],
-                                     engine='python')
-            pressao_df = pressao_df.dropna(subset=['Profundidade', 'Pressão'])
-            prof_cota = int(self.mesa_rot.get()) - pressao_df['Profundidade']
-
-            self.plot_simples_pressao(x=pressao_df['Pressão'],
-                        y=prof_cota,
-                        title=self.nome_entry.get(),
-                        xlabel='Pressão',
-                        ylabel='Profundidade (m)',
-                        pressao_df=pressao_df,
-                        prof_min=self.prof_min,
-                        prof_max=self.prof_max,
-                        mesa_rot=self.mesa_rot)
-        except Exception as e:
-            custom_messagebox(title="Error", message=str(e),
-                          icon="./img/icons/cancel.png", option_1="OK", width=400)
-
 class CalculationsPage:
     def __init__(self, master, app):
         self.master = master
@@ -435,7 +313,7 @@ class CalculationsPage:
         #----------------------------- Frame 1 -------------------------------------------
         # Frame que possui a escolha do arquivo.
         # Logica para o menu dropdown
-        class MyCTkOptionMenu(ctk.CTkOptionMenu):
+        class CTkCustomOptionMenu(ctk.CTkOptionMenu):
             def destroy(self):
                 self.tk.call('destroy', self._w)
 
@@ -446,7 +324,7 @@ class CalculationsPage:
                                   font=("Segoe UI", 16),
                                   width=width, height=height)
         self.arq_label.pack(fill='x', padx=5, pady=5)
-        self.arq_option_menu = MyCTkOptionMenu(master=self.calc_win_frame1,
+        self.arq_option_menu = CTkCustomOptionMenu(master=self.calc_win_frame1,
                                                 variable=self.selected_file,
                                                 values= file_names,
                                                 fg_color="#f7f7f7",
@@ -459,34 +337,21 @@ class CalculationsPage:
         self.arq_option_menu.pack(fill='x', padx=5, pady=5)
         #------------------------------ Frame 2 ----------------------------------------------------
         # Frame for prof_min
-        self.prof_min_frame = ctk.CTkFrame(self.calc_win_frame2,
-                                           fg_color="transparent")
-        self.prof_min_frame.pack(side='top', fill='both', padx=5, pady=5)
-
-        self.prof_min_label = ctk.CTkLabel(self.prof_min_frame,
-                                        text="Prof. min: ",
-                                        font=("Segoe UI", 16),
-                                        height=height)
-        self.prof_min_label.pack(side='left', padx=5, pady=5)
-
-        self.prof_min_entry = create_custom_entry(self.prof_min_frame,
-                                                  width=120,
-                                                placeholder_text="Insira aqui...")
+        self.prof_min_Frame = ctk.CTkFrame(self.calc_win_frame2, fg_color="transparent") # FRAME
+        self.prof_min_Label = ctk.CTkLabel(self.prof_min_Frame, text="Prof. min:", font=("Segoe UI", 16), height=height)
+        self.prof_min_entry = custom_CTkEntry(self.prof_min_Frame, width=120, placeholder_text="Prof. mínima...") 
+        
+        self.prof_min_Frame.pack(side='top', fill='both', padx=5, pady=5)
+        self.prof_min_Label.pack(side='left', padx=5, pady=5)
         self.prof_min_entry.pack(fill='x', expand=True, side='left', padx=5, pady=5)
 
         # Frame for prof_max
         self.prof_max_frame = ctk.CTkFrame(self.calc_win_frame2, fg_color="transparent")
+        self.prof_max_label = ctk.CTkLabel(self.prof_max_frame, text="Prof. max:", font=("Segoe UI", 16), height=height)
+        self.prof_max_entry = custom_CTkEntry(self.prof_max_frame, width=120, placeholder_text="Prof. máxima...")
+        
         self.prof_max_frame.pack(side='top', fill='x', padx=5, pady=5)
-
-        self.prof_max_label = ctk.CTkLabel(self.prof_max_frame,
-                                        text="Prof. max: ",
-                                        font=("Segoe UI", 16),
-                                         height=height)
         self.prof_max_label.pack(side='left', padx=5, pady=5)
-
-        self.prof_max_entry = create_custom_entry(self.prof_max_frame,
-                                                width=120,
-                                                placeholder_text="Insira aqui...")
         self.prof_max_entry.pack(fill='x', expand=True, side='left', padx=5, pady=5)
 
         #---------------------------- Frame 3 --------------------------------------------------------
@@ -526,7 +391,7 @@ class CalculationsPage:
                                          font=("Segoe UI", 16))
         self.mesa_rot_label.pack(side="top", padx=5, pady=5)
 
-        self.mesa_rot_entry = create_custom_entry(self.mesa_rot_frame,
+        self.mesa_rot_entry = custom_CTkEntry(self.mesa_rot_frame,
                                                 placeholder_text="Insira aqui...")
         self.mesa_rot_entry.pack(side="bottom", expand=True, padx=5, pady=5)
         #------------------------------------ Frame 4 ------------------------------------
@@ -606,7 +471,7 @@ class CalculationsPage:
                                             font=("Segoe UI", 16),
                                             height=height)
         self.plot_title.grid(row=0, column=0, padx=5, pady=5)
-        self.plot_title_entry = create_custom_entry(self.plot_win_frame1,
+        self.plot_title_entry = custom_CTkEntry(self.plot_win_frame1,
                                                     width=200,
                                                     placeholder_text="Insira aqui...")
         self.plot_title_entry.grid(row=0, column=1, padx=5, pady=5)
@@ -616,7 +481,7 @@ class CalculationsPage:
                                         font=("Segoe UI", 16),
                                         height=height)
         self.skip_rows.grid(row=1, column=0, padx=5, pady=5)
-        self.skip_rows_entry = create_custom_entry(self.plot_win_frame1,
+        self.skip_rows_entry = custom_CTkEntry(self.plot_win_frame1,
                                                     width=200,
                                                     placeholder_text="Insira aqui...")
         self.skip_rows_entry.grid(row=1, column=1, padx=5, pady=5)
@@ -626,7 +491,7 @@ class CalculationsPage:
                                         font=("Segoe UI", 16),
                                         height=height)
         self.x_label.grid(row=0, column=0, padx=5, pady=5)
-        self.x_label_entry = create_custom_entry(self.plot_win_frame2,
+        self.x_label_entry = custom_CTkEntry(self.plot_win_frame2,
                                                 width=200,
                                                 placeholder_text="Insira aqui...")
         self.x_label_entry.grid(row=0, column=1, padx=5, pady=5)
@@ -636,7 +501,7 @@ class CalculationsPage:
                                         font=("Segoe UI", 16),
                                         height=height)
         self.y_label.grid(row=1, column=0, padx=5, pady=5)
-        self.y_label_entry = create_custom_entry(self.plot_win_frame2,
+        self.y_label_entry = custom_CTkEntry(self.plot_win_frame2,
                                                 width=200,
                                                 placeholder_text="Insira aqui...")
         self.y_label_entry.grid(row=1, column=1, padx=5, pady=5)
@@ -797,7 +662,7 @@ class TOMICalc:
                                     width=width, height=height)
         self.tomi_text.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
 
-        class MyCTkOptionMenu(ctk.CTkOptionMenu):
+        class CTkCustomOptionMenu(ctk.CTkOptionMenu):
             def destroy(self):
                 self.tk.call('destroy', self._w)
 
@@ -808,16 +673,16 @@ class TOMICalc:
                                     font=("Segoe UI", 16),
                                     width=width, height=height)
         self.tomi_upload_label.pack(fill='x', padx=5, pady=5)
-        self.tomi_upload_option_menu = MyCTkOptionMenu(master=self.tomi_win_frame1,
-                                                    variable=self.selected_file,
-                                                    values= file_names,
-                                                    fg_color="#f0f0f0",
-                                                    button_color="#840000",
-                                                    width=240,
-                                                    button_hover_color="#a50000",
-                                                    text_color="#212121",
-                                                    text_color_disabled="#292929",
-                                                    )
+        self.tomi_upload_option_menu = CTkCustomOptionMenu(master=self.tomi_win_frame1,
+                                                            variable=self.selected_file,
+                                                            values= file_names,
+                                                            fg_color="#f7f7f7",
+                                                            button_color=BTN_FG_COLOR,
+                                                            width=240,
+                                                            button_hover_color=BTN_FG_HOVER_COLOR,
+                                                            text_color=TEXT_COLOR,
+                                                            text_color_disabled="#292929",
+                                                            )
         self.tomi_upload_option_menu.pack(fill='x', padx=5, pady=5)
 
         self.calc_tomi_btn = create_custom_button(root=self.tomi_win_frame2,

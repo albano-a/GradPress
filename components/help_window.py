@@ -32,7 +32,7 @@ from chlorophyll import CodeView
 from utility.icons import (add_img, remove_img, font_img, show_plot_img,
                            inventory_img, code_img, folder_img, save_img, new_file_img)
 from utility.utilities import (create_custom_button, custom_dropdown,
-                               centralize_window, create_custom_entry,
+                               centralize_window, custom_CTkEntry,
                                update_and_centralize_geometry, placeholder_function,
                                custom_messagebox, custom_tooltip)
 from utility.color_constants import (TEXT_COLOR, BORDER_COLOR, BTN_FG_COLOR,

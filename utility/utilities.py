@@ -25,21 +25,20 @@ def create_custom_button(root,
                             font=("Segoe UI", 15))
 
 
-def create_custom_entry(root,
+def custom_CTkEntry(root,
                         placeholder_text,
                         width=240,
                         *args, **kwargs
                         ):
     return ctk.CTkEntry(root,
-                        #   width=width,
-                          font=("Segoe UI", 14),
-                          width=width,
-                          corner_radius=5,
-                          border_width=0,
-                          fg_color="#f7f7f7",
-                          placeholder_text=placeholder_text,
-                          placeholder_text_color="#999999",
-                          justify="center")
+                        font=("Segoe UI", 14),
+                        width=width,
+                        corner_radius=5,
+                        border_width=0,
+                        fg_color="#f7f7f7",
+                        placeholder_text=placeholder_text,
+                        placeholder_text_color="#999999",
+                        justify="center")
 
 
 def custom_dropdown(root, values, variable, width=200):
