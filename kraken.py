@@ -103,13 +103,13 @@ class FilesFrame(ctk.CTkScrollableFrame):
         listbox_frame = tk.Frame(self, bg='#ebebeb')
         listbox_frame.grid(row=0, column=0, padx=10, pady=10)
 
-        self.listbox = tk.Listbox(listbox_frame, width=400, height=200)
+        self.listbox = tk.Listbox(listbox_frame, width=400, height=200, font=("Segoe UI", 15))
         self.listbox.grid(row=0, column=0, sticky='nsew')  # Use grid instead of pack
         for file in self.files:
             self.listbox.insert(tk.END, file)
 
         # Create a scrollbar and attach it to the listbox
-        scrollbar = tk.Scrollbar(listbox_frame, command=self.listbox.yview)
+        scrollbar = ctk.CTkScrollbar(listbox_frame, command=self.listbox.yview, corner_radius=5, fg_color="#f7f7f7")
         scrollbar.grid(row=0, column=1, sticky='ns')  # Use grid instead of pack
         self.listbox.config(yscrollcommand=scrollbar.set)
 
@@ -174,63 +174,39 @@ class ManageFiles:
         self.manage_window.option_add("*Label.font", "Helvetica 15")  # for the font
 
         # Create a frame within the new window
-        self.manage_files_frame = tk.Frame(self.manage_window#, bg='#ebebeb'
-                                           )
-
-        self.manage_files_frame.grid(row=0, column=0, padx=10, pady=10)
+        self.manage_files_frame = tk.Frame(self.manage_window)
+        self.manage_files_frame.grid(row=0, column=0, padx=5, pady=5)
         self.manage_files_frame.place(relx=0.5, rely=0.5, anchor='center')
 
-
+        # label for the title
         gerenciar_texto = "Gerenciar arquivos"
-        self.label = ctk.CTkLabel(self.manage_files_frame,
-                                  text=gerenciar_texto,
-                                  font=("Helvetica", 20, "bold"))
-        self.label.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
-
-        # Lista todos os arquivos
-        self.files_frame = FilesFrame(self.manage_files_frame,
-                                      width=500,
-                                      height=300,
-                                      fg_color="transparent")
-        self.files_frame.grid(row=1, column=0, columnspan=4,padx=10, pady=10)
-
-        # botao para deletar arquivo
-        self.add_button = create_custom_button(self.manage_files_frame,
-                                                text="Adicionar",
-                                                command=self.files_frame.add_file,
-                                                width=75,
-                                                fg_color="#28a745",
-                                                hover_color="#1f7f35",
-                                                text_color="#212121")
-        self.add_button.grid(row=2, column=0, padx=10, pady=10)
-
-        # botao para deletar arquivo
-        self.rename_button = create_custom_button(self.manage_files_frame,
-                                                  text="Renomear",
-                                                  command=self.files_frame.rename_file,
-                                                  width=75,
-                                                  fg_color="#ffc107",
-                                                  hover_color="#d19d00",
-                                                  text_color="#212121")
-        self.rename_button.grid(row=2, column=1, padx=10, pady=10)
-
-        # botao para deletar arquivo
-        self.delete_button = create_custom_button(self.manage_files_frame,
-                                                  text="Deletar",
-                                                  command=self.files_frame.delete_file,
-                                                  width=75,
-                                                  fg_color="#dc3545",
-                                                  hover_color="#bf2231",
-                                                  text_color="#212121")
-        self.delete_button.grid(row=2, column=2, padx=10, pady=10)
-
-        self.return_button = create_custom_button(self.manage_files_frame,
-                                                  text="Voltar",
-                                                  command=self.manage_window.destroy,
-                                                  fg_color="#17a2b8",
-                                                  hover_color="#117c8d",
-                                                  width=75)
-        self.return_button.grid(row=2, column=3, padx=10, pady=10)
+        self.label = ctk.CTkLabel(self.manage_files_frame, text=gerenciar_texto, font=("Helvetica", 20, "bold"))
+        # frame for the list of files
+        self.files_frame = FilesFrame(self.manage_files_frame, width=500, height=300, fg_color="transparent")
+        # buttons for managing files
+        # add btn
+        self.add_btn = create_custom_button(self.manage_files_frame, text="Adicionar", font=("Segoe UI", 18, "bold"),
+                                            command=self.files_frame.add_file, width=75, fg_color="#28a745",
+                                            hover_color="#1f7f35", text_color="#212121")
+        # rename btn
+        self.rnm_btn = create_custom_button(self.manage_files_frame, text="Renomear", font=("Segoe UI", 18, "bold"),
+                                            command=self.files_frame.rename_file, width=75, fg_color="#ffc107",
+                                            hover_color="#d19d00", text_color="#212121")
+        # delete btn
+        self.del_btn = create_custom_button(self.manage_files_frame, text="Deletar", font=("Segoe UI", 18, "bold"),
+                                            command=self.files_frame.delete_file, width=75, fg_color="#dc3545",
+                                            hover_color="#bf2231", text_color="#212121")
+        # return btn
+        self.return_btn = create_custom_button(self.manage_files_frame, text="Voltar", font=("Segoe UI", 18, "bold"),
+                                               command=self.manage_window.destroy, width=75,fg_color="#17a2b8",
+                                               hover_color="#117c8d", text_color="#212121")
+        
+        self.label.grid(      row=0, column=0, columnspan=4, padx=10, pady=10)
+        self.files_frame.grid(row=1, column=0, columnspan=4,padx=5, pady=5)
+        self.add_btn.grid(    row=2, column=0, padx=5, pady=5)
+        self.rnm_btn.grid(    row=2, column=1, padx=5, pady=5)
+        self.del_btn.grid(    row=2, column=2, padx=5, pady=5)
+        self.return_btn.grid( row=2, column=3, padx=5, pady=5)
 
 class CalculationsPage:
     def __init__(self, master, app):
@@ -248,45 +224,30 @@ class CalculationsPage:
         # centralize_window(self.cal_window, 410, 500)
 
         self.super_calc_win_frame = ctk.CTkFrame(self.cal_window, fg_color=FG_COLOR_OUT)
-        self.super_calc_win_frame.bind("<Configure>", lambda event: update_and_centralize_geometry(self.cal_window, self.super_calc_win_frame))
+        self.super_calc_win_frame.bind("<Configure>", \
+            lambda event: update_and_centralize_geometry(self.cal_window, self.super_calc_win_frame))
         self.super_calc_win_frame.place(relx=0.5, rely=0.5, anchor='center')
 
-        width=250; height=15
+        width=250; height=15; border_width=1.2
 
-        # Criando um frame dentro da imagem
-        self.calc_win_frame0 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3,
-                                            width=width, fg_color=FG_COLOR_IN,
-                                            border_width=1.2,
-                                            border_color=BORDER_COLOR)
-        self.calc_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
-
-        self.calc_win_frame1 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3,
-                                            width=width, fg_color=FG_COLOR_IN,
-                                            border_width=1.2,
-                                            border_color=BORDER_COLOR)
-        self.calc_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
-
-        self.calc_win_frame2 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3,
-                                            width=width, fg_color=FG_COLOR_IN,
-                                            border_width=1.2,
-                                            border_color=BORDER_COLOR)
-        self.calc_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
-
-        self.calc_win_frame3 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3,
-                                            width=width, fg_color=FG_COLOR_IN,
-                                            border_width=1.2,
-                                            border_color=BORDER_COLOR)
-        self.calc_win_frame3.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
-
+        # frames
+        self.calc_win_frame0 = ctk.CTkFrame(self.super_calc_win_frame, corner_radius=3, border_color=BORDER_COLOR,
+                                            fg_color=FG_COLOR_IN, border_width=border_width,width=width)
+        self.calc_win_frame1 = ctk.CTkFrame(self.super_calc_win_frame, corner_radius=3, border_color=BORDER_COLOR,
+                                            fg_color=FG_COLOR_IN, border_width=border_width, width=width)
+        self.calc_win_frame2 = ctk.CTkFrame(self.super_calc_win_frame, corner_radius=3, border_color=BORDER_COLOR,
+                                            fg_color=FG_COLOR_IN, border_width=border_width, width=width)
+        self.calc_win_frame3 = ctk.CTkFrame(self.super_calc_win_frame, corner_radius=3, border_color=BORDER_COLOR,
+                                            fg_color=FG_COLOR_IN, border_width=border_width, width=width)
         #btns frames
-        self.calc_win_frame4 = ctk.CTkFrame(self.super_calc_win_frame,
-                                            corner_radius=3,
-                                            width=width, fg_color="transparent")
-        self.calc_win_frame4.grid(row=4, column=0, columnspan=2,padx=5, pady=5, sticky='nsew')
+        self.calc_win_frame4 = ctk.CTkFrame(self.super_calc_win_frame, corner_radius=3, width=width,
+                                            fg_color="transparent")
+        
+        self.calc_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
+        self.calc_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
+        self.calc_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
+        self.calc_win_frame3.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
+        self.calc_win_frame4.grid(row=4, column=0, columnspan=2, padx=5, pady=5, sticky='nsew')
 
         # self.calc_win_frame5 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
         # self.calc_win_frame5.grid(row=5, column=0, columnspan=2,padx=5, pady=5, sticky='nsew')
@@ -310,7 +271,7 @@ class CalculationsPage:
         self.calculator_text.pack(fill='x', expand=True, padx=5, pady=5)
 
         #----------------------------- Frame 1 -------------------------------------------
-        # Frame que possui a escolha do arquivo.
+        # File dropdown menu frame
         # Logica para o menu dropdown
         class CTkCustomOptionMenu(ctk.CTkOptionMenu):
             def destroy(self):

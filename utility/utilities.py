@@ -9,7 +9,7 @@ def create_custom_button(root,
                          width=200,
                          fg_color=BTN_FG_COLOR,
                          hover_color=BTN_FG_HOVER_COLOR,
-                         text_color=TEXT_COLOR):
+                         text_color=TEXT_COLOR, *args, **kwargs):
         # Your implementation of create_custom_button goes here
         return ctk.CTkButton(root,
                             text=text,
