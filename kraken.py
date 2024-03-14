@@ -29,6 +29,7 @@ from ttkwidgets.font import *
 # Local application/library specific imports #
 from components.about import AboutPage
 from components.help_window import HelpWindow
+from components.tomi_calculations import TOMICalc
 from utility.fluid_pressure import fluid_pressure
 from chlorophyll import CodeView
 from utility.icons import (add_img, remove_img, font_img, show_plot_img,
@@ -51,8 +52,6 @@ SMALL_WINDOW_SIZE = (300, 200)
 class NewWindow(tk.Toplevel):
     """
     A class used to create a new window in a tkinter application.
-
-    ...
 
     Attributes
     ----------
@@ -339,8 +338,9 @@ class CalculationsPage:
         # Frame for prof_min
         self.prof_min_Frame = ctk.CTkFrame(self.calc_win_frame2, fg_color="transparent") # FRAME
         self.prof_min_Label = ctk.CTkLabel(self.prof_min_Frame, text="Prof. min:", font=("Segoe UI", 16), height=height)
-        self.prof_min_entry = custom_CTkEntry(self.prof_min_Frame, width=120, placeholder_text="Prof. mínima...") 
-        
+        self.prof_min_entry = custom_CTkEntry(self.prof_min_Frame, width=120, placeholder_text="Prof. mínima...")
+        custom_tooltip(self.prof_min_entry, "Insira a profundidade mínima se quiser plotar um intervalo", delay=1)
+
         self.prof_min_Frame.pack(side='top', fill='both', padx=5, pady=5)
         self.prof_min_Label.pack(side='left', padx=5, pady=5)
         self.prof_min_entry.pack(fill='x', expand=True, side='left', padx=5, pady=5)
@@ -349,7 +349,8 @@ class CalculationsPage:
         self.prof_max_frame = ctk.CTkFrame(self.calc_win_frame2, fg_color="transparent")
         self.prof_max_label = ctk.CTkLabel(self.prof_max_frame, text="Prof. max:", font=("Segoe UI", 16), height=height)
         self.prof_max_entry = custom_CTkEntry(self.prof_max_frame, width=120, placeholder_text="Prof. máxima...")
-        
+        custom_tooltip(self.prof_max_entry, "Insira a profundidade máxima se quiser plotar um intervalo", delay=1)
+
         self.prof_max_frame.pack(side='top', fill='x', padx=5, pady=5)
         self.prof_max_label.pack(side='left', padx=5, pady=5)
         self.prof_max_entry.pack(fill='x', expand=True, side='left', padx=5, pady=5)
@@ -394,6 +395,14 @@ class CalculationsPage:
         self.mesa_rot_entry = custom_CTkEntry(self.mesa_rot_frame,
                                                 placeholder_text="Insira aqui...")
         self.mesa_rot_entry.pack(side="bottom", expand=True, padx=5, pady=5)
+
+        custom_tooltip(
+                self.mesa_rot_entry,
+                "Mesa Rotativa é a distância entre a superfície do oceano "
+                "(do solo no caso de poços terrestres), e a profundidade em cota é "
+                "calculada usando o valor de altura da mesa rotativa",
+                delay=1
+            )
         #------------------------------------ Frame 4 ------------------------------------
         self.calc_btn = create_custom_button(root=self.calc_win_frame4,
                                              text="Plot Simples",
@@ -623,76 +632,7 @@ class CalculationsPage:
         # m, G = inv_polynomial(dobs=pressao_ogx_93_ma['Profundidade'], degree=1, x=pressao_ogx_93_ma['Pressão de\nFormação\n(Kgf/cm2)'])
         # print(f"y = {m[0]:.2f} + {m[1]:.2f}x")
 
-class TOMICalc:
-    # TODO - Completely implement this functionality
-    def __init__(self, master, app):
-        self.master = master
-        self.app = app
 
-
-    def open_tomi_window(self):
-        self.tomi_window = tk.Toplevel(self.master)
-        self.tomi_window.title("TOMI Index Calculator")
-        self.tomi_window.option_add("*Label.font", "Segoe\\ UI 12")
-
-        self.super_tomi_win_frame = ctk.CTkFrame(self.tomi_window)
-        self.super_tomi_win_frame.bind("<Configure>",
-            lambda event: update_and_centralize_geometry(self.tomi_window,
-                                                        self.super_tomi_win_frame,
-                                                        max_size=True, child_window=True))
-        self.super_tomi_win_frame.place(relx=0.5, rely=0.5, anchor='center')
-
-        width=300; height=15
-
-        self.tomi_win_frame0 = ctk.CTkFrame(self.super_tomi_win_frame, width=width)
-        self.tomi_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
-
-        self.tomi_win_frame1 = ctk.CTkFrame(self.super_tomi_win_frame, width=width)
-        self.tomi_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
-
-        self.tomi_win_frame2 = ctk.CTkFrame(self.super_tomi_win_frame, width=width)
-        self.tomi_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
-
-        self.tomi_text_label = \
-        "Escolha o arquivo para fazer o plot do TOMI Index."
-        self.tomi_text = ctk.CTkLabel(self.tomi_win_frame0,
-                                    text=self.tomi_text_label,
-                                    font=("Segoe UI", 19, "bold"),
-                                    justify="center",
-                                    width=width, height=height)
-        self.tomi_text.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
-
-        class CTkCustomOptionMenu(ctk.CTkOptionMenu):
-            def destroy(self):
-                self.tk.call('destroy', self._w)
-
-        file_names = os.listdir("./uploads")
-        self.selected_file = tk.StringVar(self.tomi_win_frame1)
-        self.tomi_upload_label = ctk.CTkLabel(self.tomi_win_frame1,
-                                    text="Selecione o arquivo: ",
-                                    font=("Segoe UI", 16),
-                                    width=width, height=height)
-        self.tomi_upload_label.pack(fill='x', padx=5, pady=5)
-        self.tomi_upload_option_menu = CTkCustomOptionMenu(master=self.tomi_win_frame1,
-                                                            variable=self.selected_file,
-                                                            values= file_names,
-                                                            fg_color="#f7f7f7",
-                                                            button_color=BTN_FG_COLOR,
-                                                            width=240,
-                                                            button_hover_color=BTN_FG_HOVER_COLOR,
-                                                            text_color=TEXT_COLOR,
-                                                            text_color_disabled="#292929",
-                                                            )
-        self.tomi_upload_option_menu.pack(fill='x', padx=5, pady=5)
-
-        self.calc_tomi_btn = create_custom_button(root=self.tomi_win_frame2,
-                                            text="Plot Simples",
-                                            command=placeholder_function,
-                                            width=120)
-        self.calc_tomi_btn.pack(side="top", padx=5, pady=5)
-
-    def dummy_function(self):
-       	pass
 
 class SheetEditor:
     """
@@ -1172,19 +1112,19 @@ class MenuBar:
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-        # self.file_handling = FileViewerPandas(self, self)
 
+        # startup the application
         ctk.set_appearance_mode("light")
         self.title("Kraken Geophysics")
-        self.iconbitmap(default="./icon.ico")  # icone
-        self.option_add("*Label.font", "Helvetica 15")  # for the font
-        centralize_window(self, 900, 600)
+        self.iconbitmap(default="./icon.ico")  # icon
+        self.option_add("*Label.font", "Segoe\\ UI 15")  # font
+        centralize_window(self, 900, 600) # function that centralizes the window
         self.minsize(800, 600)
 
         # Determinação de um frame para centralizar o conteúdo da página
-        self.main_frame = tk.Frame(self, bg='#ebebeb')
-        self.main_frame.grid(row=0, column=0, padx=10, pady=10)
-        self.main_frame.place(relx=0.5, rely=0.5, anchor='center')
+        # self.main_frame = tk.Frame(self, bg='#ebebeb')
+        # self.main_frame.grid(row=0, column=0, padx=10, pady=10)
+        # self.main_frame.place(relx=0.5, rely=0.5, anchor='center')
 
         self.sheet_editor = SheetEditor(self, self)
         self.code_editor = CodeEditor(self, self)
@@ -1193,11 +1133,9 @@ class App(ctk.CTk):
         self.calculate = CalculationsPage(self, self)
         self.tomi = TOMICalc(self, self)
         self.manage_files = ManageFiles(self, self)
-
-
         self.menubar = MenuBar(self, self)
 
-        # self.well_info_input = WellInfoInput(self.main_frame, self.file_uploader)
+
         self.sheet_editor.open_sheet()
 
 if __name__ == "__main__":

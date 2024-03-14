@@ -6,7 +6,7 @@ from utility.fluid_pressure import fluid_pressure
 
 fluid_pressure = fluid_pressure()
 
-df = pd.read_csv('./uploads/pressao_exemplo_2.csv', 
+df = pd.read_csv('./uploads/pressao_exemplo_2.csv',
                  sep=";",
                  skiprows=1,
                  names=["prof","pressao"])
@@ -18,13 +18,13 @@ def reta(ps_a,ps_b):
     val = np.polyfit(ps_a, ps_b, 1)
     #print(val[0],val[1])
     return val[0]
-    
+
 reta(np.array([prof[0],prof[1]]),np.array([pressao[0],pressao[1]]))
 
 for i in range(len(prof)-1):
     val = reta(np.array([prof[i],prof[i+1]]),np.array([pressao[i],pressao[i+1]]))
     print(val*-1)
-    
+
 coeficients = {}
 array_coeficients = []
 for i in range(len(prof)-1):
@@ -32,7 +32,7 @@ for i in range(len(prof)-1):
     coeficients[val*(-1.)] = [i,i+1]
     array_coeficients.append(val*(-1.))
     #print(val*(-1.))
-    
+
 print(coeficients)
 array_coeficients = np.array([array_coeficients,array_coeficients])
 #print(array_coeficients)
@@ -51,9 +51,9 @@ def conversion(class_data):
                 new_class_data.append(0)
             if classified_data[i] == 0:
                 new_class_data.append(1)
-                
+
         return new_class_data
-    
+
     return class_data
 
 conversion(classified_data)
@@ -71,7 +71,7 @@ for i in range(len(classified_data)):
     if classified_data[i] == 0:
         values_bot_p.append(pressao[i])
         values_bot_c.append(prof[i])
-        
+
 slope_top, intercept_top = np.polyfit(values_top_c,values_top_p, 1)
 slope_bot, intercept_bot = np.polyfit(values_bot_c,values_bot_p, 1)
 
@@ -98,7 +98,7 @@ for i in  range(len(fluid_pressure.keys())-1):
     top_value = fluid_pressure[top]["gradient"][UP]
     bot_value = fluid_pressure[bot]["gradient"][UP]
     dict_pressure[fluids[i]] = [top_value,bot_value]
-    
+
 (k := next(iter(dict_pressure)), dict_pressure.pop(k))
 print(dict_pressure)
 
@@ -107,11 +107,11 @@ fluid_top = 0
 for fluid in dict_pressure:
     if -1.*round(slope_top,4) >= dict_pressure[fluid][0] and -1.*round(slope_top,4) < dict_pressure[fluid][1]:
         fluid_top = fluid
-        
+
 for fluid in dict_pressure:
     if -1.*round(slope_bot,4) >= dict_pressure[fluid][0] and -1.*round(slope_bot,4) < dict_pressure[fluid][1]:
         fluid_bot = fluid
-        
+
 fluid_top_name = fluid_pressure[fluid_top]['name']
 fluid_bot_name = fluid_pressure[fluid_bot]['name']
 
