@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 from CTkToolTip import CTkToolTip
-from utility.color_constants import TEXT_COLOR, BORDER_COLOR, BTN_FG_COLOR, BTN_FG_HOVER_COLOR
+from utility.color_constants import TEXT_COLOR, BORDER_COLOR, BTN_FG_COLOR, BTN_FG_HOVER_COLOR, ENTRY_COLOR
 
 def create_custom_button(root,
                          text,
@@ -34,8 +34,9 @@ def custom_CTkEntry(root,
                         font=("Segoe UI", 14),
                         width=width,
                         corner_radius=5,
-                        border_width=0,
-                        fg_color="#f7f7f7",
+                        border_width=1,
+                        border_color=BORDER_COLOR,
+                        fg_color=ENTRY_COLOR,
                         placeholder_text=placeholder_text,
                         placeholder_text_color="#999999",
                         justify="center")
@@ -94,6 +95,9 @@ def update_and_centralize_geometry(window,
     maxwidth: The maximum width of the window.
     maxheight: The maximum height of the window.
     """
+    # Force Tkinter to update the geometry
+    window.update_idletasks()
+
     # Update the geometry of the window based on the current size of the frame
     frame_width = frame.winfo_width()
     frame_height = frame.winfo_height()

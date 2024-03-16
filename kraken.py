@@ -222,21 +222,20 @@ class CalculationsWindow:
         self.cal_window = tk.Toplevel(self.master)
         self.cal_window.attributes('-toolwindow', True)
 
+        self.cal_window.grab_set()
+
         self.cal_window.title("Calculadora")
         # self.cal_window.minsize(600, 600)
         self.cal_window.option_add("*Label.font", "Segoe\\ UI 12")
 
-        centralize_window(self.cal_window, 410, 500)
-
+        # centralize_window(self.cal_window, 800, 600)
 
         # TODO: Trocar isso por ttk.Notebook
         self.sup_frame_tab = ttk.Notebook(self.cal_window)
-        # self.sup_frame_tab = ctk.CTkFrame(self.cal_window, fg_color=FG_COLOR_OUT)
-        # self.sup_frame_tab.bind("<Configure>", \
-        #     lambda event: update_and_centralize_geometry(self.cal_window, self.sup_frame_tab))
+        self.sup_frame_tab.bind("<Configure>", \
+            lambda event: update_and_centralize_geometry(self.cal_window, self.sup_frame_tab,
+                                                         max_size=True, child_window=True))
         self.sup_frame_tab.place(relx=0.5, rely=0.5, anchor='center')
-
-
 
         # tabs
         self.calc_tab_0 = ctk.CTkFrame(self.sup_frame_tab, corner_radius=3, border_color=BORDER_COLOR,
@@ -245,18 +244,11 @@ class CalculationsWindow:
                                             fg_color=FG_COLOR_IN2, border_width=self.border_width, width=self.width)
         self.calc_tab_2 = ctk.CTkFrame(self.sup_frame_tab, corner_radius=3, border_color=BORDER_COLOR,
                                             fg_color=FG_COLOR_IN2, border_width=self.border_width, width=self.width)
-        # self.calc_tab_3 = ctk.CTkFrame(self.sup_frame_tab, corner_radius=3, border_color=BORDER_COLOR,
-        #                                     fg_color=FG_COLOR_IN, border_width=border_width, width=width)
-        # #btns frames
-        # self.calc_tab_4 = ctk.CTkFrame(self.sup_frame_tab, corner_radius=3, width=width,
-        #                                     fg_color="transparent")
 
         # Add the tabs to the tab control
         self.sup_frame_tab.add(self.calc_tab_0, text='Plotagem simples')
         self.sup_frame_tab.add(self.calc_tab_1, text='Linhas de Tendência')
         self.sup_frame_tab.add(self.calc_tab_2, text='Gradiente de Pressão')
-        # self.sup_frame_tab.add(self.calc_tab_3, text='Tab 4')
-        # self.sup_frame_tab.add(self.calc_tab_4, text='Tab 5')
 
         # Pack the tab control
         self.sup_frame_tab.pack(expand=1, fill="both")
@@ -276,43 +268,25 @@ class CalculationsWindow:
         # Defining the 8 frames
 
         self.plot_tab_frames = [ctk.CTkFrame(tab, corner_radius=1, border_color=BORDER_COLOR,
-                                        fg_color=FG_COLOR_IN2, border_width=border_width, width=width)
+                                        fg_color=FG_COLOR_IN2, border_width=border_width)
                                 for _ in range(8)]
 
-        self.plot_tab_frames[0].grid(row=0, column=0, rowspan=1,
-                                     columnspan=4, padx=5, pady=5) # TextBox, title
-        self.plot_tab_frames[1].grid(row=1, column=0, rowspan=1,
-                                     columnspan=2, padx=5, pady=5) # prof max and min
-        self.plot_tab_frames[2].grid(row=1, column=2, rowspan=1,
-                                     columnspan=2, padx=5, pady=5) #
-        self.plot_tab_frames[3].grid(row=2, column=0, rowspan=1,
-                                     columnspan=2, padx=5, pady=5) # Radio buttons
-        self.plot_tab_frames[4].grid(row=2, column=2, rowspan=1,
-                                     columnspan=2, padx=5, pady=5)
-        self.plot_tab_frames[5].grid(row=3, column=0, rowspan=1,
-                                     columnspan=2, padx=5, pady=5)
-        self.plot_tab_frames[6].grid(row=3, column=2, rowspan=1,
-                                     columnspan=2, padx=5, pady=5)
-        self.plot_tab_frames[7].grid(row=4, column=0, rowspan=1,
-                                     columnspan=4, padx=5, pady=5)
-
-        self.plot_tab_frames[0].configure(width=400)
-
-        def layout_viewer(self):
-            """
-            +-------------+
-            |     [0]     |
-            +------+------+
-            |  [1] |  [2] |
-            +------+------+
-            |  [3] |  [4] |
-            +------+------+
-            |  [5] |  [6] |
-            +------+------+
-            |     [7]     |
-            +-------------+
-            """
-            pass
+        self.plot_tab_frames[0].grid(row=1, column=0, rowspan=1,
+                                     columnspan=2, padx=5, pady=5, sticky='nsew') # TextBox, title
+        self.plot_tab_frames[1].grid(row=2, column=0, rowspan=1,
+                                     columnspan=1, padx=5, pady=5, sticky='nsew') # prof max and min
+        self.plot_tab_frames[2].grid(row=2, column=1, rowspan=1,
+                                     columnspan=1, padx=5, pady=5, sticky='nsew') #
+        self.plot_tab_frames[3].grid(row=3, column=0, rowspan=1,
+                                     columnspan=1, padx=5, pady=5, sticky='nsew') # Radio buttons
+        self.plot_tab_frames[4].grid(row=3, column=1, rowspan=1,
+                                     columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.plot_tab_frames[5].grid(row=4, column=0, rowspan=1,
+                                     columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.plot_tab_frames[6].grid(row=4, column=1, rowspan=1,
+                                     columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.plot_tab_frames[7].grid(row=5, column=0, rowspan=1,
+                                     columnspan=2, padx=5, pady=5, sticky='nsew')
 
         self.calculator_text_label = \
             "Plotagem Simples"
@@ -354,18 +328,18 @@ class CalculationsWindow:
                                                 values=file_names,
                                                 fg_color="#fdfdfd",
                                                 button_color=BTN_FG_COLOR,
-                                                width=170,
                                                 button_hover_color=BTN_FG_HOVER_COLOR,
                                                 text_color=TEXT_COLOR,
                                                 text_color_disabled="#292929",
+                                                width=100,
                                                 )
         self.arq_option_menu.pack(fill='x', padx=5, pady=5)
         #------------------------------ Frame 2 ----------------------------------------------------
         # Frame for prof_min
         self.prof_min_Frame = ctk.CTkFrame(self.plot_tab_frames[3], fg_color="transparent") # FRAME
         self.prof_min_Label = ctk.CTkLabel(self.prof_min_Frame, text="Prof. min:", font=("Segoe UI", 16), height=height)
-        self.prof_min_entry = custom_CTkEntry(self.prof_min_Frame, width=120,
-                                              placeholder_text="Prof. mínima...", fg_color=ENTRY_COLOR)
+        self.prof_min_entry = custom_CTkEntry(self.prof_min_Frame,
+                                              placeholder_text="Prof. mínima...")
         custom_tooltip(self.prof_min_entry, "Insira a profundidade mínima se quiser plotar um intervalo", delay=1)
 
         self.prof_min_Frame.pack(side='top', fill='both', padx=5, pady=5)
@@ -375,8 +349,8 @@ class CalculationsWindow:
         # Frame for prof_max
         self.prof_max_frame = ctk.CTkFrame(self.plot_tab_frames[3], fg_color="transparent")
         self.prof_max_label = ctk.CTkLabel(self.prof_max_frame, text="Prof. max:", font=("Segoe UI", 16), height=height)
-        self.prof_max_entry = custom_CTkEntry(self.prof_max_frame, width=120,
-                                              placeholder_text="Prof. máxima...", fg_color=ENTRY_COLOR)
+        self.prof_max_entry = custom_CTkEntry(self.prof_max_frame,
+                                              placeholder_text="Prof. máxima...")
         custom_tooltip(self.prof_max_entry, "Insira a profundidade máxima se quiser plotar um intervalo", delay=1)
 
         self.prof_max_frame.pack(side='top', fill='x', padx=5, pady=5)
@@ -431,112 +405,73 @@ class CalculationsWindow:
                 "calculada usando o valor de altura da mesa rotativa",
                 delay=1
             )
-        #------------------------------------ Frame 4 ------------------------------------
-        self.calc_btn = create_custom_button(root=self.plot_tab_frames[7],
-                                            text="Plot Simples",
-                                            command=self.open_plot_window,
-                                            width=200)
-        self.calc_btn.pack(side="top", padx=5, pady=5)
+        #------------------------ Frame 4 -------------------------------------------------
+        # title and skiprows frame
+        self.plot_title = ctk.CTkLabel(self.plot_tab_frames[5], text="Nome do Poço: ",
+                                            font=("Segoe UI", 16), height=height)
 
-    def open_plot_window(self):
-         # Check radio button selection
-        self.cal_window.attributes('-toolwindow', True)
-
-        self.radiobutton_event()
-        # Check radio button selection
-        if not self.selected_value:  # substitua 'selected_value' por 'selected_file'
-            msg = custom_messagebox(title="Erro", message="É obrigatório selecionar se a profundidade é em cota ou não.",
-                                icon="./img/icons/cancel.png", option_1="Cancelar", width=400)
-
-        self.plot_window = tk.Toplevel(self.master)
-        self.plot_window.title("Plotar")
-        self.plot_window.option_add("*Label.font", "Segoe\\ UI 12")
-
-        # Frame
-        self.super_plot_win_frame = ctk.CTkFrame(self.plot_window, fg_color=FG_COLOR_OUT)
-        self.super_plot_win_frame.bind("<Configure>",
-                                        lambda event: \
-                                        update_and_centralize_geometry(self.plot_window, self.super_plot_win_frame))
-        self.super_plot_win_frame.place(relx=0.5, rely=0.5, anchor='center')
-
-        width=300; height=15
-
-        # Organização dos frames
-        self.plot_win_frame0 = ctk.CTkFrame(self.super_plot_win_frame,
-                                            width=width, fg_color=FG_COLOR_IN,
-                                            border_width=1.2, border_color=BORDER_COLOR)
-        self.plot_win_frame0.pack(fill="x", padx=5, pady=5)
-
-        self.plot_win_frame1 = ctk.CTkFrame(self.super_plot_win_frame,
-                                            width=width, fg_color=FG_COLOR_IN,
-                                            border_width=1.2, border_color=BORDER_COLOR)
-        self.plot_win_frame1.pack(fill="x", padx=5, pady=5)
-
-        self.plot_win_frame2 = ctk.CTkFrame(self.super_plot_win_frame,
-                                            width=width, fg_color=FG_COLOR_IN,
-                                            border_width=1.2, border_color=BORDER_COLOR)
-        self.plot_win_frame2.pack(fill="x", padx=5, pady=5)
-
-        #btns frames
-        self.plot_win_frame3 = ctk.CTkFrame(self.super_plot_win_frame,
-                                            width=width, fg_color="transparent")
-        self.plot_win_frame3.pack(fill="x", padx=5, pady=5)
-
-        self.plot_text_label = "Aqui estão as opções de plot. Algumas \ndelas podem ser alteradas na janela que abrirá"
-        self.plot_text = ctk.CTkLabel(self.plot_win_frame0,
-                                    text=self.plot_text_label,
-                                    font=("Segoe UI", 18, "bold"),
-                                    justify="center",
-                                    width=width, height=height)
-        self.plot_text.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
-        # FRAME 1 -------------------------------------------------------------------------
-        # Frame da determinação do título e dos eixos
-        self.plot_title = ctk.CTkLabel(self.plot_win_frame1,
-                                            text="Nome do Poço: ",
-                                            font=("Segoe UI", 16),
-                                            height=height)
-        self.plot_title.grid(row=0, column=0, padx=5, pady=5)
-        self.plot_title_entry = custom_CTkEntry(self.plot_win_frame1,
-                                                    width=200,
+        self.plot_title_entry = custom_CTkEntry(self.plot_tab_frames[5], width=200,
                                                     placeholder_text="Insira aqui...")
+        custom_tooltip(self.plot_title_entry, "Insira um título para o gráfico", delay=1)
+
+        self.skip_rows = ctk.CTkLabel(self.plot_tab_frames[5], text="Pular linhas*: ",
+                                        font=("Segoe UI", 16), height=height)
+
+        self.skip_rows_entry = custom_CTkEntry(self.plot_tab_frames[5], width=200,
+                                               placeholder_text="Insira aqui...")
+        custom_tooltip(self.skip_rows_entry,
+                       "Quantas linhas pular do arquivo carregado.\n Para evitar plotagem de palavras",
+                       delay=1)
+
+        self.plot_title.grid(row=0, column=0, padx=5, pady=5, sticky="e")
         self.plot_title_entry.grid(row=0, column=1, padx=5, pady=5)
-
-        self.skip_rows = ctk.CTkLabel(self.plot_win_frame1,
-                                        text="Pular quantas linhas*: ",
-                                        font=("Segoe UI", 16),
-                                        height=height)
-        self.skip_rows.grid(row=1, column=0, padx=5, pady=5)
-        self.skip_rows_entry = custom_CTkEntry(self.plot_win_frame1,
-                                                    width=200,
-                                                    placeholder_text="Insira aqui...")
+        self.skip_rows.grid(row=1, column=0, padx=5, pady=5, sticky="e")
         self.skip_rows_entry.grid(row=1, column=1, padx=5, pady=5)
-        # FRAME 2 -------------------------------------------------------------------------
-        self.x_label = ctk.CTkLabel(self.plot_win_frame2,
-                                        text="Nome do eixo x: ",
+
+        #------------------------------------ axis frame ------------------------------------
+
+        self.x_label = ctk.CTkLabel(self.plot_tab_frames[6],
+                                        text="Eixo x: ",
                                         font=("Segoe UI", 16),
                                         height=height)
-        self.x_label.grid(row=0, column=0, padx=5, pady=5)
-        self.x_label_entry = custom_CTkEntry(self.plot_win_frame2,
+        self.x_label.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.x_label_entry = custom_CTkEntry(self.plot_tab_frames[6],
                                                 width=200,
                                                 placeholder_text="Insira aqui...")
         self.x_label_entry.grid(row=0, column=1, padx=5, pady=5)
+        custom_tooltip(
+                self.x_label_entry,
+                "Insira o nome do eixo x, por exemplo: Pressão",
+                delay=1
+            )
 
-        self.y_label = ctk.CTkLabel(self.plot_win_frame2,
-                                        text="Nome do eixo y: ",
+        self.y_label = ctk.CTkLabel(self.plot_tab_frames[6],
+                                        text="Eixo y: ",
                                         font=("Segoe UI", 16),
                                         height=height)
-        self.y_label.grid(row=1, column=0, padx=5, pady=5)
-        self.y_label_entry = custom_CTkEntry(self.plot_win_frame2,
+        self.y_label.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+        self.y_label_entry = custom_CTkEntry(self.plot_tab_frames[6],
                                                 width=200,
                                                 placeholder_text="Insira aqui...")
         self.y_label_entry.grid(row=1, column=1, padx=5, pady=5)
-        # FRAME 3 -------------------------------------------------------------------------+
+        custom_tooltip(
+                self.y_label_entry,
+                "Insira o nome do eixo y, por exemplo: Profundidade",
+                delay=1
+            )
 
-        self.plot_final_btn = create_custom_button(self.plot_win_frame3,
-                                                text="Plot final",
-                                                command=\
-                                                self.plot_final)
-        self.plot_final_btn.pack(fill="x", padx=5, pady=5)
+        #------------------------------------ Plot btn ------------------------------------
+        self.calc_btn = create_custom_button(root=self.plot_tab_frames[7],
+                                            text="Plotar",
+                                            command=self.plot_final,
+                                            width=200)
+        self.calc_btn.pack(side="top", padx=5, pady=5)
+
+    def second_tab(self):
+        pass
+
+    def third_tab(self):
+        pass
 
     def radiobutton_event(self):
         # Get the currently selected value
@@ -570,6 +505,13 @@ class CalculationsWindow:
     # dataframe = self.open_file()
 
     def plot_simples(self, x, y, title, xlabel, ylabel, ymin, ymax, dataframe):
+         # Check radio button selection
+        self.radiobutton_event()
+        # Check radio button selection
+        if not self.selected_value:  # substitua 'selected_value' por 'selected_file'
+            msg = custom_messagebox(title="Erro", message="É obrigatório selecionar se a profundidade é em cota ou não.",
+                                icon="./img/icons/cancel.png", option_1="Cancelar", width=400)
+
         ymin = int(self.prof_min_entry.get()) if self.prof_min_entry.get() else None
         ymax = int(self.prof_max_entry.get()) if self.prof_max_entry.get() else None
 
