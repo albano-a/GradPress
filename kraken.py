@@ -5,6 +5,7 @@ from os.path import normpath
 import csv
 import io
 from textwrap import fill
+import subprocess
 # Related third party imports #
 from tkinter import scrolledtext
 from click import command
@@ -16,7 +17,7 @@ import numpy as np
 import pandas as pd
 import webbrowser
 from tksheet import Sheet
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 import tkinter as tk
 from PIL import Image, ImageTk
 import pygments.lexers
@@ -160,7 +161,7 @@ class FilesFrame(ctk.CTkScrollableFrame):
             custom_messagebox(title="Sucesso", message="Arquivo deletado com sucesso!",
                           icon="./img/icons/check.png", option_1="OK", width=400)
 
-class ManageFiles:
+class ManageFilesWindow:
     def __init__(self, master, app):
         self.master = master
         self.app = app
@@ -200,7 +201,7 @@ class ManageFiles:
         self.return_btn = create_custom_button(self.manage_files_frame, text="Voltar", font=("Segoe UI", 18, "bold"),
                                                command=self.manage_window.destroy, width=75,fg_color="#17a2b8",
                                                hover_color="#117c8d", text_color="#212121")
-        
+
         self.label.grid(      row=0, column=0, columnspan=4, padx=10, pady=10)
         self.files_frame.grid(row=1, column=0, columnspan=4,padx=5, pady=5)
         self.add_btn.grid(    row=2, column=0, padx=5, pady=5)
@@ -208,7 +209,7 @@ class ManageFiles:
         self.del_btn.grid(    row=2, column=2, padx=5, pady=5)
         self.return_btn.grid( row=2, column=3, padx=5, pady=5)
 
-class CalculationsPage:
+class CalculationsWindow:
     def __init__(self, master, app):
         self.master = master
         self.app = app
@@ -223,7 +224,10 @@ class CalculationsPage:
 
         # centralize_window(self.cal_window, 410, 500)
 
-        self.super_calc_win_frame = ctk.CTkFrame(self.cal_window, fg_color=FG_COLOR_OUT)
+
+        # TODO: Trocar isso por ttk.Notebook
+        self.super_calc_win_frame = ttk.Notebook(self.cal_window)
+        # self.super_calc_win_frame = ctk.CTkFrame(self.cal_window, fg_color=FG_COLOR_OUT)
         self.super_calc_win_frame.bind("<Configure>", \
             lambda event: update_and_centralize_geometry(self.cal_window, self.super_calc_win_frame))
         self.super_calc_win_frame.place(relx=0.5, rely=0.5, anchor='center')
@@ -242,15 +246,24 @@ class CalculationsPage:
         #btns frames
         self.calc_win_frame4 = ctk.CTkFrame(self.super_calc_win_frame, corner_radius=3, width=width,
                                             fg_color="transparent")
-        
-        self.calc_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
-        self.calc_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
-        self.calc_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
-        self.calc_win_frame3.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
-        self.calc_win_frame4.grid(row=4, column=0, columnspan=2, padx=5, pady=5, sticky='nsew')
 
-        # self.calc_win_frame5 = ctk.CTkFrame(self.super_calc_win_frame, width=width)
-        # self.calc_win_frame5.grid(row=5, column=0, columnspan=2,padx=5, pady=5, sticky='nsew')
+        # Add the tabs to the tab control
+        self.super_calc_win_frame.add(self.calc_win_frame0, text='Plotagem simples')
+        self.super_calc_win_frame.add(self.calc_win_frame1, text='Linhas de Tendência')
+        self.super_calc_win_frame.add(self.calc_win_frame2, text='Gradiente de Pressão')
+        self.super_calc_win_frame.add(self.calc_win_frame3, text='Tab 4')
+        self.super_calc_win_frame.add(self.calc_win_frame4, text='Tab 5')
+
+        # Pack the tab control
+        self.super_calc_win_frame.pack(expand=1, fill="both")
+
+
+
+        # self.calc_win_frame0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
+        # self.calc_win_frame1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
+        # self.calc_win_frame2.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
+        # self.calc_win_frame3.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
+        # self.calc_win_frame4.grid(row=4, column=0, columnspan=2, padx=5, pady=5, sticky='nsew')
 
         self.calculator_text_label = \
             "Calculadora"
@@ -359,8 +372,8 @@ class CalculationsPage:
 
         custom_tooltip(
                 self.mesa_rot_entry,
-                "Mesa Rotativa é a distância entre a superfície do oceano "
-                "(do solo no caso de poços terrestres), e a profundidade em cota é "
+                "Mesa Rotativa é a distância entre a superfície do oceano \n"
+                "(do solo no caso de poços terrestres), e a profundidade em cota é \n"
                 "calculada usando o valor de altura da mesa rotativa",
                 delay=1
             )
@@ -382,6 +395,8 @@ class CalculationsPage:
                                             command=placeholder_function,
                                             width=200)
         self.calc_btn.pack(side="top", padx=5, pady=5)
+
+
 
     def open_plot_window(self):
          # Check radio button selection
@@ -556,11 +571,6 @@ class CalculationsPage:
                           self.prof_min_entry.get(),
                           self.prof_max_entry.get(),
                           self.dataframe)
-
-
-
-    def on_button_click():
-        print("Button clicked!")
 
     def plot_dos_dados(self):
         pass
@@ -921,7 +931,7 @@ class SheetEditor:
         self.sheet.reset()
         self.menu_bar.entryconfig(self.open_command, state='normal')
 
-class CodeEditor:
+class CodeEditorWindow:
     def __init__(self, master, app):
         self.master = master
         self.app = app
@@ -982,11 +992,11 @@ class Application:
         self.master = master
         # self.file_handling = FileViewerPandas(self.master, self)
         self.sheet_editor = SheetEditor(self.master, self)
-        self.code_editor = CodeEditor(self.master, self)
+        self.code_editor = CodeEditorWindow(self.master, self)
         self.menu_bar = MenuBar(self.master, self)
-        self.calculate = CalculationsPage(self.master, self)
+        self.calculate = CalculationsWindow(self.master, self)
         self.tomi = TOMICalc(self.master, self)
-        self.manage_files = ManageFiles(self.master, self)
+        self.manage_files = ManageFilesWindow(self.master, self)
 
 class MenuBar:
     def __init__(self, master, app):
@@ -1082,18 +1092,12 @@ class App(ctk.CTk):
         centralize_window(self, 900, 600) # function that centralizes the window
         self.minsize(800, 600)
 
-        # Determinação de um frame para centralizar o conteúdo da página
-        # self.main_frame = tk.Frame(self, bg='#ebebeb')
-        # self.main_frame.grid(row=0, column=0, padx=10, pady=10)
-        # self.main_frame.place(relx=0.5, rely=0.5, anchor='center')
-
         self.sheet_editor = SheetEditor(self, self)
-        self.code_editor = CodeEditor(self, self)
-        # self.manage_files = ManageFiles(self, self)
+        self.code_editor = CodeEditorWindow(self, self)
 
-        self.calculate = CalculationsPage(self, self)
+        self.calculate = CalculationsWindow(self, self)
         self.tomi = TOMICalc(self, self)
-        self.manage_files = ManageFiles(self, self)
+        self.manage_files = ManageFilesWindow(self, self)
         self.menubar = MenuBar(self, self)
 
 
