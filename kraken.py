@@ -254,6 +254,8 @@ class CalculationsWindow:
         self.sup_frame_tab.pack(expand=1, fill="both")
 
         self.plot_first_tab(self.calc_tab_0)
+        self.second_tab(self.calc_tab_1)
+        self.third_tab(self.calc_tab_2)
 
         # self.calc_tab_0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
         # self.calc_tab_1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
