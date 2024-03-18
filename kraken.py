@@ -218,6 +218,33 @@ class CalculationsWindow:
         self.master = master
         self.app = app
 
+    def file_dialog_standard(self, frame, width=width, height=height, border_width=border_width):
+        class CTkCustomOptionMenu(ctk.CTkOptionMenu):
+            def destroy(self):
+                self.tk.call('destroy', self._w)
+
+        file_names = os.listdir("./uploads")
+
+        self.selected_file = tk.StringVar(frame)
+        self.arq_label = ctk.CTkLabel(frame,
+                                text="Selecione o arquivo: ",
+                                font=("Segoe UI", 16),
+                                width=width, height=height)
+        self.arq_label.pack(fill='x', padx=5, pady=5)
+
+        self.arq_option_menu = CTkCustomOptionMenu(
+                                                master=frame,
+                                                variable=self.selected_file,
+                                                values=file_names,
+                                                fg_color="#fdfdfd",
+                                                button_color=BTN_FG_COLOR,
+                                                button_hover_color=BTN_FG_HOVER_COLOR,
+                                                text_color=TEXT_COLOR,
+                                                text_color_disabled="#292929",
+                                                width=100,
+                                                )
+        self.arq_option_menu.pack(fill='x', padx=5, pady=5)
+
     def open_calculations_window(self):
         self.cal_window = tk.Toplevel(self.master)
         self.cal_window.attributes('-toolwindow', True)
@@ -311,31 +338,8 @@ class CalculationsWindow:
         #----------------------------- Frame 1 -------------------------------------------
         # File dropdown menu frame
         # Logica para o menu dropdown
-        class CTkCustomOptionMenu(ctk.CTkOptionMenu):
-            def destroy(self):
-                self.tk.call('destroy', self._w)
-
-        file_names = os.listdir("./uploads")
-
-        self.selected_file = tk.StringVar(self.plot_tab_frames[1])
-        self.arq_label = ctk.CTkLabel(self.plot_tab_frames[1],
-                                text="Selecione o arquivo: ",
-                                font=("Segoe UI", 16),
-                                width=width, height=height)
-        self.arq_label.pack(fill='x', padx=5, pady=5)
-
-        self.arq_option_menu = CTkCustomOptionMenu(
-                                                master=self.plot_tab_frames[1],
-                                                variable=self.selected_file,
-                                                values=file_names,
-                                                fg_color="#fdfdfd",
-                                                button_color=BTN_FG_COLOR,
-                                                button_hover_color=BTN_FG_HOVER_COLOR,
-                                                text_color=TEXT_COLOR,
-                                                text_color_disabled="#292929",
-                                                width=100,
-                                                )
-        self.arq_option_menu.pack(fill='x', padx=5, pady=5)
+        self.file_dialog_standard(self.plot_tab_frames[1])
+        
         #------------------------------ Frame 2 ----------------------------------------------------
         # Frame for prof_min
         self.prof_min_Frame = ctk.CTkFrame(self.plot_tab_frames[3], fg_color="transparent") # FRAME
@@ -469,8 +473,87 @@ class CalculationsWindow:
                                             width=200)
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
-    def second_tab(self):
-        pass
+    def second_tab(self, tab, width=width, height=height, border_width=border_width):
+        # Defining the frames
+
+        self.second_tab_frames = [ctk.CTkFrame(tab, corner_radius=1,border_color=BORDER_COLOR,
+                                fg_color=FG_COLOR_IN2, border_width=border_width)
+                                for _ in range(4+1)]
+
+        self.second_tab_frames[0].grid(row=1, column=0, rowspan=1,
+                                    columnspan=2, padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[1].grid(row=2, column=0, rowspan=1,
+                                    columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[2].grid(row=3, column=0, rowspan=1,
+                                    columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[3].grid(row=4, column=0, rowspan=1,
+                                    columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[4].grid(row=5, column=0, rowspan=1,
+                                    columnspan=2, padx=5, pady=5, sticky='nsew')
+
+        self.linha_tendencia_text_label = \
+        "Linhas de Têndencia e Contato óleo-água"
+        self.linha_tendencia_text = ctk.CTkLabel(self.second_tab_frames[0],
+                                                text=self.linha_tendencia_text_label,
+                                                font=("Segoe UI", 14, "bold"),
+                                                justify="center",
+                                                width=width, height=height)
+        self.linha_tendencia_text.pack(fill='x', expand=True, padx=5, pady=5)
+
+        self.linha_tendencia_text_label2 = \
+                "Preencha os campos abaixo para plotar as linhas de têndencia \n" + \
+                "Kmeans Cluster indica em quantas partes você quer dividir o para \n" + \
+                "calcular as linhsa de tendência."
+        self.linha_tendencia_text2 = ctk.CTkLabel(self.second_tab_frames[0],
+                                            text=self.linha_tendencia_text_label2,
+                                            font=("Segoe UI", 12),
+                                            justify="center",
+                                            width=width, height=height)
+        self.linha_tendencia_text2.pack(fill='x', expand=True, padx=5, pady=5)
+
+        ####### Frame 2
+        self.file_dialog_standard(self.second_tab_frames[1])
+
+        ####### Frame 3 - Pressure input
+        self.pressure_units = ["psi/m", "Kgf/cm2/m", "Kgf/cm2/ft", "psi/ft"]
+        self.pressure_choice = tk.StringVar()
+        self.pressure_choice.set(self.pressure_units[0])
+        
+        self.press_label = ctk.CTkLabel(self.second_tab_frames[2],
+                                text="Selecione a pressão: ",
+                                font=("Segoe UI", 16),
+                                width=width, height=height)
+        self.press_label.pack(fill='x', padx=5, pady=5)
+
+        self.press_option_menu = ctk.CTkOptionMenu(
+                                                master=self.second_tab_frames[2],
+                                                variable= self.pressure_choice,
+                                                values= self.pressure_units,
+                                                fg_color="#fdfdfd",
+                                                button_color=BTN_FG_COLOR,
+                                                button_hover_color=BTN_FG_HOVER_COLOR,
+                                                text_color=TEXT_COLOR,
+                                                text_color_disabled="#292929",
+                                                width=100,
+                                                )
+        self.press_option_menu.pack(fill='x', padx=5, pady=5)
+
+        ####### Frame 4 - Kmeans Cluster
+        self.kmeans_frame = ctk.CTkFrame(self.second_tab_frames[3], fg_color="transparent")
+        self.kmeans_label = ctk.CTkLabel(self.kmeans_frame, text="Kmeans Cluster: ",
+                                        font=("Segoe UI", 16), height=height)
+        self.kmeans_label.pack(side="top", padx=5, pady=5)
+        self.kmeans_entry = custom_CTkEntry(self.kmeans_frame,
+                                            placeholder_text="Insira aqui...")
+        self.kmeans_entry.pack(side="top", padx=5, pady=5)
+        custom_tooltip(self.kmeans_entry, "Insira o número de clusters para dividir o dado", delay=1)
+
+        ####### Frame 5 - Plot btn
+        self.calc_btn = create_custom_button(root=self.second_tab_frames[4],
+                                            text="Plotar",
+                                            command=self.third_tab,
+                                            width=200)
+        self.calc_btn.pack(side="top", padx=5, pady=5)
 
     def third_tab(self):
         pass
