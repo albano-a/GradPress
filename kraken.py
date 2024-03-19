@@ -241,7 +241,7 @@ class CalculationsWindow:
                                                 button_hover_color=BTN_FG_HOVER_COLOR,
                                                 text_color=TEXT_COLOR,
                                                 text_color_disabled="#292929",
-                                                width=100,
+                                                width=75,
                                                 )
         self.arq_option_menu.pack(fill='x', padx=5, pady=5)
 
@@ -282,7 +282,7 @@ class CalculationsWindow:
 
         self.plot_first_tab(self.calc_tab_0)
         self.second_tab(self.calc_tab_1)
-        self.third_tab(self.calc_tab_2)
+        # self.third_tab(self.calc_tab_2)
 
         # self.calc_tab_0.grid(row=0, column=0, padx=5, pady=5, sticky='nsew')
         # self.calc_tab_1.grid(row=1, column=0, padx=5, pady=5, sticky='nsew')
@@ -339,7 +339,7 @@ class CalculationsWindow:
         # File dropdown menu frame
         # Logica para o menu dropdown
         self.file_dialog_standard(self.plot_tab_frames[1])
-        
+
         #------------------------------ Frame 2 ----------------------------------------------------
         # Frame for prof_min
         self.prof_min_Frame = ctk.CTkFrame(self.plot_tab_frames[3], fg_color="transparent") # FRAME
@@ -473,42 +473,42 @@ class CalculationsWindow:
                                             width=200)
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
-    def second_tab(self, tab, width=width, height=height, border_width=border_width):
+    def second_tab(self, tab, width=220, height=height, border_width=border_width):
         # Defining the frames
 
         self.second_tab_frames = [ctk.CTkFrame(tab, corner_radius=1,border_color=BORDER_COLOR,
                                 fg_color=FG_COLOR_IN2, border_width=border_width)
                                 for _ in range(4+1)]
 
-        self.second_tab_frames[0].grid(row=1, column=0, rowspan=1,
-                                    columnspan=2, padx=5, pady=5, sticky='nsew')
-        self.second_tab_frames[1].grid(row=2, column=0, rowspan=1,
-                                    columnspan=1, padx=5, pady=5, sticky='nsew')
-        self.second_tab_frames[2].grid(row=3, column=0, rowspan=1,
-                                    columnspan=1, padx=5, pady=5, sticky='nsew')
-        self.second_tab_frames[3].grid(row=4, column=0, rowspan=1,
-                                    columnspan=1, padx=5, pady=5, sticky='nsew')
-        self.second_tab_frames[4].grid(row=5, column=0, rowspan=1,
-                                    columnspan=2, padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[0].grid(row=0, column=0, rowspan=1, columnspan=2,
+                                       padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[1].grid(row=1, column=0, rowspan=2, columnspan=2,
+                                       padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[2].grid(row=3, column=0, rowspan=1, columnspan=1,
+                                       padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[3].grid(row=3, column=1, rowspan=1, columnspan=1,
+                                       padx=5, pady=5, sticky='nsew')
+        self.second_tab_frames[4].grid(row=4, column=0, rowspan=1, columnspan=2,
+                                       padx=5, pady=5, sticky='nsew')
 
         self.linha_tendencia_text_label = \
-        "Linhas de Têndencia e Contato óleo-água"
+        "Linhas de Tendência e Identificação de Contato óleo-água"
         self.linha_tendencia_text = ctk.CTkLabel(self.second_tab_frames[0],
                                                 text=self.linha_tendencia_text_label,
                                                 font=("Segoe UI", 14, "bold"),
                                                 justify="center",
                                                 width=width, height=height)
-        self.linha_tendencia_text.pack(fill='x', expand=True, padx=5, pady=5)
-
         self.linha_tendencia_text_label2 = \
-                "Preencha os campos abaixo para plotar as linhas de têndencia \n" + \
-                "Kmeans Cluster indica em quantas partes você quer dividir o para \n" + \
-                "calcular as linhsa de tendência."
+        "Preencha os campos abaixo para plotar as linhas de tendência. \n" + \
+        "Kmeans Cluster indica em quantas partes você quer dividir o parâmetro \n" + \
+        "para calcular as linhas de tendência."
         self.linha_tendencia_text2 = ctk.CTkLabel(self.second_tab_frames[0],
                                             text=self.linha_tendencia_text_label2,
                                             font=("Segoe UI", 12),
                                             justify="center",
                                             width=width, height=height)
+
+        self.linha_tendencia_text.pack(fill='x', expand=True, padx=5, pady=5)
         self.linha_tendencia_text2.pack(fill='x', expand=True, padx=5, pady=5)
 
         ####### Frame 2
@@ -518,9 +518,9 @@ class CalculationsWindow:
         self.pressure_units = ["psi/m", "Kgf/cm2/m", "Kgf/cm2/ft", "psi/ft"]
         self.pressure_choice = tk.StringVar()
         self.pressure_choice.set(self.pressure_units[0])
-        
+
         self.press_label = ctk.CTkLabel(self.second_tab_frames[2],
-                                text="Selecione a pressão: ",
+                                text="Unidade da pressão: ",
                                 font=("Segoe UI", 16),
                                 width=width, height=height)
         self.press_label.pack(fill='x', padx=5, pady=5)
@@ -534,19 +534,19 @@ class CalculationsWindow:
                                                 button_hover_color=BTN_FG_HOVER_COLOR,
                                                 text_color=TEXT_COLOR,
                                                 text_color_disabled="#292929",
-                                                width=100,
+                                                width=50,
                                                 )
         self.press_option_menu.pack(fill='x', padx=5, pady=5)
 
         ####### Frame 4 - Kmeans Cluster
-        self.kmeans_frame = ctk.CTkFrame(self.second_tab_frames[3], fg_color="transparent")
-        self.kmeans_label = ctk.CTkLabel(self.kmeans_frame, text="Kmeans Cluster: ",
+        self.kmeans_label = ctk.CTkLabel(self.second_tab_frames[3], text="Agrupamento: ",
                                         font=("Segoe UI", 16), height=height)
-        self.kmeans_label.pack(side="top", padx=5, pady=5)
-        self.kmeans_entry = custom_CTkEntry(self.kmeans_frame,
+        self.kmeans_entry = custom_CTkEntry(self.second_tab_frames[3],
                                             placeholder_text="Insira aqui...")
-        self.kmeans_entry.pack(side="top", padx=5, pady=5)
-        custom_tooltip(self.kmeans_entry, "Insira o número de clusters para dividir o dado", delay=1)
+
+        self.kmeans_label.pack(side="left", padx=5, pady=5)
+        self.kmeans_entry.pack(side="right", expand=True, padx=5, pady=5)
+        custom_tooltip(self.kmeans_entry, "Insira o número de agrupamentos para dividir o dado", delay=1)
 
         ####### Frame 5 - Plot btn
         self.calc_btn = create_custom_button(root=self.second_tab_frames[4],

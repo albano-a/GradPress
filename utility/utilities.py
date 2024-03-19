@@ -97,6 +97,7 @@ def update_and_centralize_geometry(window,
     """
     # Force Tkinter to update the geometry
     window.update_idletasks()
+    frame.update_idletasks()  # Update the frame's geometry
 
     # Update the geometry of the window based on the current size of the frame
     frame_width = frame.winfo_width()
