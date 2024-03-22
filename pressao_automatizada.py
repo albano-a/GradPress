@@ -6,7 +6,7 @@ from utility.fluid_pressure import fluid_pressure
 
 fluid_pressure = fluid_pressure() # dictionary of fluid pressures
 
-df = pd.read_csv('./uploads/pressao_exemplo_2.csv',
+df = pd.read_csv('./uploads/ogx.csv',
 				  sep=";",
 				  skiprows=1,
 				  names=["prof", "pressao"])
@@ -32,13 +32,7 @@ def calculate_slope(ps_a, ps_b):
     coefficients = np.polyfit(ps_a, ps_b, 1)
 
     return coefficients[0]
-# testing the function
-# calculate_slope(
-# 				np.array([prof[0], prof[1]]),
-# 				np.array([pressao[0], pressao[1]])
-# 				)
 
-# Calculate the slope between each pair of consecutive points
 slopes = []
 slope_indices = {}
 for i in range(len(prof) - 1):
@@ -47,8 +41,6 @@ for i in range(len(prof) - 1):
 	slope = calculate_slope(x_values, y_values) * -1
 	slopes.append(slope)
 	slope_indices[slope] = [i, i + 1]
-
-# print(slope_indices)
 
 # Convert the list of slopes to a numpy array
 slopes_array = np.array([slopes, slopes])
@@ -148,12 +140,12 @@ print(diff)
 
 # Extended top curve
 mean_cota_top = np.mean(np.diff(top_prof))
-extended_cota_top = list(top_prof) + [mean_cota_top + np.min(top_prof)]
+extended_cota_top = [(np.abs(mean_cota_top) + np.max(top_prof))] + list(top_prof)
 extended_pressure_top = np.array(extended_cota_top)*slope_top + intercept_top
 
 # Extended bot curve
 mean_cota_bot = np.mean(np.diff(bottom_prof))
-extended_cota_bot =  [(np.max(bottom_prof) - mean_cota_bot)] + list(bottom_prof)
+extended_cota_bot =  list(bottom_prof) + [(np.min(bottom_prof) + mean_cota_bot)]
 extended_pressure_bot = np.array(extended_cota_bot)*slope_bottom + intercept_bottom
 
 # Calculate the line of best fit for the top and bottom fluids

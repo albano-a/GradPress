@@ -8,6 +8,7 @@ from textwrap import fill
 import subprocess
 # Related third party imports #
 from tkinter import scrolledtext
+from sklearn.cluster import KMeans # entender o porque desse import
 from click import command
 import customtkinter as ctk
 import matplotlib.pyplot as plt
@@ -31,7 +32,6 @@ from ttkwidgets.font import *
 from components.about import AboutPage
 from components.help_window import HelpWindow
 from components.tomi_calculations import TOMICalc
-from utility.fluid_pressure import fluid_pressure
 from chlorophyll import CodeView
 from utility.icons import (add_img, remove_img, font_img, show_plot_img,
                            inventory_img, code_img, folder_img, save_img, new_file_img)
@@ -218,33 +218,6 @@ class CalculationsWindow:
         self.master = master
         self.app = app
 
-    def file_dialog_standard(self, frame, width=width, height=height, border_width=border_width):
-        class CTkCustomOptionMenu(ctk.CTkOptionMenu):
-            def destroy(self):
-                self.tk.call('destroy', self._w)
-
-        file_names = os.listdir("./uploads")
-
-        self.selected_file = tk.StringVar(frame)
-        self.arq_label = ctk.CTkLabel(frame,
-                                text="Selecione o arquivo: ",
-                                font=("Segoe UI", 16),
-                                width=width, height=height)
-        self.arq_label.pack(fill='x', padx=5, pady=5)
-
-        self.arq_option_menu = CTkCustomOptionMenu(
-                                                master=frame,
-                                                variable=self.selected_file,
-                                                values=file_names,
-                                                fg_color="#fdfdfd",
-                                                button_color=BTN_FG_COLOR,
-                                                button_hover_color=BTN_FG_HOVER_COLOR,
-                                                text_color=TEXT_COLOR,
-                                                text_color_disabled="#292929",
-                                                width=75,
-                                                )
-        self.arq_option_menu.pack(fill='x', padx=5, pady=5)
-
     def open_calculations_window(self):
         self.cal_window = tk.Toplevel(self.master)
         self.cal_window.attributes('-toolwindow', True)
@@ -295,27 +268,29 @@ class CalculationsWindow:
     def plot_first_tab(self, tab, width=width, height=height, border_width=border_width):
 
         # Defining the 8 frames
+        def frames_calc(self):
+            self.plot_tab_frames = [ctk.CTkFrame(tab, corner_radius=1, border_color=BORDER_COLOR,
+                                            fg_color=FG_COLOR_IN2, border_width=border_width)
+                                    for _ in range(8)]
 
-        self.plot_tab_frames = [ctk.CTkFrame(tab, corner_radius=1, border_color=BORDER_COLOR,
-                                        fg_color=FG_COLOR_IN2, border_width=border_width)
-                                for _ in range(8)]
+            self.plot_tab_frames[0].grid(row=1, column=0, rowspan=1,
+                                        columnspan=2, padx=5, pady=5, sticky='nsew') # TextBox, title
+            self.plot_tab_frames[1].grid(row=2, column=0, rowspan=1,
+                                        columnspan=1, padx=5, pady=5, sticky='nsew') # prof max and min
+            self.plot_tab_frames[2].grid(row=2, column=1, rowspan=1,
+                                        columnspan=1, padx=5, pady=5, sticky='nsew') #
+            self.plot_tab_frames[3].grid(row=3, column=0, rowspan=1,
+                                        columnspan=1, padx=5, pady=5, sticky='nsew') # Radio buttons
+            self.plot_tab_frames[4].grid(row=3, column=1, rowspan=1,
+                                        columnspan=1, padx=5, pady=5, sticky='nsew')
+            self.plot_tab_frames[5].grid(row=4, column=0, rowspan=1,
+                                        columnspan=1, padx=5, pady=5, sticky='nsew')
+            self.plot_tab_frames[6].grid(row=4, column=1, rowspan=1,
+                                        columnspan=1, padx=5, pady=5, sticky='nsew')
+            self.plot_tab_frames[7].grid(row=5, column=0, rowspan=1,
+                                        columnspan=2, padx=5, pady=5, sticky='nsew')
 
-        self.plot_tab_frames[0].grid(row=1, column=0, rowspan=1,
-                                     columnspan=2, padx=5, pady=5, sticky='nsew') # TextBox, title
-        self.plot_tab_frames[1].grid(row=2, column=0, rowspan=1,
-                                     columnspan=1, padx=5, pady=5, sticky='nsew') # prof max and min
-        self.plot_tab_frames[2].grid(row=2, column=1, rowspan=1,
-                                     columnspan=1, padx=5, pady=5, sticky='nsew') #
-        self.plot_tab_frames[3].grid(row=3, column=0, rowspan=1,
-                                     columnspan=1, padx=5, pady=5, sticky='nsew') # Radio buttons
-        self.plot_tab_frames[4].grid(row=3, column=1, rowspan=1,
-                                     columnspan=1, padx=5, pady=5, sticky='nsew')
-        self.plot_tab_frames[5].grid(row=4, column=0, rowspan=1,
-                                     columnspan=1, padx=5, pady=5, sticky='nsew')
-        self.plot_tab_frames[6].grid(row=4, column=1, rowspan=1,
-                                     columnspan=1, padx=5, pady=5, sticky='nsew')
-        self.plot_tab_frames[7].grid(row=5, column=0, rowspan=1,
-                                     columnspan=2, padx=5, pady=5, sticky='nsew')
+        frames_calc(self)
 
         self.calculator_text_label = \
             "Plotagem Simples"
@@ -366,12 +341,12 @@ class CalculationsWindow:
         #---------------------------- Frame 3 --------------------------------------------------------
         #------------------------ Radio Button Frame -------------------------------------------------
         self.radiobtn_frame = ctk.CTkFrame(self.plot_tab_frames[2],
-                                fg_color="transparent",
-                                height=height)
+                                           fg_color="transparent",
+                                           height=height)
         self.radiobtn_frame.pack(side="left", padx=5, pady=5)
 
         self.prof_cota_var = tk.StringVar()
-        self.prof_cota_ou_nao = ctk.CTkLabel(self.radiobtn_frame, text="Profundidade está em cota?: ",
+        self.prof_cota_ou_nao = ctk.CTkLabel(self.radiobtn_frame, text="Cota?: ",
                                                 font=("Segoe UI", 12))
         self.prof_cota_ou_nao.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
 
@@ -388,7 +363,7 @@ class CalculationsWindow:
                                                     value="Não",
                                                     text="Não")
         self.prof_cota_radio_n.grid(row=1, column=1, padx=5, pady=5)
-
+        ############## Mesa Rotatoria
         self.mesa_rot_frame = ctk.CTkFrame(self.plot_tab_frames[4],
                                                 fg_color="transparent",
                                                 height=height)
@@ -406,9 +381,9 @@ class CalculationsWindow:
 
         custom_tooltip(
                 self.mesa_rot_entry,
-                "Mesa Rotativa é a distância entre a superfície do oceano \n"
-                "(do solo no caso de poços terrestres), e a profundidade em cota é \n"
-                "calculada usando o valor de altura da mesa rotativa",
+                "Mesa Rotativa se refere à distância entre a superfície do oceano"\
+                "(ou nível do solo para poços terrestres) até uma certa profundidade,"\
+                "calculada usando o valor de altura da mesa rotativa.",
                 delay=1
             )
         #------------------------ Frame 4 -------------------------------------------------
@@ -420,7 +395,7 @@ class CalculationsWindow:
                                                     placeholder_text="Insira aqui...")
         custom_tooltip(self.plot_title_entry, "Insira um título para o gráfico", delay=1)
 
-        self.skip_rows = ctk.CTkLabel(self.plot_tab_frames[5], text="Pular linhas*: ",
+        self.skip_rows = ctk.CTkLabel(self.plot_tab_frames[5], text="Header?: ",
                                         font=("Segoe UI", 16), height=height)
 
         self.skip_rows_entry = custom_CTkEntry(self.plot_tab_frames[5], width=200,
@@ -469,16 +444,19 @@ class CalculationsWindow:
         #------------------------------------ Plot btn ------------------------------------
         self.calc_btn = create_custom_button(root=self.plot_tab_frames[7],
                                             text="Plotar",
-                                            command=self.plot_final,
+                                            command=self.call_plot_simple,
                                             width=200)
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
     def second_tab(self, tab, width=220, height=height, border_width=border_width):
-        # Defining the frames
 
+        # Defining the frames
         self.second_tab_frames = [ctk.CTkFrame(tab, corner_radius=1,border_color=BORDER_COLOR,
                                 fg_color=FG_COLOR_IN2, border_width=border_width)
                                 for _ in range(4+1)]
+
+        tab.columnconfigure((0,1), weight=1)
+        tab.rowconfigure((0,1,2,3,4), weight=1)
 
         self.second_tab_frames[0].grid(row=0, column=0, rowspan=1, columnspan=2,
                                        padx=5, pady=5, sticky='nsew')
@@ -515,7 +493,7 @@ class CalculationsWindow:
         self.file_dialog_standard(self.second_tab_frames[1])
 
         ####### Frame 3 - Pressure input
-        self.pressure_units = ["psi/m", "Kgf/cm2/m", "Kgf/cm2/ft", "psi/ft"]
+        self.pressure_units = ["psi/ft", "psi/m", "Kgf/cm2/m", "bar/m"]
         self.pressure_choice = tk.StringVar()
         self.pressure_choice.set(self.pressure_units[0])
 
@@ -523,7 +501,7 @@ class CalculationsWindow:
                                 text="Unidade da pressão: ",
                                 font=("Segoe UI", 16),
                                 width=width, height=height)
-        self.press_label.pack(fill='x', padx=5, pady=5)
+        self.press_label.pack(fill='both', padx=5, pady=5)
 
         self.press_option_menu = ctk.CTkOptionMenu(
                                                 master=self.second_tab_frames[2],
@@ -536,49 +514,72 @@ class CalculationsWindow:
                                                 text_color_disabled="#292929",
                                                 width=50,
                                                 )
-        self.press_option_menu.pack(fill='x', padx=5, pady=5)
+        self.press_option_menu.pack(fill='both', padx=5, pady=5)
 
         ####### Frame 4 - Kmeans Cluster
-        self.kmeans_label = ctk.CTkLabel(self.second_tab_frames[3], text="Agrupamento: ",
-                                        font=("Segoe UI", 16), height=height)
-        self.kmeans_entry = custom_CTkEntry(self.second_tab_frames[3],
-                                            placeholder_text="Insira aqui...")
+        self.second_tab_frames[3].columnconfigure((0,1), weight=1, uniform='a')
+        self.second_tab_frames[3].rowconfigure((0,1), weight=1, uniform='a')
 
+        # Kmeans Frame
+        self.kmeans_frame = ctk.CTkFrame(self.second_tab_frames[3], fg_color="transparent")
+        self.kmeans_frame.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky='nsew')
+
+        self.kmeans_label = ctk.CTkLabel(self.kmeans_frame, text="Agrupamento: ", font=("Segoe UI", 16), height=height)
         self.kmeans_label.pack(side="left", padx=5, pady=5)
+
+        self.kmeans_entry = custom_CTkEntry(self.kmeans_frame, placeholder_text="Insira aqui...")
         self.kmeans_entry.pack(side="right", expand=True, padx=5, pady=5)
+
         custom_tooltip(self.kmeans_entry, "Insira o número de agrupamentos para dividir o dado", delay=1)
+
+        # Radio Button Frame
+        self.radiobtn_frame = ctk.CTkFrame(self.second_tab_frames[3], fg_color="transparent")
+        self.radiobtn_frame.columnconfigure((0,1), weight=1)
+        self.header_bool = tk.StringVar()
+        self.header_sim_ou_nao = ctk.CTkLabel(self.radiobtn_frame,
+                                              text="O arquivo possui header?: ",
+                                              font=("Segoe UI", 14))
+        self.toggle_frame = ctk.CTkFrame(self.radiobtn_frame, fg_color="transparent")
+
+        self.header_y = ctk.CTkRadioButton(self.toggle_frame,
+                                           command=self.radiobutton_event(self.header_bool),
+                                           variable=self.header_bool, value="Sim", text="Sim")
+        self.header_n = ctk.CTkRadioButton(self.toggle_frame,
+                                           command=self.radiobutton_event(self.header_bool),
+                                           variable=self.header_bool, value="Não", text="Não")
+
+        self.radiobtn_frame.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky='nswe')
+        self.header_sim_ou_nao.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky='nswe')
+        self.toggle_frame.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky='nswe')
+        self.header_y.pack(side='left', expand=True)
+        self.header_n.pack(side='left', expand=True)
 
         ####### Frame 5 - Plot btn
         self.calc_btn = create_custom_button(root=self.second_tab_frames[4],
                                             text="Plotar",
-                                            command=self.third_tab,
+                                            command=self.call_plot_trends,
                                             width=200)
         self.calc_btn.pack(side="top", padx=5, pady=5)
 
     def third_tab(self):
         pass
 
-    def radiobutton_event(self):
+    def radiobutton_event(self, var):
         # Get the currently selected value
-        self.selected_value = self.prof_cota_var.get()
+        self.selected_value = var.get()
 
         if self.selected_value == "Sim":
             return "Sim"
         elif self.selected_value == "Não":
             return "Não"
 
-    def open_file(self):
-        skip_rows_str = self.skip_rows_entry.get()
-        if skip_rows_str == "":
-            skipped_rows = 0
-        else:
-            skipped_rows = int(skip_rows_str)
+    def open_file(self, skiprows=0):
         arq_label_selected_file = "./uploads/" + self.selected_file.get()
         try:
             pressao_df = pd.read_csv(arq_label_selected_file,
                                     delimiter='[;,]',
-                                    skiprows=skipped_rows,
-                                    names=["A", "B"],
+                                    skiprows=skiprows,
+                                    names=["prof", "pressao"],
                                     engine='python')
             pressao_df = pressao_df.dropna()
             return pressao_df
@@ -588,14 +589,48 @@ class CalculationsWindow:
             return None
 
     # dataframe = self.open_file()
+    def file_dialog_standard(self, frame, width=width, height=height, border_width=border_width):
+        class CTkCustomOptionMenu(ctk.CTkOptionMenu):
+            def destroy(self):
+                self.tk.call('destroy', self._w)
 
-    def plot_simples(self, x, y, title, xlabel, ylabel, ymin, ymax, dataframe):
-         # Check radio button selection
-        self.radiobutton_event()
-        # Check radio button selection
-        if not self.selected_value:  # substitua 'selected_value' por 'selected_file'
-            msg = custom_messagebox(title="Erro", message="É obrigatório selecionar se a profundidade é em cota ou não.",
+        file_names = os.listdir("./uploads")
+
+        self.selected_file = tk.StringVar(frame)
+        self.arq_label = ctk.CTkLabel(frame,
+                                text="Selecione o arquivo: ",
+                                font=("Segoe UI", 16),
+                                width=width, height=height)
+        self.arq_label.pack(fill='x', padx=5, pady=5)
+
+        self.arq_option_menu = CTkCustomOptionMenu(
+                                                master=frame,
+                                                variable=self.selected_file,
+                                                values=file_names,
+                                                fg_color="#fdfdfd",
+                                                button_color=BTN_FG_COLOR,
+                                                button_hover_color=BTN_FG_HOVER_COLOR,
+                                                text_color=TEXT_COLOR,
+                                                text_color_disabled="#292929",
+                                                width=75,
+                                                )
+        self.arq_option_menu.pack(fill='x', padx=5, pady=5)
+
+    def plot_simple(self, x, y, title, xlabel, ylabel, ymin, ymax, dataframe):
+
+        if not self.radiobutton_event(self.prof_cota_var):
+            msg = custom_messagebox(title="Erro", message="É obrigatório selecionar se o arquivo possui header ou não.",
                                 icon="./img/icons/cancel.png", option_1="Cancelar", width=400)
+
+        self.boolean = self.radiobutton_event(self.prof_cota_var)
+        self.skip_rows_bool = self.skip_rows_entry.get()
+
+        if self.skip_rows_bool == "Sim":
+            self.dataframe = self.open_file(skiprows=1)
+            print("Sim was selected")
+        else:
+            self.dataframe = self.open_file()
+            print("Não was selected")
 
         ymin = int(self.prof_min_entry.get()) if self.prof_min_entry.get() else None
         ymax = int(self.prof_max_entry.get()) if self.prof_max_entry.get() else None
@@ -628,9 +663,9 @@ class CalculationsWindow:
             custom_messagebox(title="Error", message=f"Um erro ocorreu: {e}",
                         icon="./img/icons/cancel.png", option_1="OK", width=400)
 
-    def plot_final(self):
-        self.dataframe = self.open_file()
-        self.plot_simples(self.dataframe.iloc[:, 1],
+    def call_plot_simple(self):
+        # self.dataframe = self.open_file()
+        self.plot_simple(self.dataframe.iloc[:, 1],
                           self.dataframe.iloc[:, 0],
                           self.plot_title_entry.get(),
                           self.x_label_entry.get(),
@@ -639,37 +674,194 @@ class CalculationsWindow:
                           self.prof_max_entry.get(),
                           self.dataframe)
 
-    def plot_dos_dados(self):
-        pass
+    def plot_trends(self):
+        if not self.radiobutton_event(self.header_bool):
+            msg = custom_messagebox(title="Erro",
+                                    message="É obrigatório selecionar se o arquivo possui header ou não.",
+                                    icon="./img/icons/cancel.png",
+                                    option_1="Cancelar", width=400)
+
+        self.boolean = self.radiobutton_event(self.header_bool)
+
+        if self.boolean == "Sim":
+            df = self.open_file(skiprows=1)
+            print("Há header no arquivo")
+        else:
+            df = self.open_file()
+            print("Não há header no arquivo")
+
+        prof = df["prof"]
+        pressao = df["pressao"]
+
+        def calculate_slope(ps_a, ps_b):
+            if len(ps_a) != len(ps_b):
+                raise ValueError("ps_a and ps_b must have the same length")
+            coefficients = np.polyfit(ps_a, ps_b, 1)
+            return coefficients[0]
+
+        slopes = []
+        slope_indices = {}
+        for i in range(len(prof) - 1):
+            x_values = np.array([prof[i], prof[i + 1]])
+            y_values = np.array([pressao[i], pressao[i + 1]])
+            slope = calculate_slope(x_values, y_values) * -1
+            slopes.append(slope)
+            slope_indices[slope] = [i, i + 1]
+
+        # Convert the list of slopes to a numpy array
+        slopes_array = np.array([slopes, slopes])
+
+        # Perform KMeans clustering on the slopes
+        kmeans_number = int(self.kmeans_entry.get())
+        kmeans = KMeans(n_clusters=kmeans_number, random_state=0).fit(slopes_array.T)
+
+        # Classify the data based on the clusters
+        classified_data = [list(kmeans.labels_)[0]] + list(kmeans.labels_)
+
+        def convert_classification(class_data):
+            if class_data[0] == 1:
+                return [1 - label for label in class_data]
+            return class_data
+
+        # Convert the classification labels if necessary
+        converted_data = convert_classification(classified_data)
+
+        # Separate the data into two groups based on the classification
+        top_values = [(prof[i], pressao[i]) for i, label in enumerate(converted_data) if label == 1]
+        bottom_values = [(prof[i], pressao[i]) for i, label in enumerate(converted_data) if label == 0]
+
+        # Calculate the line of best fit for each group
+        top_prof, top_pressao = zip(*top_values)
+        bottom_prof, bottom_pressao = zip(*bottom_values)
+
+        slope_top, intercept_top = np.polyfit(top_prof, top_pressao, 1)
+        slope_bottom, intercept_bottom = np.polyfit(bottom_prof, bottom_pressao, 1)
+
+        pressure_unit = self.pressure_choice.get()
+        # four pressure units to choose from (psi/ft, psi/m, Kgf/cm2/m, bar/m)
+
+        fluid_pressure = {
+        "dry_gas_zero": {"name":"Dry gas zero","gradient":{"psi/ft":0.0,"psi/m":0.0,"kgf/cm2/m":0.0,"bar/m":0.0}},
+        "dry_gas": {"name":"Dry gas","gradient":{"psi/ft":0.0,"psi/m":0.0,"kgf/cm2/m":0.0,"bar/m":0.0}},
+        "wet_gas": {"name":"Wet gas","gradient":{"psi/ft":0.140,"psi/m":0.459,"kgf/cm2/m":0.030,"bar/m":0.032}},
+        "oil_limit": {"name":"Oil limit","gradient":{"psi/ft":0.300,"psi/m":0.984,"kgf/cm2/m":0.069,"bar/m":0.069}},
+        "oil_60": {"name":"Oil 60°","gradient":{"psi/ft":0.387,"psi/m":1.270,"kgf/cm2/m":0.089,"bar/m":0.087}},
+        "oil_20": {"name":"Oil 20° (heavy)","gradient":{"psi/ft":0.404,"psi/m":1.325,"kgf/cm2/m":0.093,"bar/m":0.091}},
+        "fresh_water": {"name":"Fresh water","gradient":{"psi/ft":0.433,"psi/m":1.421,"kgf/cm2/m":0.100,"bar/m":0.098}},
+        "sea_water": {"name":"Sea Water","gradient":{"psi/ft":0.444,"psi/m":1.457,"kgf/cm2/m":0.102,"bar/m":0.101}},
+        "salt_sat_water": {"name":"Salt sat. Water","gradient":{"psi/ft":0.520,"psi/m":1.706,"kgf/cm2/m":0.120,"bar/m":0.118}},
+        "salt_max": {"name":"Salt sat. Water Max","gradient":{"psi/ft":100.000,"psi/m":100.000,"kgf/cm2/m":100.000,"bar/m":100.000}}
+        }
+
+        # Get a list of all fluid keys
+        fluid_keys = list(fluid_pressure.keys())
+
+        # Initialize an empty dictionary for pressure values
+        pressure_values = {}
+
+        # Iterate over each pair of consecutive fluids
+        for i in range(len(fluid_keys) - 1):
+            # Get the top and bottom fluids
+            top_fluid = fluid_keys[i]
+            bottom_fluid = fluid_keys[i + 1]
+
+            # Get the pressure gradient values for the top and bottom fluids
+            top_pressure = fluid_pressure[top_fluid]["gradient"][pressure_unit]
+            bottom_pressure = fluid_pressure[bottom_fluid]["gradient"][pressure_unit]
+
+            # Store the pressure values in the dictionary
+            pressure_values[top_fluid] = [top_pressure, bottom_pressure]
+
+        # Remove the first key-value pair from the dictionary
+        first_key = next(iter(pressure_values))
+        pressure_values.pop(first_key)
+
+        # Initialize the top fluid
+        top_fluid = 0
+
+        # Find the fluid that matches the top slope
+        for fluid, pressures in pressure_values.items():
+            if -1.*round(slope_top,4) >= pressures[0] and -1.*round(slope_top,4) < pressures[1]:
+                top_fluid = fluid
+
+        # Find the fluid that matches the bottom slope
+        for fluid, pressures in pressure_values.items():
+            if -1.*round(slope_bottom,4) >= pressures[0] and -1.*round(slope_bottom,4) < pressures[1]:
+                bottom_fluid = fluid
+
+        # Get the names of the top and bottom fluids
+        top_fluid_name = fluid_pressure[top_fluid]['name']
+        bottom_fluid_name = fluid_pressure[bottom_fluid]['name']
+
+        # Print the names of the top and bottom fluids
+        print(top_fluid_name, "|", bottom_fluid_name)
 
 
-    def calculate(self):
-        def inv_polynomial(dobs, degree, x):
-            """
-            Funcao para calcular os parâmetros de uma regressao polinomial
-            Dados de entrada:
-                d = dados observados
-                degree = grau do polinomio
-                x = valores das posicoes onde d foi medido, tem que ter a mesma dimensao de d
+        x_intercept = (intercept_bottom - intercept_top) / (slope_top - slope_bottom)
+        y_intercept = slope_top * x_intercept + intercept_top
+        print('O ponto de interseção das retas é',x_intercept,y_intercept)
 
-            Output:
-                m = parametros
-                G = matriz de modelagem direta
-            """
-            nl = max(np.shape(dobs))
+        diff = np.diff(top_prof)
+        print(diff)
 
-            G = np.ones((nl,1))
-            for pw in range(1,degree+1):
+        # Extended top curve
+        mean_cota_top = np.mean(np.diff(top_prof))
+        extended_cota_top = [(np.abs(mean_cota_top) + np.max(top_prof))] + list(top_prof)
+        extended_pressure_top = np.array(extended_cota_top)*slope_top + intercept_top
 
-                G = np.c_[G, x**pw ]
+        # Extended bot curve
+        mean_cota_bot = np.mean(np.diff(bottom_prof))
+        extended_cota_bot =  list(bottom_prof) + [(np.min(bottom_prof) + mean_cota_bot)]
+        extended_pressure_bot = np.array(extended_cota_bot)*slope_bottom + intercept_bottom
 
-            m = np.dot(np.dot(inv(np.dot(G.T,G)),G.T), dobs)
+        # Calculate the line of best fit for the top and bottom fluids
+        line_top = slope_top * np.array(top_prof) + intercept_top
+        line_bottom = slope_bottom * np.array(bottom_prof) + intercept_bottom
 
-            return m, G
+        plt.figure(figsize=(13,5))
 
-        # m, G = inv_polynomial(dobs=pressao_ogx_93_ma['Profundidade'], degree=1, x=pressao_ogx_93_ma['Pressão de\nFormação\n(Kgf/cm2)'])
-        # print(f"y = {m[0]:.2f} + {m[1]:.2f}x")
+        plt.subplot(131)
+        plt.plot(top_pressao,top_prof,'o',c="C0",label='top curve '+str(round(slope_top,4)))
+        plt.plot(bottom_pressao,bottom_prof,'o',c="C3",label='bot curve '+str(round(slope_bottom,4)))
+        plt.legend(fontsize='small')
+        plt.xlabel('Pressão (PSI)')
+        plt.ylabel('Cota (M)')
+        plt.grid()
+        # plt.show() # Plota o gráfico com os clusters divididos
 
+        plt.subplot(132)
+        # Plot the data points for the top and bottom fluids
+        plt.plot(top_pressao, top_prof, 'o', c="C0", label=top_fluid_name)
+        plt.plot(bottom_pressao, bottom_prof, 'o', c="C3", label=bottom_fluid_name)
+
+        # Plot the lines of best fit for the top and bottom fluids
+        plt.plot(line_top, top_prof, c="C9", label=f'{top_fluid_name} {round(slope_top, 4)}')
+        plt.plot(line_bottom, bottom_prof, c="C1", label=f'{bottom_fluid_name} {round(slope_bottom, 4)}')
+
+        # Add a legend, labels, and a grid
+        plt.legend(fontsize='small')
+        plt.xlabel('Pressão (PSI)')
+        plt.ylabel('Cota (M)')
+        plt.grid()
+
+        plt.subplot(133)
+        plt.plot(top_pressao,top_prof,'o',c="C0",label=top_fluid_name)
+        plt.plot(bottom_pressao,bottom_prof,'o',c="C3",label=bottom_fluid_name)
+
+        plt.plot(extended_pressure_top,extended_cota_top,c="C9",label=bottom_fluid_name+" "+str(round(slope_bottom,4)))
+        plt.plot(extended_pressure_bot,extended_cota_bot,c="C1",label=top_fluid_name+" "+str(round(slope_top,4)))
+        plt.plot(y_intercept,x_intercept,'s',c="k",label="Intersection "+str(round(x_intercept,4)) )
+
+        plt.legend(fontsize='small')
+        plt.xlabel('Pressure (PSI)')
+        plt.ylabel('Level (M)')
+        plt.grid()
+
+        plt.tight_layout()
+        plt.show()
+
+    def call_plot_trends(self):
+        self.plot_trends()
 
 
 class SheetEditor:

@@ -27,7 +27,6 @@ from CTkMessagebox import CTkMessagebox
 from CTkToolTip import CTkToolTip
 from ttkwidgets.font import *
 # Local application/library specific imports #
-from utility.fluid_pressure import fluid_pressure
 from chlorophyll import CodeView
 from utility.icons import (add_img, remove_img, font_img, show_plot_img,
                            inventory_img, code_img, folder_img, save_img, new_file_img)
