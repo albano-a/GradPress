@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>916</width>
+    <height>685</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../icon.ico</normaloff>../icon.ico</iconset>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QTableWidget" name="mainSheetTable">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">/* Table background and borders */
+QTableWidget {
+    background-color: #ffffff; /* Cor de fundo branca */
+    border: 1px solid #000000; /* Borda preta */
+    border-radius: 0px; /* Sem arredondamento de cantos */
+    gridline-color: #d4d4d4; /* Cor das linhas da grade */
+}
+
+/* Styling for table items */
+QTableWidget::item {
+    border: none; /* Sem borda */
+    color: #000000; /* Cor do texto preto */
+    font-size: 10pt; /* Tamanho da fonte */
+}
+
+/* Hover effect on table items */
+QTableWidget::item:hover {
+    background-color: #d9e4f7; /* Cor de fundo azul claro ao passar o mouse */
+}
+
+/* Styling for header sections */
+QHeaderView::section {
+    background-color: #63BE7B ; /* Cor de fundo cinza claro */
+    color: #000000; /* Cor do texto preto */
+    font-weight: bold; /* Texto em negrito */
+    border: 1px solid #82CB95 ; /* Borda cinza */
+    padding: 4px; /* Preenchimento interno */
+}
+
+/* Selected items */
+QTableWidget::item:selected {
+    border: 1px solid #aeaeae; /* Cor de fundo azul escuro para itens selecionados */
+	background-color: #e3e3e3;
+}
+</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustIgnored</enum>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::DragDrop</enum>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="rowCount">
+           <number>100</number>
+          </property>
+          <property name="columnCount">
+           <number>24</number>
+          </property>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>100</number>
+          </attribute>
+          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderDefaultSectionSize">
+           <number>22</number>
+          </attribute>
+          <attribute name="verticalHeaderMinimumSectionSize">
+           <number>22</number>
+          </attribute>
+          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+           <bool>false</bool>
+          </attribute>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <column>
+           <property name="text">
+            <string>A</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>B</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>C</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>D</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>E</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>F</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>G</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>I</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>J</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>K</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>L</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>M</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>N</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>O</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>P</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Q</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>R</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>S</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>T</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>U</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>V</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>W</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>X</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Z</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QFrame" name="configSheetTable">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>65</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="changeTextColorBtn">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>20</y>
+         <width>41</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    border-radius: 5px;
+    border: 1px solid rgb(171, 171, 171);
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
+    transition: background-color 0.3s ease; /* Add transition effect */
+}
+
+QPushButton:hover {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
+    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../img/icons/font_color.png</normaloff>../img/icons/font_color.png</iconset>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="changeCellColorBtn">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>20</y>
+         <width>41</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    border-radius: 5px;
+    border: 1px solid rgb(171, 171, 171);
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
+}
+
+QPushButton:hover {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
+    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../img/icons/fill_color.png</normaloff>../img/icons/fill_color.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QWidget" name="layoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>301</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QPushButton" name="addRowBtn">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>Adicionar linha à planilha</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    border-radius: 5px;
+    border: 1px solid rgb(171, 171, 171);
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
+}
+
+QPushButton:hover {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
+    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
+}</string>
+          </property>
+          <property name="text">
+           <string>+</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="row_label_2">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Linhas</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="rmRowBtn">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>Remover linha da planilha</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    border-radius: 5px;
+    border: 1px solid rgb(171, 171, 171);
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
+}
+
+QPushButton:hover {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
+    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
+}</string>
+          </property>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="addColBtn">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>Adicionar coluna à planilha</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    border-radius:15px;
+    border: 1px solid rgb(171, 171, 171);
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
+}
+
+QPushButton:hover {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
+    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
+}</string>
+          </property>
+          <property name="text">
+           <string>+</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="col_label_2">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Colunas</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="rmColBtn">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="statusTip">
+           <string>Remover coluna da planilha</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    border-radius: 5px;
+    border: 1px solid rgb(171, 171, 171);
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
+}
+
+QPushButton:hover {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
+    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
+}</string>
+          </property>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>916</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Arquivo</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionAbrir"/>
+    <addaction name="actionSalvar"/>
+    <addaction name="separator"/>
+    <addaction name="actionSair"/>
+   </widget>
+   <widget class="QMenu" name="menuEditar">
+    <property name="title">
+     <string>Editar</string>
+    </property>
+    <addaction name="actionGerenciar_Arquivos"/>
+    <addaction name="actionEditor_de_Texto"/>
+   </widget>
+   <widget class="QMenu" name="menuCalcular">
+    <property name="title">
+     <string>Calcular</string>
+    </property>
+    <addaction name="actionCalculadora"/>
+    <addaction name="actionTendencyPlot"/>
+    <addaction name="actionClassificacao_de_Fluidos"/>
+    <addaction name="actionTOMI_index"/>
+   </widget>
+   <widget class="QMenu" name="menuSobre">
+    <property name="title">
+     <string>Sobre</string>
+    </property>
+    <addaction name="actionAjuda"/>
+    <addaction name="actionSobre"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEditar"/>
+   <addaction name="menuCalcular"/>
+   <addaction name="menuSobre"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="newFileToolbar"/>
+   <addaction name="actionAbrirToolbar"/>
+   <addaction name="actionSaveToolbar"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QToolBar {
+    icon-size: 32px; /* Set the icon size */
+    spacing: 10px; /* Set the spacing between items */
+}</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionManageFilesToolbar"/>
+   <addaction name="actionOpenCalculatorToolbar"/>
+   <addaction name="actionTendencyPlotToolbar"/>
+   <addaction name="actionCodeEditorToolbar"/>
+   <addaction name="actionChangeFontToolbar"/>
+  </widget>
+  <action name="actionNew">
+   <property name="text">
+    <string>Novo</string>
+   </property>
+  </action>
+  <action name="actionAbrir">
+   <property name="text">
+    <string>Abrir</string>
+   </property>
+  </action>
+  <action name="actionSalvar">
+   <property name="text">
+    <string>Salvar</string>
+   </property>
+  </action>
+  <action name="actionSair">
+   <property name="text">
+    <string>Sair</string>
+   </property>
+  </action>
+  <action name="actionGerenciar_Arquivos">
+   <property name="text">
+    <string>Gerenciar Arquivos</string>
+   </property>
+  </action>
+  <action name="actionEditor_de_Texto">
+   <property name="text">
+    <string>Editor de Texto</string>
+   </property>
+  </action>
+  <action name="actionCalculadora">
+   <property name="text">
+    <string>Gráfico Simples</string>
+   </property>
+  </action>
+  <action name="actionTOMI_index">
+   <property name="text">
+    <string>TOMI Index</string>
+   </property>
+  </action>
+  <action name="actionAjuda">
+   <property name="text">
+    <string>Ajuda</string>
+   </property>
+  </action>
+  <action name="actionSobre">
+   <property name="text">
+    <string>Sobre</string>
+   </property>
+  </action>
+  <action name="newFileToolbar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/new_file.png</normaloff>../img/icons/new_file.png</iconset>
+   </property>
+   <property name="text">
+    <string>Novo Arquivo</string>
+   </property>
+   <property name="toolTip">
+    <string>Novo Arquivo</string>
+   </property>
+   <property name="statusTip">
+    <string>Abrir um novo arquivo .csv</string>
+   </property>
+  </action>
+  <action name="actionAbrirToolbar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/folder.png</normaloff>../img/icons/folder.png</iconset>
+   </property>
+   <property name="text">
+    <string>Abrir</string>
+   </property>
+   <property name="toolTip">
+    <string>Abrir arquivo</string>
+   </property>
+   <property name="statusTip">
+    <string>Abrir um arquivo .csv já existente</string>
+   </property>
+  </action>
+  <action name="actionSaveToolbar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/save.png</normaloff>../img/icons/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Salvar</string>
+   </property>
+   <property name="toolTip">
+    <string>Salvar arquivo</string>
+   </property>
+   <property name="statusTip">
+    <string>Salvar o arquivo</string>
+   </property>
+  </action>
+  <action name="actionManageFilesToolbar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/inventory.png</normaloff>../img/icons/inventory.png</iconset>
+   </property>
+   <property name="text">
+    <string>Gerenciar Arquivos</string>
+   </property>
+   <property name="toolTip">
+    <string>Gerencie os arquivos carregados</string>
+   </property>
+   <property name="statusTip">
+    <string>Gerencie os arquivos que foram carregados</string>
+   </property>
+  </action>
+  <action name="actionOpenCalculatorToolbar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/scatter.png</normaloff>../img/icons/scatter.png</iconset>
+   </property>
+   <property name="text">
+    <string>Abrir Calculadora</string>
+   </property>
+   <property name="toolTip">
+    <string>Abra a seção de calculadoras</string>
+   </property>
+   <property name="statusTip">
+    <string>Abra a seção de cálculos, para calcular gradiente de pressão e classificar poços</string>
+   </property>
+  </action>
+  <action name="actionCodeEditorToolbar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/code.png</normaloff>../img/icons/code.png</iconset>
+   </property>
+   <property name="text">
+    <string>Editor de Texto</string>
+   </property>
+   <property name="toolTip">
+    <string>Abra o editor de texto</string>
+   </property>
+   <property name="statusTip">
+    <string>Um editor de texto simples</string>
+   </property>
+  </action>
+  <action name="actionChangeFontToolbar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/font.png</normaloff>../img/icons/font.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fonte</string>
+   </property>
+   <property name="toolTip">
+    <string>Altere a fonte utilizada</string>
+   </property>
+   <property name="statusTip">
+    <string>Altere a fonte utilizada</string>
+   </property>
+  </action>
+  <action name="actionTendencyPlotToolbar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/regression.png</normaloff>../img/icons/regression.png</iconset>
+   </property>
+   <property name="text">
+    <string>Abrir gráfico de tendencia</string>
+   </property>
+  </action>
+  <action name="actionTendencyPlot">
+   <property name="text">
+    <string>Contato de Fluidos</string>
+   </property>
+  </action>
+  <action name="actionClassificacao_de_Fluidos">
+   <property name="text">
+    <string>Classificação de Fluidos</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../img/icons/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

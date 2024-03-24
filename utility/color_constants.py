@@ -1,8 +1,0 @@
-FG_COLOR_OUT = "#f0f0f0"
-FG_COLOR_IN = "#E0E0E0"
-FG_COLOR_IN2 = "#f9f9f9"
-TEXT_COLOR = "#212121"
-BORDER_COLOR = "#dcdcdc"
-BTN_FG_COLOR = "#45b3e0"
-BTN_FG_HOVER_COLOR = "#1f8dba"
-ENTRY_COLOR = "#fdfdfd"
