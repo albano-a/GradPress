@@ -325,6 +325,19 @@ QPushButton:hover {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>fluidPressureTableView</tabstop>
+  <tabstop>fileComboBox</tabstop>
+  <tabstop>pressureComboBox</tabstop>
+  <tabstop>csvRadioButton</tabstop>
+  <tabstop>txtRadioButton</tabstop>
+  <tabstop>xlsxRadioButton</tabstop>
+  <tabstop>profMinInput</tabstop>
+  <tabstop>profMaxInput</tabstop>
+  <tabstop>fluidClassificationBtn</tabstop>
+  <tabstop>fluidPressureResults</tabstop>
+  <tabstop>saveOutputContent</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -7,13 +7,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from PyQt6 import uic
 from PyQt6.QtCore import Qt, QUrl, QResource, QCoreApplication, QDir
 from PyQt6.QtGui import (QAction, QKeySequence, QDesktopServices,
-                        QFileSystemModel, QStandardItemModel, QStandardItem)
+                        QFileSystemModel, QStandardItemModel, QStandardItem,
+                        QFontMetricsF, QTextOption, QFont, QKeyEvent)
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QTableWidgetItem,
                             QFileDialog, QMessageBox, QColorDialog, QFontDialog,
                             QInputDialog, QTreeWidgetItem)
+import PyQt6.Qsci as Qsci
+from PyQt6.Qsci import QsciScintilla
 from pyui.icons_rc import *
 from pyui.maingui import Ui_MainWindow
 from pyui.about import Ui_AboutWindow
@@ -22,11 +24,107 @@ from pyui.manage_files import Ui_ManageFilesWindow
 from pyui.simple_plot_window import Ui_SimplePlotWindow
 from pyui.plot_tendencia_window import Ui_plotTendenciaWindow
 from pyui.gradiente_pressao_window import Ui_gradientePressaoWindow
+from pyui.text_editor_window import Ui_textEditorWindow
+
 from app_functions import pressure_gradient_classification
 
 plt.style.use(['bmh'])
 
+class TextEditorWindow(QMainWindow, Ui_textEditorWindow):
+    def __init__(self):
+        super(TextEditorWindow, self).__init__()
+        self.setupUi(self)
+        self.setWindowTitle("Editor de Texto")
+
+        # reference the widget here
+        self.scintillaWidget.setMarginType(0, QsciScintilla.MarginType.NumberMargin)
+        self.scintillaWidget.setAutoCompletionSource(QsciScintilla.AutoCompletionSource.AcsAll)
+        self.scintillaWidget.setAutoIndent(True)
+        self.scintillaWidget.setBraceMatching(QsciScintilla.BraceMatch.StrictBraceMatch)
+        self.scintillaWidget.setIndentationWidth(4)
+        self.scintillaWidget.setFont(QFont("Consolas", 12))
+
+        # Use QsciLexer for syntax highlighting
+        self.python_lexer = Qsci.QsciLexerPython()
+        self.python_lexer.setFont(QFont("Consolas", weight=500))
+        self.cplusplus_lexer = Qsci.QsciLexerCPP()
+        self.cplusplus_lexer.setFont(QFont("Consolas", weight=500))
+        self.javascript_lexer = Qsci.QsciLexerJavaScript()
+        self.javascript_lexer.setFont(QFont("Consolas", weight=500))
+        self.matlab_lexer = Qsci.QsciLexerMatlab()
+        self.matlab_lexer.setFont(QFont("Consolas", weight=500))
+        self.markdown_lexer = Qsci.QsciLexerMarkdown()
+        self.markdown_lexer.setFont(QFont("Consolas", weight=500))
+
+        self.actionNovoArquivoTexto.triggered.connect(self.new_file)
+        self.actionAbrirArquivoTexto.triggered.connect(self.open_file)
+        self.actionSalvarArquivoTexto.triggered.connect(self.save_file)
+        self.actionRecortar.triggered.connect(self.scintillaWidget.cut)
+        self.actionCopiar.triggered.connect(self.scintillaWidget.copy)
+        self.actionColar.triggered.connect(self.scintillaWidget.paste)
+        self.actionDesfazer.triggered.connect(self.scintillaWidget.undo)
+        self.actionRefazer.triggered.connect(self.scintillaWidget.redo)
+        self.actionApagar.triggered.connect(self.scintillaWidget.clear)
+        self.actionSelecionar_tudo.triggered.connect(self.scintillaWidget.selectAll)
+        self.actionFonte.triggered.connect(self.change_font)
+        self.actionPython.triggered.connect(self.python_highlight)
+        self.actionC_C.triggered.connect(self.c_c_highlight)
+        self.actionC.triggered.connect(self.c_highlight)
+        self.actionJavaScript.triggered.connect(self.javascript_highlight)
+        self.actionR.triggered.connect(self.r_highlight)
+        self.actionMatlab.triggered.connect(self.matlab_highlight)
+        self.actionMarkdown.triggered.connect(self.markdown_highlight)
+
+    def python_highlight(self):
+        self.scintillaWidget.setLexer(self.python_lexer)
+
+    def c_c_highlight(self):
+        self.scintillaWidget.setLexer(self.cplusplus_lexer)
+
+    def c_highlight(self):
+        self.scintillaWidget.setLexer(self.cplusplus_lexer)
+
+    def javascript_highlight(self):
+        self.scintillaWidget.setLexer(self.javascript_lexer)
+
+    def r_highlight(self):
+        return QMessageBox.information(self, "Information", "R highlighting não foi implementado")
+
+    def matlab_highlight(self):
+        self.scintillaWidget.setLexer(self.matlab_lexer)
+
+    def markdown_highlight(self):
+        self.scintillaWidget.setLexer(self.markdown_lexer)
+
+    def new_file(self):
+        # Clear the current text
+        self.scintillaWidget.clear()
+
+        # Reset the current file path
+        self.current_file_path = None
+
+    def open_file(self):
+        file_name, _ = QFileDialog.getOpenFileName(self, "Open File", "", "All Files (*)")
+        if file_name:
+            with open(file_name, 'r') as file:
+                file_content = file.read()
+            self.scintillaWidget.setPlainText(file_content)
+
+    def save_file(self):
+        file_name, _ = QFileDialog.getSaveFileName(self, "Save File", "", "All Files (*)")
+        if file_name:
+            with open(file_name, 'w') as file:
+                file_content = self.scintillaWidget.text()
+                file_content = file_content.replace('\n', '\r\n')
+                file.write(file_content)
+
+    def change_font(self):
+        font, ok = QFontDialog.getFont(self.scintillaWidget.font(), self)
+        if ok:
+            self.scintillaWidget.setFont(font)
+
 class PressureGradientClassificationWindow(QMainWindow, Ui_gradientePressaoWindow):
+    # TODO: fully implement this function
     def __init__(self):
         super(PressureGradientClassificationWindow, self).__init__()
         self.setupUi(self)
@@ -69,6 +167,9 @@ class PressureGradientClassificationWindow(QMainWindow, Ui_gradientePressaoWindo
         self.saveOutputContent.clicked.connect(self.save_output_content)
 
     def classify_fluid(self):
+        pass
+
+    def save_output_content(self):
         pass
 
 class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
@@ -316,7 +417,6 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
                             self.y_axis,
                             self.prof_min,
                             self.prof_max)
-
 
 class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
     def __init__(self):
@@ -619,7 +719,7 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle("Kraken Geophysics")
 
-        self.actionSair.triggered.connect(exit)
+        self.actionSair.triggered.connect(QApplication.instance().quit)
 
         # Create a TableManager for the mainSheetTable
         self.tableManager = TableManager(self.mainSheetTable)
@@ -654,6 +754,8 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.actionTendencyPlot.triggered.connect(self.openPlotTendenciaWindow)
         self.actionTendencyPlotToolbar.triggered.connect(self.openPlotTendenciaWindow)
         self.actionClassificacao_de_Fluidos.triggered.connect(self.openPressureGradientClassificationWindow)
+        self.actionEditor_de_Texto.triggered.connect(self.openTextEditorWindow)
+        self.actionCodeEditorToolbar.triggered.connect(self.openTextEditorWindow)
         # Create actions
         copyAction = QAction(self)
         copyAction.setShortcut(QKeySequence("Ctrl+C"))
@@ -700,8 +802,9 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.pressureGradientClassificationWindow = PressureGradientClassificationWindow()
         self.pressureGradientClassificationWindow.show()
 
-
-
+    def openTextEditorWindow(self):
+        self.textEditorWindow = TextEditorWindow()
+        self.textEditorWindow.show()
 
 def main():
     app = QApplication(sys.argv)

@@ -383,6 +383,12 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        MainWindow.setTabOrder(self.mainSheetTable, self.addRowBtn)
+        MainWindow.setTabOrder(self.addRowBtn, self.rmRowBtn)
+        MainWindow.setTabOrder(self.rmRowBtn, self.addColBtn)
+        MainWindow.setTabOrder(self.addColBtn, self.rmColBtn)
+        MainWindow.setTabOrder(self.rmColBtn, self.changeTextColorBtn)
+        MainWindow.setTabOrder(self.changeTextColorBtn, self.changeCellColorBtn)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>textEditorWindow</class>
+ <widget class="QMainWindow" name="textEditorWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>751</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../icon.ico</normaloff>../icon.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QsciScintilla" name="scintillaWidget" native="true"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>751</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuArquivo">
+    <property name="title">
+     <string>Arquivo</string>
+    </property>
+    <addaction name="actionNovoArquivoTexto"/>
+    <addaction name="actionAbrirArquivoTexto"/>
+    <addaction name="actionSalvarArquivoTexto"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Editar</string>
+    </property>
+    <addaction name="actionDesfazer"/>
+    <addaction name="actionRefazer"/>
+    <addaction name="separator"/>
+    <addaction name="actionRecortar"/>
+    <addaction name="actionCopiar"/>
+    <addaction name="actionColar"/>
+    <addaction name="actionApagar"/>
+    <addaction name="actionSelecionar_tudo"/>
+    <addaction name="separator"/>
+    <addaction name="actionFonte"/>
+   </widget>
+   <widget class="QMenu" name="menuLinguagem">
+    <property name="title">
+     <string>Linguagem</string>
+    </property>
+    <addaction name="actionPython"/>
+    <addaction name="actionC_C"/>
+    <addaction name="actionC"/>
+    <addaction name="actionJavaScript"/>
+    <addaction name="actionR"/>
+    <addaction name="actionMatlab"/>
+    <addaction name="actionMarkdown"/>
+   </widget>
+   <addaction name="menuArquivo"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuLinguagem"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNovoArquivoTexto">
+   <property name="text">
+    <string>Novo</string>
+   </property>
+  </action>
+  <action name="actionAbrirArquivoTexto">
+   <property name="text">
+    <string>Abrir</string>
+   </property>
+  </action>
+  <action name="actionSalvarArquivoTexto">
+   <property name="text">
+    <string>Salvar</string>
+   </property>
+  </action>
+  <action name="actionRecortar">
+   <property name="text">
+    <string>Recortar</string>
+   </property>
+  </action>
+  <action name="actionDesfazer">
+   <property name="text">
+    <string>Desfazer</string>
+   </property>
+  </action>
+  <action name="actionRefazer">
+   <property name="text">
+    <string>Refazer</string>
+   </property>
+  </action>
+  <action name="actionCopiar">
+   <property name="text">
+    <string>Copiar</string>
+   </property>
+  </action>
+  <action name="actionColar">
+   <property name="text">
+    <string>Colar</string>
+   </property>
+  </action>
+  <action name="actionApagar">
+   <property name="text">
+    <string>Apagar</string>
+   </property>
+  </action>
+  <action name="actionSelecionar_tudo">
+   <property name="text">
+    <string>Selecionar tudo</string>
+   </property>
+  </action>
+  <action name="actionFonte">
+   <property name="text">
+    <string>Fonte</string>
+   </property>
+  </action>
+  <action name="actionPython">
+   <property name="text">
+    <string>Python</string>
+   </property>
+  </action>
+  <action name="actionC_C">
+   <property name="text">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="actionC">
+   <property name="text">
+    <string>C++</string>
+   </property>
+  </action>
+  <action name="actionJavaScript">
+   <property name="text">
+    <string>JavaScript</string>
+   </property>
+  </action>
+  <action name="actionR">
+   <property name="text">
+    <string>R</string>
+   </property>
+  </action>
+  <action name="actionMatlab">
+   <property name="text">
+    <string>Matlab</string>
+   </property>
+  </action>
+  <action name="actionMarkdown">
+   <property name="text">
+    <string>Markdown</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QsciScintilla</class>
+   <extends>QWidget</extends>
+   <header>Qsci/qsciscintilla.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

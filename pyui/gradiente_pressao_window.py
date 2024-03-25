@@ -163,6 +163,16 @@ class Ui_gradientePressaoWindow(object):
 
         self.retranslateUi(gradientePressaoWindow)
         QtCore.QMetaObject.connectSlotsByName(gradientePressaoWindow)
+        gradientePressaoWindow.setTabOrder(self.fluidPressureTableView, self.fileComboBox)
+        gradientePressaoWindow.setTabOrder(self.fileComboBox, self.pressureComboBox)
+        gradientePressaoWindow.setTabOrder(self.pressureComboBox, self.csvRadioButton)
+        gradientePressaoWindow.setTabOrder(self.csvRadioButton, self.txtRadioButton)
+        gradientePressaoWindow.setTabOrder(self.txtRadioButton, self.xlsxRadioButton)
+        gradientePressaoWindow.setTabOrder(self.xlsxRadioButton, self.profMinInput)
+        gradientePressaoWindow.setTabOrder(self.profMinInput, self.profMaxInput)
+        gradientePressaoWindow.setTabOrder(self.profMaxInput, self.fluidClassificationBtn)
+        gradientePressaoWindow.setTabOrder(self.fluidClassificationBtn, self.fluidPressureResults)
+        gradientePressaoWindow.setTabOrder(self.fluidPressureResults, self.saveOutputContent)
 
     def retranslateUi(self, gradientePressaoWindow):
         _translate = QtCore.QCoreApplication.translate

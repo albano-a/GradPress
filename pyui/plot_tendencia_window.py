@@ -383,6 +383,25 @@ class Ui_plotTendenciaWindow(object):
 
         self.retranslateUi(plotTendenciaWindow)
         QtCore.QMetaObject.connectSlotsByName(plotTendenciaWindow)
+        plotTendenciaWindow.setTabOrder(self.selectFileComboBox, self.csvRadioButton)
+        plotTendenciaWindow.setTabOrder(self.csvRadioButton, self.txtRadioButton)
+        plotTendenciaWindow.setTabOrder(self.txtRadioButton, self.xlsxRadioButton)
+        plotTendenciaWindow.setTabOrder(self.xlsxRadioButton, self.cotaProfSim)
+        plotTendenciaWindow.setTabOrder(self.cotaProfSim, self.cotaProfNao)
+        plotTendenciaWindow.setTabOrder(self.cotaProfNao, self.inputMesaRotativa)
+        plotTendenciaWindow.setTabOrder(self.inputMesaRotativa, self.headerSim)
+        plotTendenciaWindow.setTabOrder(self.headerSim, self.headerNao)
+        plotTendenciaWindow.setTabOrder(self.headerNao, self.inputHeaderLines)
+        plotTendenciaWindow.setTabOrder(self.inputHeaderLines, self.inputPressureUnit)
+        plotTendenciaWindow.setTabOrder(self.inputPressureUnit, self.agrupamentoSpinBox)
+        plotTendenciaWindow.setTabOrder(self.agrupamentoSpinBox, self.inputProfMin)
+        plotTendenciaWindow.setTabOrder(self.inputProfMin, self.inputProfMax)
+        plotTendenciaWindow.setTabOrder(self.inputProfMax, self.inputPlotTitle)
+        plotTendenciaWindow.setTabOrder(self.inputPlotTitle, self.inputPlotXAxis)
+        plotTendenciaWindow.setTabOrder(self.inputPlotXAxis, self.inputPlotYAxis)
+        plotTendenciaWindow.setTabOrder(self.inputPlotYAxis, self.lineColorComboBox)
+        plotTendenciaWindow.setTabOrder(self.lineColorComboBox, self.tendenciaPlotBtn)
+        plotTendenciaWindow.setTabOrder(self.tendenciaPlotBtn, self.outputAfterPlotted)
 
     def retranslateUi(self, plotTendenciaWindow):
         _translate = QtCore.QCoreApplication.translate

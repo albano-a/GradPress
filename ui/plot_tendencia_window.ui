@@ -798,13 +798,35 @@ p, li { white-space: pre-wrap; }
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>selectFileComboBox</tabstop>
+  <tabstop>csvRadioButton</tabstop>
+  <tabstop>txtRadioButton</tabstop>
+  <tabstop>xlsxRadioButton</tabstop>
+  <tabstop>cotaProfSim</tabstop>
+  <tabstop>cotaProfNao</tabstop>
+  <tabstop>inputMesaRotativa</tabstop>
+  <tabstop>headerSim</tabstop>
+  <tabstop>headerNao</tabstop>
+  <tabstop>inputHeaderLines</tabstop>
+  <tabstop>inputPressureUnit</tabstop>
+  <tabstop>agrupamentoSpinBox</tabstop>
+  <tabstop>inputProfMin</tabstop>
+  <tabstop>inputProfMax</tabstop>
+  <tabstop>inputPlotTitle</tabstop>
+  <tabstop>inputPlotXAxis</tabstop>
+  <tabstop>inputPlotYAxis</tabstop>
+  <tabstop>lineColorComboBox</tabstop>
+  <tabstop>tendenciaPlotBtn</tabstop>
+  <tabstop>outputAfterPlotted</tabstop>
+ </tabstops>
  <resources>
   <include location="../img/icons/icons.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="cotaButtonGroup"/>
   <buttongroup name="headerButtonGroup"/>
+  <buttongroup name="cotaButtonGroup"/>
   <buttongroup name="fileButtonGroup"/>
  </buttongroups>
 </ui>

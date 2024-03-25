@@ -1,0 +1,137 @@
+{
+ "version": "auto-py-to-exe-configuration_v1",
+ "pyinstallerOptions": [
+  {
+   "optionDest": "noconfirm",
+   "value": true
+  },
+  {
+   "optionDest": "filenames",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/main.py"
+  },
+  {
+   "optionDest": "onefile",
+   "value": false
+  },
+  {
+   "optionDest": "console",
+   "value": false
+  },
+  {
+   "optionDest": "icon_file",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/icon.ico"
+  },
+  {
+   "optionDest": "name",
+   "value": "krakenv0.2"
+  },
+  {
+   "optionDest": "clean_build",
+   "value": false
+  },
+  {
+   "optionDest": "strip",
+   "value": false
+  },
+  {
+   "optionDest": "noupx",
+   "value": false
+  },
+  {
+   "optionDest": "disable_windowed_traceback",
+   "value": false
+  },
+  {
+   "optionDest": "uac_admin",
+   "value": false
+  },
+  {
+   "optionDest": "uac_uiaccess",
+   "value": false
+  },
+  {
+   "optionDest": "argv_emulation",
+   "value": false
+  },
+  {
+   "optionDest": "bootloader_ignore_signals",
+   "value": false
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/uploads;uploads/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/ui;ui/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/pyui;pyui/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/img;img/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/help;help/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/highlighting_functions.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/app_functions.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/about.png;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/help.png;."
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "os"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "PyQt6"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "PyQt5"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "PyQt6-QScintilla"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "qscintilla"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "pandas"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "markdown"
+  },
+  {
+   "optionDest": "hiddenimports",
+   "value": "scikit-learn"
+  },
+  {
+   "optionDest": "hookspath",
+   "value": "C:/Users/Icarl/Documents/GitHub/pressao/"
+  }
+ ],
+ "nonPyinstallerOptions": {
+  "increaseRecursionLimit": true,
+  "manualArguments": ""
+ }
+}

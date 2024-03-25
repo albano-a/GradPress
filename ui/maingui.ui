@@ -843,6 +843,15 @@ QPushButton:hover {
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>mainSheetTable</tabstop>
+  <tabstop>addRowBtn</tabstop>
+  <tabstop>rmRowBtn</tabstop>
+  <tabstop>addColBtn</tabstop>
+  <tabstop>rmColBtn</tabstop>
+  <tabstop>changeTextColorBtn</tabstop>
+  <tabstop>changeCellColorBtn</tabstop>
+ </tabstops>
  <resources>
   <include location="../img/icons/icons.qrc"/>
  </resources>
