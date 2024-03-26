@@ -809,6 +809,7 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 def main():
     app = QApplication(sys.argv)
     window = MyGUI()
+    window.show()
     sys.exit(app.exec())
 
 if __name__ == '__main__':
