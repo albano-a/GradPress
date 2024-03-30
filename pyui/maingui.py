@@ -27,6 +27,28 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.frame = QtWidgets.QFrame(parent=self.centralwidget)
+        self.frame.setMaximumSize(QtCore.QSize(16777215, 100))
+        self.frame.setAutoFillBackground(False)
+        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.cellNameBox = QtWidgets.QComboBox(parent=self.frame)
+        self.cellNameBox.setMinimumSize(QtCore.QSize(100, 0))
+        self.cellNameBox.setMaximumSize(QtCore.QSize(150, 16777215))
+        self.cellNameBox.setStyleSheet("QComboBox {\n"
+"    text-align: center;\n"
+"}\n"
+"")
+        self.cellNameBox.setObjectName("cellNameBox")
+        self.horizontalLayout.addWidget(self.cellNameBox)
+        self.formulaBar = QtWidgets.QLineEdit(parent=self.frame)
+        self.formulaBar.setToolTip("")
+        self.formulaBar.setObjectName("formulaBar")
+        self.horizontalLayout.addWidget(self.formulaBar)
+        self.verticalLayout.addWidget(self.frame)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
@@ -37,6 +59,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mainSheetTable.sizePolicy().hasHeightForWidth())
         self.mainSheetTable.setSizePolicy(sizePolicy)
+        self.mainSheetTable.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
         self.mainSheetTable.setAutoFillBackground(False)
         self.mainSheetTable.setStyleSheet("/* Table background and borders */\n"
 "QTableWidget {\n"
@@ -53,11 +76,6 @@ class Ui_MainWindow(object):
 "    font-size: 10pt; /* Tamanho da fonte */\n"
 "}\n"
 "\n"
-"/* Hover effect on table items */\n"
-"QTableWidget::item:hover {\n"
-"    background-color: #d9e4f7; /* Cor de fundo azul claro ao passar o mouse */\n"
-"}\n"
-"\n"
 "/* Styling for header sections */\n"
 "QHeaderView::section {\n"
 "    background-color: #63BE7B ; /* Cor de fundo cinza claro */\n"
@@ -70,14 +88,12 @@ class Ui_MainWindow(object):
 "/* Selected items */\n"
 "QTableWidget::item:selected {\n"
 "    border: 1px solid #aeaeae; /* Cor de fundo azul escuro para itens selecionados */\n"
-"    background-color: #e3e3e3;\n"
+"    background-color: #e6e6e6;\n"
 "}\n"
 "")
         self.mainSheetTable.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.mainSheetTable.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.mainSheetTable.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
-        self.mainSheetTable.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
-        self.mainSheetTable.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.mainSheetTable.setRowCount(100)
         self.mainSheetTable.setColumnCount(24)
         self.mainSheetTable.setObjectName("mainSheetTable")
@@ -149,7 +165,6 @@ class Ui_MainWindow(object):
 "    border-radius: 5px;\n"
 "    border: 1px solid rgb(171, 171, 171);\n"
 "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"    transition: background-color 0.3s ease; /* Add transition effect */\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
@@ -393,6 +408,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.formulaBar.setPlaceholderText(_translate("MainWindow", "Insira uma função aqui..."))
         item = self.mainSheetTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "A"))
         item = self.mainSheetTable.horizontalHeaderItem(1)

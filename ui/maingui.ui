@@ -35,6 +35,59 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QFrame" name="frame">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QComboBox" name="cellNameBox">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QComboBox {
+	text-align: center;
+}
+</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="formulaBar">
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="placeholderText">
+          <string>Insira uma função aqui...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -45,6 +98,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="cursor" stdset="0">
+           <cursorShape>CrossCursor</cursorShape>
           </property>
           <property name="autoFillBackground">
            <bool>false</bool>
@@ -65,11 +121,6 @@ QTableWidget::item {
     font-size: 10pt; /* Tamanho da fonte */
 }
 
-/* Hover effect on table items */
-QTableWidget::item:hover {
-    background-color: #d9e4f7; /* Cor de fundo azul claro ao passar o mouse */
-}
-
 /* Styling for header sections */
 QHeaderView::section {
     background-color: #63BE7B ; /* Cor de fundo cinza claro */
@@ -82,7 +133,7 @@ QHeaderView::section {
 /* Selected items */
 QTableWidget::item:selected {
     border: 1px solid #aeaeae; /* Cor de fundo azul escuro para itens selecionados */
-	background-color: #e3e3e3;
+	background-color: #e6e6e6;
 }
 </string>
           </property>
@@ -94,12 +145,6 @@ QTableWidget::item:selected {
           </property>
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustIgnored</enum>
-          </property>
-          <property name="dragDropMode">
-           <enum>QAbstractItemView::DragDrop</enum>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::ExtendedSelection</enum>
           </property>
           <property name="rowCount">
            <number>100</number>
@@ -382,7 +427,6 @@ QTableWidget::item:selected {
     border-radius: 5px;
     border: 1px solid rgb(171, 171, 171);
     background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-    transition: background-color 0.3s ease; /* Add transition effect */
 }
 
 QPushButton:hover {
