@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>916</width>
-    <height>685</height>
+    <width>1055</width>
+    <height>840</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -44,6 +44,12 @@
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QFrame {
+    border: none;  /* Remove qualquer borda */
+    margin: 0px;   /* Define a margem como zero */
+}</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -102,6 +108,9 @@
           <property name="cursor" stdset="0">
            <cursorShape>CrossCursor</cursorShape>
           </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::ActionsContextMenu</enum>
+          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
@@ -112,6 +121,7 @@ QTableWidget {
     border: 1px solid #000000; /* Borda preta */
     border-radius: 0px; /* Sem arredondamento de cantos */
     gridline-color: #d4d4d4; /* Cor das linhas da grade */
+	margin: 0;
 }
 
 /* Styling for table items */
@@ -393,239 +403,6 @@ QTableWidget::item:selected {
       </item>
      </layout>
     </item>
-    <item>
-     <widget class="QFrame" name="configSheetTable">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>65</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <widget class="QPushButton" name="changeTextColorBtn">
-       <property name="geometry">
-        <rect>
-         <x>320</x>
-         <y>20</y>
-         <width>41</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}
-</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../img/icons/font_color.png</normaloff>../img/icons/font_color.png</iconset>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="changeCellColorBtn">
-       <property name="geometry">
-        <rect>
-         <x>370</x>
-         <y>20</y>
-         <width>41</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../img/icons/fill_color.png</normaloff>../img/icons/fill_color.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>24</width>
-         <height>24</height>
-        </size>
-       </property>
-      </widget>
-      <widget class="QWidget" name="layoutWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>27</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QPushButton" name="addRowBtn">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="statusTip">
-           <string>Adicionar linha à planilha</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-          </property>
-          <property name="text">
-           <string>+</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="row_label_2">
-          <property name="font">
-           <font>
-            <family>Segoe UI</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Linhas</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="rmRowBtn">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="statusTip">
-           <string>Remover linha da planilha</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-          </property>
-          <property name="text">
-           <string>-</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="addColBtn">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="statusTip">
-           <string>Adicionar coluna à planilha</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-    border-radius:15px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-          </property>
-          <property name="text">
-           <string>+</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="col_label_2">
-          <property name="font">
-           <font>
-            <family>Segoe UI</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Colunas</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="rmColBtn">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="statusTip">
-           <string>Remover coluna da planilha</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-          </property>
-          <property name="text">
-           <string>-</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -633,7 +410,7 @@ QPushButton:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>916</width>
+     <width>1055</width>
      <height>21</height>
     </rect>
    </property>
@@ -644,6 +421,7 @@ QPushButton:hover {
     <addaction name="actionNew"/>
     <addaction name="actionAbrir"/>
     <addaction name="actionSalvar"/>
+    <addaction name="actionImportar_Arquivo"/>
     <addaction name="separator"/>
     <addaction name="actionSair"/>
    </widget>
@@ -689,28 +467,30 @@ QPushButton:hover {
    <addaction name="newFileToolbar"/>
    <addaction name="actionAbrirToolbar"/>
    <addaction name="actionSaveToolbar"/>
-  </widget>
-  <widget class="QToolBar" name="toolBar_2">
-   <property name="windowTitle">
-    <string>toolBar_2</string>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QToolBar {
-    icon-size: 32px; /* Set the icon size */
-    spacing: 10px; /* Set the spacing between items */
-}</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
+   <addaction name="separator"/>
    <addaction name="actionManageFilesToolbar"/>
    <addaction name="actionOpenCalculatorToolbar"/>
    <addaction name="actionTendencyPlotToolbar"/>
    <addaction name="actionCodeEditorToolbar"/>
    <addaction name="actionChangeFontToolbar"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>true</bool>
+   </attribute>
+   <addaction name="changeTextColorBtn"/>
+   <addaction name="changeCellColorBtn"/>
+   <addaction name="separator"/>
+   <addaction name="alignLeftButton"/>
+   <addaction name="alignCenterButton"/>
+   <addaction name="alignRightButton"/>
   </widget>
   <action name="actionNew">
    <property name="text">
@@ -886,15 +666,77 @@ QPushButton:hover {
     <string>Classificação de Fluidos</string>
    </property>
   </action>
+  <action name="actionImportar_Arquivo">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Importar arquivo</string>
+   </property>
+  </action>
+  <action name="changeTextColorBtn">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/font_color.png</normaloff>../img/icons/font_color.png</iconset>
+   </property>
+   <property name="text">
+    <string>changeTextColorBtn</string>
+   </property>
+   <property name="toolTip">
+    <string>Alterar cor do texto</string>
+   </property>
+  </action>
+  <action name="changeCellColorBtn">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/fill_color.png</normaloff>../img/icons/fill_color.png</iconset>
+   </property>
+   <property name="text">
+    <string>changeCellColorBtn</string>
+   </property>
+   <property name="toolTip">
+    <string>Alterar fundo</string>
+   </property>
+  </action>
+  <action name="alignLeftButton">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/alignLeft.svg</normaloff>../img/icons/alignLeft.svg</iconset>
+   </property>
+   <property name="text">
+    <string>alignLeftButton</string>
+   </property>
+   <property name="toolTip">
+    <string>Alinhar à esquerda</string>
+   </property>
+  </action>
+  <action name="alignCenterButton">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/alignCenter.svg</normaloff>../img/icons/alignCenter.svg</iconset>
+   </property>
+   <property name="text">
+    <string>alignCenterButton</string>
+   </property>
+   <property name="toolTip">
+    <string>Alinhar ao centro</string>
+   </property>
+  </action>
+  <action name="alignRightButton">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/icons/alignRight.svg</normaloff>../img/icons/alignRight.svg</iconset>
+   </property>
+   <property name="text">
+    <string>alignRightButton</string>
+   </property>
+   <property name="toolTip">
+    <string>Alinhar à direita</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>mainSheetTable</tabstop>
-  <tabstop>addRowBtn</tabstop>
-  <tabstop>rmRowBtn</tabstop>
-  <tabstop>addColBtn</tabstop>
-  <tabstop>rmColBtn</tabstop>
-  <tabstop>changeTextColorBtn</tabstop>
-  <tabstop>changeCellColorBtn</tabstop>
  </tabstops>
  <resources>
   <include location="../img/icons/icons.qrc"/>

@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(916, 685)
+        MainWindow.resize(1055, 840)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -30,6 +30,10 @@ class Ui_MainWindow(object):
         self.frame = QtWidgets.QFrame(parent=self.centralwidget)
         self.frame.setMaximumSize(QtCore.QSize(16777215, 100))
         self.frame.setAutoFillBackground(False)
+        self.frame.setStyleSheet("QFrame {\n"
+"    border: none;  /* Remove qualquer borda */\n"
+"    margin: 0px;   /* Define a margem como zero */\n"
+"}")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
@@ -60,6 +64,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.mainSheetTable.sizePolicy().hasHeightForWidth())
         self.mainSheetTable.setSizePolicy(sizePolicy)
         self.mainSheetTable.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
+        self.mainSheetTable.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.ActionsContextMenu)
         self.mainSheetTable.setAutoFillBackground(False)
         self.mainSheetTable.setStyleSheet("/* Table background and borders */\n"
 "QTableWidget {\n"
@@ -67,6 +72,7 @@ class Ui_MainWindow(object):
 "    border: 1px solid #000000; /* Borda preta */\n"
 "    border-radius: 0px; /* Sem arredondamento de cantos */\n"
 "    gridline-color: #d4d4d4; /* Cor das linhas da grade */\n"
+"    margin: 0;\n"
 "}\n"
 "\n"
 "/* Styling for table items */\n"
@@ -153,136 +159,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.mainSheetTable)
         self.horizontalLayout_2.addLayout(self.verticalLayout_3)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
-        self.configSheetTable = QtWidgets.QFrame(parent=self.centralwidget)
-        self.configSheetTable.setMinimumSize(QtCore.QSize(0, 65))
-        self.configSheetTable.setMaximumSize(QtCore.QSize(16777215, 100))
-        self.configSheetTable.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.configSheetTable.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.configSheetTable.setObjectName("configSheetTable")
-        self.changeTextColorBtn = QtWidgets.QPushButton(parent=self.configSheetTable)
-        self.changeTextColorBtn.setGeometry(QtCore.QRect(320, 20, 41, 31))
-        self.changeTextColorBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}\n"
-"")
-        self.changeTextColorBtn.setText("")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("ui\\../img/icons/font_color.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.changeTextColorBtn.setIcon(icon1)
-        self.changeTextColorBtn.setObjectName("changeTextColorBtn")
-        self.changeCellColorBtn = QtWidgets.QPushButton(parent=self.configSheetTable)
-        self.changeCellColorBtn.setGeometry(QtCore.QRect(370, 20, 41, 31))
-        self.changeCellColorBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
-        self.changeCellColorBtn.setText("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("ui\\../img/icons/fill_color.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.changeCellColorBtn.setIcon(icon2)
-        self.changeCellColorBtn.setIconSize(QtCore.QSize(24, 24))
-        self.changeCellColorBtn.setObjectName("changeCellColorBtn")
-        self.layoutWidget_2 = QtWidgets.QWidget(parent=self.configSheetTable)
-        self.layoutWidget_2.setGeometry(QtCore.QRect(10, 20, 301, 27))
-        self.layoutWidget_2.setObjectName("layoutWidget_2")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.layoutWidget_2)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.addRowBtn = QtWidgets.QPushButton(parent=self.layoutWidget_2)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.addRowBtn.setFont(font)
-        self.addRowBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
-        self.addRowBtn.setObjectName("addRowBtn")
-        self.horizontalLayout_3.addWidget(self.addRowBtn)
-        self.row_label_2 = QtWidgets.QLabel(parent=self.layoutWidget_2)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(14)
-        self.row_label_2.setFont(font)
-        self.row_label_2.setObjectName("row_label_2")
-        self.horizontalLayout_3.addWidget(self.row_label_2)
-        self.rmRowBtn = QtWidgets.QPushButton(parent=self.layoutWidget_2)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.rmRowBtn.setFont(font)
-        self.rmRowBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
-        self.rmRowBtn.setObjectName("rmRowBtn")
-        self.horizontalLayout_3.addWidget(self.rmRowBtn)
-        self.addColBtn = QtWidgets.QPushButton(parent=self.layoutWidget_2)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.addColBtn.setFont(font)
-        self.addColBtn.setStyleSheet("QPushButton {\n"
-"    border-radius:15px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
-        self.addColBtn.setObjectName("addColBtn")
-        self.horizontalLayout_3.addWidget(self.addColBtn)
-        self.col_label_2 = QtWidgets.QLabel(parent=self.layoutWidget_2)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(14)
-        self.col_label_2.setFont(font)
-        self.col_label_2.setObjectName("col_label_2")
-        self.horizontalLayout_3.addWidget(self.col_label_2)
-        self.rmColBtn = QtWidgets.QPushButton(parent=self.layoutWidget_2)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.rmColBtn.setFont(font)
-        self.rmColBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
-        self.rmColBtn.setObjectName("rmColBtn")
-        self.horizontalLayout_3.addWidget(self.rmColBtn)
-        self.verticalLayout.addWidget(self.configSheetTable)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 916, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1055, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -300,12 +179,9 @@ class Ui_MainWindow(object):
         self.toolBar.setObjectName("toolBar")
         MainWindow.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, self.toolBar)
         self.toolBar_2 = QtWidgets.QToolBar(parent=MainWindow)
-        self.toolBar_2.setStyleSheet("QToolBar {\n"
-"    icon-size: 32px; /* Set the icon size */\n"
-"    spacing: 10px; /* Set the spacing between items */\n"
-"}")
         self.toolBar_2.setObjectName("toolBar_2")
         MainWindow.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, self.toolBar_2)
+        MainWindow.insertToolBarBreak(self.toolBar_2)
         self.actionNew = QtGui.QAction(parent=MainWindow)
         self.actionNew.setObjectName("actionNew")
         self.actionAbrir = QtGui.QAction(parent=MainWindow)
@@ -327,52 +203,81 @@ class Ui_MainWindow(object):
         self.actionSobre = QtGui.QAction(parent=MainWindow)
         self.actionSobre.setObjectName("actionSobre")
         self.newFileToolbar = QtGui.QAction(parent=MainWindow)
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("ui\\../img/icons/new_file.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.newFileToolbar.setIcon(icon3)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("ui\\../img/icons/new_file.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.newFileToolbar.setIcon(icon1)
         self.newFileToolbar.setObjectName("newFileToolbar")
         self.actionAbrirToolbar = QtGui.QAction(parent=MainWindow)
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("ui\\../img/icons/folder.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.actionAbrirToolbar.setIcon(icon4)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("ui\\../img/icons/folder.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.actionAbrirToolbar.setIcon(icon2)
         self.actionAbrirToolbar.setObjectName("actionAbrirToolbar")
         self.actionSaveToolbar = QtGui.QAction(parent=MainWindow)
-        icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("ui\\../img/icons/save.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.actionSaveToolbar.setIcon(icon5)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("ui\\../img/icons/save.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.actionSaveToolbar.setIcon(icon3)
         self.actionSaveToolbar.setObjectName("actionSaveToolbar")
         self.actionManageFilesToolbar = QtGui.QAction(parent=MainWindow)
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("ui\\../img/icons/inventory.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.actionManageFilesToolbar.setIcon(icon6)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("ui\\../img/icons/inventory.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.actionManageFilesToolbar.setIcon(icon4)
         self.actionManageFilesToolbar.setObjectName("actionManageFilesToolbar")
         self.actionOpenCalculatorToolbar = QtGui.QAction(parent=MainWindow)
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("ui\\../img/icons/scatter.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.actionOpenCalculatorToolbar.setIcon(icon7)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("ui\\../img/icons/scatter.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.actionOpenCalculatorToolbar.setIcon(icon5)
         self.actionOpenCalculatorToolbar.setObjectName("actionOpenCalculatorToolbar")
         self.actionCodeEditorToolbar = QtGui.QAction(parent=MainWindow)
-        icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap("ui\\../img/icons/code.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.actionCodeEditorToolbar.setIcon(icon8)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap("ui\\../img/icons/code.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.actionCodeEditorToolbar.setIcon(icon6)
         self.actionCodeEditorToolbar.setObjectName("actionCodeEditorToolbar")
         self.actionChangeFontToolbar = QtGui.QAction(parent=MainWindow)
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("ui\\../img/icons/font.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.actionChangeFontToolbar.setIcon(icon9)
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap("ui\\../img/icons/font.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.actionChangeFontToolbar.setIcon(icon7)
         self.actionChangeFontToolbar.setObjectName("actionChangeFontToolbar")
         self.actionTendencyPlotToolbar = QtGui.QAction(parent=MainWindow)
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("ui\\../img/icons/regression.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.actionTendencyPlotToolbar.setIcon(icon10)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap("ui\\../img/icons/regression.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.actionTendencyPlotToolbar.setIcon(icon8)
         self.actionTendencyPlotToolbar.setObjectName("actionTendencyPlotToolbar")
         self.actionTendencyPlot = QtGui.QAction(parent=MainWindow)
         self.actionTendencyPlot.setObjectName("actionTendencyPlot")
         self.actionClassificacao_de_Fluidos = QtGui.QAction(parent=MainWindow)
         self.actionClassificacao_de_Fluidos.setObjectName("actionClassificacao_de_Fluidos")
+        self.actionImportar_Arquivo = QtGui.QAction(parent=MainWindow)
+        self.actionImportar_Arquivo.setEnabled(True)
+        self.actionImportar_Arquivo.setObjectName("actionImportar_Arquivo")
+        self.changeTextColorBtn = QtGui.QAction(parent=MainWindow)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("ui\\../img/icons/font_color.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.changeTextColorBtn.setIcon(icon9)
+        self.changeTextColorBtn.setObjectName("changeTextColorBtn")
+        self.changeCellColorBtn = QtGui.QAction(parent=MainWindow)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap("ui\\../img/icons/fill_color.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.changeCellColorBtn.setIcon(icon10)
+        self.changeCellColorBtn.setObjectName("changeCellColorBtn")
+        self.alignLeftButton = QtGui.QAction(parent=MainWindow)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap("ui\\../img/icons/alignLeft.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.alignLeftButton.setIcon(icon11)
+        self.alignLeftButton.setObjectName("alignLeftButton")
+        self.alignCenterButton = QtGui.QAction(parent=MainWindow)
+        icon12 = QtGui.QIcon()
+        icon12.addPixmap(QtGui.QPixmap("ui\\../img/icons/alignCenter.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.alignCenterButton.setIcon(icon12)
+        self.alignCenterButton.setObjectName("alignCenterButton")
+        self.alignRightButton = QtGui.QAction(parent=MainWindow)
+        icon13 = QtGui.QIcon()
+        icon13.addPixmap(QtGui.QPixmap("ui\\../img/icons/alignRight.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.alignRightButton.setIcon(icon13)
+        self.alignRightButton.setObjectName("alignRightButton")
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionAbrir)
         self.menuFile.addAction(self.actionSalvar)
+        self.menuFile.addAction(self.actionImportar_Arquivo)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionSair)
         self.menuEditar.addAction(self.actionGerenciar_Arquivos)
@@ -390,20 +295,22 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.newFileToolbar)
         self.toolBar.addAction(self.actionAbrirToolbar)
         self.toolBar.addAction(self.actionSaveToolbar)
-        self.toolBar_2.addAction(self.actionManageFilesToolbar)
-        self.toolBar_2.addAction(self.actionOpenCalculatorToolbar)
-        self.toolBar_2.addAction(self.actionTendencyPlotToolbar)
-        self.toolBar_2.addAction(self.actionCodeEditorToolbar)
-        self.toolBar_2.addAction(self.actionChangeFontToolbar)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.actionManageFilesToolbar)
+        self.toolBar.addAction(self.actionOpenCalculatorToolbar)
+        self.toolBar.addAction(self.actionTendencyPlotToolbar)
+        self.toolBar.addAction(self.actionCodeEditorToolbar)
+        self.toolBar.addAction(self.actionChangeFontToolbar)
+        self.toolBar.addSeparator()
+        self.toolBar_2.addAction(self.changeTextColorBtn)
+        self.toolBar_2.addAction(self.changeCellColorBtn)
+        self.toolBar_2.addSeparator()
+        self.toolBar_2.addAction(self.alignLeftButton)
+        self.toolBar_2.addAction(self.alignCenterButton)
+        self.toolBar_2.addAction(self.alignRightButton)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        MainWindow.setTabOrder(self.mainSheetTable, self.addRowBtn)
-        MainWindow.setTabOrder(self.addRowBtn, self.rmRowBtn)
-        MainWindow.setTabOrder(self.rmRowBtn, self.addColBtn)
-        MainWindow.setTabOrder(self.addColBtn, self.rmColBtn)
-        MainWindow.setTabOrder(self.rmColBtn, self.changeTextColorBtn)
-        MainWindow.setTabOrder(self.changeTextColorBtn, self.changeCellColorBtn)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -457,16 +364,6 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "X"))
         item = self.mainSheetTable.horizontalHeaderItem(23)
         item.setText(_translate("MainWindow", "Z"))
-        self.addRowBtn.setStatusTip(_translate("MainWindow", "Adicionar linha à planilha"))
-        self.addRowBtn.setText(_translate("MainWindow", "+"))
-        self.row_label_2.setText(_translate("MainWindow", "Linhas"))
-        self.rmRowBtn.setStatusTip(_translate("MainWindow", "Remover linha da planilha"))
-        self.rmRowBtn.setText(_translate("MainWindow", "-"))
-        self.addColBtn.setStatusTip(_translate("MainWindow", "Adicionar coluna à planilha"))
-        self.addColBtn.setText(_translate("MainWindow", "+"))
-        self.col_label_2.setText(_translate("MainWindow", "Colunas"))
-        self.rmColBtn.setStatusTip(_translate("MainWindow", "Remover coluna da planilha"))
-        self.rmColBtn.setText(_translate("MainWindow", "-"))
         self.menuFile.setTitle(_translate("MainWindow", "Arquivo"))
         self.menuEditar.setTitle(_translate("MainWindow", "Editar"))
         self.menuCalcular.setTitle(_translate("MainWindow", "Calcular"))
@@ -507,3 +404,14 @@ class Ui_MainWindow(object):
         self.actionTendencyPlotToolbar.setText(_translate("MainWindow", "Abrir gráfico de tendencia"))
         self.actionTendencyPlot.setText(_translate("MainWindow", "Contato de Fluidos"))
         self.actionClassificacao_de_Fluidos.setText(_translate("MainWindow", "Classificação de Fluidos"))
+        self.actionImportar_Arquivo.setText(_translate("MainWindow", "Importar arquivo"))
+        self.changeTextColorBtn.setText(_translate("MainWindow", "changeTextColorBtn"))
+        self.changeTextColorBtn.setToolTip(_translate("MainWindow", "Alterar cor do texto"))
+        self.changeCellColorBtn.setText(_translate("MainWindow", "changeCellColorBtn"))
+        self.changeCellColorBtn.setToolTip(_translate("MainWindow", "Alterar fundo"))
+        self.alignLeftButton.setText(_translate("MainWindow", "alignLeftButton"))
+        self.alignLeftButton.setToolTip(_translate("MainWindow", "Alinhar à esquerda"))
+        self.alignCenterButton.setText(_translate("MainWindow", "alignCenterButton"))
+        self.alignCenterButton.setToolTip(_translate("MainWindow", "Alinhar ao centro"))
+        self.alignRightButton.setText(_translate("MainWindow", "alignRightButton"))
+        self.alignRightButton.setToolTip(_translate("MainWindow", "Alinhar à direita"))

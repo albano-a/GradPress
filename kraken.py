@@ -7,13 +7,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from PyQt6.QtCore import Qt, QUrl, QResource, QCoreApplication, QDir
+from PyQt6.QtCore import Qt, QUrl, QResource, QCoreApplication, QDir, QEvent
 from PyQt6.QtGui import (QAction, QKeySequence, QDesktopServices,
                         QFileSystemModel, QStandardItemModel, QStandardItem,
                         QFontMetricsF, QTextOption, QFont, QKeyEvent, QColor)
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QTableWidgetItem,
                             QFileDialog, QMessageBox, QColorDialog, QFontDialog,
-                            QInputDialog, QTreeWidgetItem)
+                            QInputDialog, QMenu, QTreeWidgetItem)
 import PyQt6.Qsci as Qsci
 from PyQt6.Qsci import QsciScintilla
 from pyui.icons_rc import *
@@ -575,7 +575,7 @@ class HelpWindow(QMainWindow, Ui_HelpMainWindow):
         self.helpTreeView.setModel(self.model)
 
         # Set the root index for helpTreeView
-        root_path = os.path.dirname(os.path.abspath(__file__)) + '/help'
+        root_path = os.path.dirname(os.path.abspath(__file__)) + '/docs'
         self.helpTreeView.setRootIndex(self.model.index(root_path))
 
         # Hide the "Size" and "Type" columns
@@ -621,11 +621,62 @@ class TableManager:
         self.cellNameBox = cellNameBox
         self.start_cell = None
 
+        self.table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+
         self.table.pressed.connect(self.onCellPressed)
         self.table.entered.connect(self.onCellEntered)
         self.table.currentCellChanged.connect(self.updateCellComboBox)
         self.table.cellClicked.connect(self.updateFormulaBar)
         self.formulaBar.textChanged.connect(self.updateCurrentItem)
+        self.table.customContextMenuRequested.connect(self.contextMenuEvent)
+
+    def contextMenuEvent(self, event):
+        contextMenu = QMenu()
+        self.rightClickedColumn = self.table.columnAt(event.x())
+        actions = {
+            "Copiar": self.copy,
+            "Colar": self.paste,
+            "Recortar": self.cut,
+            "Limpar": self.clear
+        }
+
+        for action_text in actions.keys():
+            contextMenu.addAction(action_text)
+
+        contextMenu.addSeparator()
+
+        # Cria um submenu
+        submenu = contextMenu.addMenu("Inserir...")
+
+        # Adiciona ações ao submenu
+        actions["Inserir Linha Acima"] = lambda: self.addRow(above=True)
+        actions["Inserir Linha Abaixo"] = lambda: self.addRow(above=False)
+        actions["Inserir Coluna à Direita"] = lambda: self.addColumn(left=False)
+        actions["Inserir Coluna à Esquerda"] = lambda: self.addColumn(left=True)
+
+        submenu.addAction("Inserir Linha Acima")
+        submenu.addAction("Inserir Linha Abaixo")
+        submenu.addAction("Inserir Coluna à Direita")
+        submenu.addAction("Inserir Coluna à Esquerda")
+
+        submenu2 = contextMenu.addMenu("Excluir...")
+
+        actions["Excluir Linha Acima"] = lambda: self.removeRow(above=True)
+        actions["Excluir Linha Abaixo"] = lambda: self.removeRow(above=False)
+        actions["Excluir Coluna à Direita"] = lambda: self.removeColumn(left=False)
+        actions["Excluir Coluna à Esquerda"] = lambda: self.removeColumn(left=True)
+
+        submenu2.addAction("Excluir Linha Acima")
+        submenu2.addAction("Excluir Linha Abaixo")
+        submenu2.addAction("Excluir Coluna à Direita")
+        submenu2.addAction("Excluir Coluna à Esquerda")
+
+        selected_action = contextMenu.exec(self.table.mapToGlobal(event))
+
+        if selected_action:
+            action_text = selected_action.text()
+            if action_text in actions:
+                actions[action_text]()
 
     def updateFormulaBar(self, row, column):
         try:
@@ -694,26 +745,27 @@ class TableManager:
                 if item is not None:
                     item.setSelected(True)
 
-
-    def addRow(self):
-        rowPosition = self.table.rowCount()
+    def addRow(self, above=True):
+        rowPosition = self.table.currentRow() if above else self.table.rowCount()
         self.table.insertRow(rowPosition)
 
-    def removeRow(self):
-        rowPosition = self.table.rowCount()
-        if rowPosition > 0:
-            self.table.removeRow(rowPosition - 1)
-
-    def addColumn(self):
-        colPosition = self.table.columnCount()
+    def addColumn(self, left=True):
+        colPosition = self.rightClickedColumn
+        if not left:
+            colPosition += 1
         self.table.insertColumn(colPosition)
         headers = [self.excel_style(i) for i in range(1, self.table.columnCount() + 1)]
         self.table.setHorizontalHeaderLabels(headers)
 
-    def removeColumn(self):
-        colPosition = self.table.columnCount()
-        if colPosition > 0:
-            self.table.removeColumn(colPosition - 1)
+    def removeRow(self, above=True):
+        rowPosition = self.table.currentRow() if above else self.table.rowCount() - 1
+        self.table.removeRow(rowPosition)
+
+    def removeColumn(self, left=True):
+        colPosition = self.table.currentColumn() if left else self.table.columnCount() - 1
+        self.table.removeColumn(colPosition)
+        headers = [self.excel_style(i) for i in range(1, self.table.columnCount() + 1)]
+        self.table.setHorizontalHeaderLabels(headers)
 
     def changeFont(self):
         font, ok = QFontDialog.getFont()
@@ -803,6 +855,19 @@ class TableManager:
         except Exception as e:
             QMessageBox.critical(self.table, 'Erro', f'Ocorreu um erro ao criar uma nova tabela: {str(e)}')
 
+    def textAlignment(self, alignment):
+        # left, center, right
+        selected_items = self.table.selectedItems()
+        if alignment == 'left':
+            for item in selected_items:
+                item.setTextAlignment(Qt.AlignmentFlag.AlignLeft)
+        elif alignment == 'center':
+            for item in selected_items:
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        elif alignment == 'right':
+            for item in selected_items:
+                item.setTextAlignment(Qt.AlignmentFlag.AlignRight)
+
     def changeCellColor(self):
         try:
             color = QColorDialog.getColor()
@@ -859,6 +924,11 @@ class TableManager:
             if item is not None:
                 item.setText('')
 
+    def clear(self):
+        for item in self.table.selectedItems():
+            if item is not None:
+                item.setText('')
+
     @staticmethod
     def excel_style(col):
         string = ""
@@ -882,12 +952,6 @@ class MyGUI(QMainWindow, Ui_MainWindow):
                                          self.formulaBar,
                                          self.cellNameBox)
 
-        #row btns
-        self.addRowBtn.clicked.connect(self.tableManager.addRow)
-        self.rmRowBtn.clicked.connect(self.tableManager.removeRow)
-        # col btns
-        self.addColBtn.clicked.connect(self.tableManager.addColumn)
-        self.rmColBtn.clicked.connect(self.tableManager.removeColumn)
         #new file
         self.newFileToolbar.triggered.connect(self.tableManager.newTable)
         self.actionNew.triggered.connect(self.tableManager.newTable)
@@ -895,14 +959,15 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         #opening
         self.actionAbrirToolbar.triggered.connect(self.tableManager.openCSV)
         self.actionAbrir.triggered.connect(self.tableManager.openCSV)
+        self.actionImportar_Arquivo.triggered.connect(self.tableManager.openCSV)
         # saving
         self.actionSaveToolbar.triggered.connect(self.tableManager.saveTable)
         self.actionSalvar.triggered.connect(self.tableManager.saveTable)
         # font
         self.actionChangeFontToolbar.triggered.connect(self.tableManager.changeFont)
 
-        self.changeTextColorBtn.clicked.connect(self.tableManager.changeTextColor)
-        self.changeCellColorBtn.clicked.connect(self.tableManager.changeCellColor)
+        self.changeTextColorBtn.triggered.connect(self.tableManager.changeTextColor)
+        self.changeCellColorBtn.triggered.connect(self.tableManager.changeCellColor)
         self.actionSobre.triggered.connect(self.openAboutWindow)
         self.actionAjuda.triggered.connect(self.openHelpWindow)
         self.actionGerenciar_Arquivos.triggered.connect(self.openManageFilesWindow)
@@ -914,6 +979,11 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.actionClassificacao_de_Fluidos.triggered.connect(self.openPressureGradientClassificationWindow)
         self.actionEditor_de_Texto.triggered.connect(self.openTextEditorWindow)
         self.actionCodeEditorToolbar.triggered.connect(self.openTextEditorWindow)
+
+        self.alignLeftButton.triggered.connect(lambda: self.tableManager.textAlignment('left'))
+        self.alignCenterButton.triggered.connect(lambda: self.tableManager.textAlignment('center'))
+        self.alignRightButton.triggered.connect(lambda: self.tableManager.textAlignment('right'))
+
         # Create actions
         copyAction = QAction(self)
         copyAction.setShortcut(QKeySequence("Ctrl+C"))
