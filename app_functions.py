@@ -144,6 +144,7 @@ def pressure_gradient_classification(data, kmeans_number, pressure_unit,
     # First subplot - just the data itself
     axs[0].plot(top_pressao,top_prof,'o',c="C0",label='top curve '+str(round(slope_top,4)))
     axs[0].plot(bottom_pressao,bottom_prof,'o',c="C3",label='bot curve '+str(round(slope_bottom,4)))
+    axs[0].set_title('Pressão x Profundidade')
     axs[0].legend(fontsize='small')
     axs[0].set_xlabel(x_axis)
     axs[0].set_ylabel(y_axis)
@@ -154,6 +155,7 @@ def pressure_gradient_classification(data, kmeans_number, pressure_unit,
     axs[1].plot(bottom_pressao, bottom_prof, 'o', c="C3", label=bottom_fluid_name)
     axs[1].plot(line_top, top_prof, c="C9", label=f'{top_fluid_name} {round(slope_top, 4)}')
     axs[1].plot(line_bottom, bottom_prof, c="C1", label=f'{bottom_fluid_name} {round(slope_bottom, 4)}')
+    axs[1].set_title('Linha de tendências')
     axs[1].legend(fontsize='small')
     axs[1].set_xlabel(x_axis)
     axs[1].set_ylabel(y_axis)
@@ -163,6 +165,7 @@ def pressure_gradient_classification(data, kmeans_number, pressure_unit,
     axs[2].plot(extended_pressure_top,extended_cota_top,c="C9",label=bottom_fluid_name+" "+str(round(slope_bottom,4)))
     axs[2].plot(extended_pressure_bot,extended_cota_bot,c="C1",label=top_fluid_name+" "+str(round(slope_top,4)))
     axs[2].plot(y_intercept,x_intercept,'s',c="k",label="Intersection "+str(round(x_intercept,4)) )
+    axs[2].set_title('Contato dos fluidos')
     axs[2].legend(fontsize='small')
     axs[2].set_xlabel(x_axis)
     axs[2].set_ylabel(y_axis)
