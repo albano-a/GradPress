@@ -859,8 +859,8 @@ class TableManager:
                                 self.table.setItem(rowPosition, column,
                                                    QTableWidgetItem(str(data)))
                             else:
-                                print(f"Warning:
-                                      Trying to add None value at row
+                                print(f"Warning:\
+                                      Trying to add None value at row\
                                       {rowPosition}, column {column}")
                             self.table.update()
                 else:
@@ -879,8 +879,8 @@ class TableManager:
                                 if data is not None:
                                     self.table.setItem(rowPosition, column, QTableWidgetItem(str(data)))
                                 else:
-                                    print(f"Warning: Trying to add None
-                                          value at row {rowPosition},
+                                    print(f"Warning: Trying to add None\
+                                          value at row {rowPosition},\
                                           column {column}")
                                 self.table.update()
         except Exception as e:

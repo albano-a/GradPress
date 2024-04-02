@@ -448,14 +448,14 @@ QTableWidget::item:selected {
    </widget>
    <widget class="QMenu" name="menuEditar">
     <property name="title">
-     <string>Editar</string>
+     <string>Gerenciamento</string>
     </property>
     <addaction name="actionGerenciar_Arquivos"/>
     <addaction name="actionEditor_de_Texto"/>
    </widget>
    <widget class="QMenu" name="menuCalcular">
     <property name="title">
-     <string>Calcular</string>
+     <string>Cálculos e Gráficos</string>
     </property>
     <addaction name="actionCalculadora"/>
     <addaction name="actionTendencyPlot"/>
@@ -464,7 +464,7 @@ QTableWidget::item:selected {
    </widget>
    <widget class="QMenu" name="menuSobre">
     <property name="title">
-     <string>Sobre</string>
+     <string>Ajuda</string>
     </property>
     <addaction name="actionAjuda"/>
     <addaction name="actionSobre"/>
@@ -515,17 +515,17 @@ QTableWidget::item:selected {
   </widget>
   <action name="actionNew">
    <property name="text">
-    <string>Novo</string>
+    <string>Novo Arquivo</string>
    </property>
   </action>
   <action name="actionAbrir">
    <property name="text">
-    <string>Abrir</string>
+    <string>Abrir Arquivo</string>
    </property>
   </action>
   <action name="actionSalvar">
    <property name="text">
-    <string>Salvar</string>
+    <string>Salvar Arquivo</string>
    </property>
   </action>
   <action name="actionSair">
@@ -555,7 +555,7 @@ QTableWidget::item:selected {
   </action>
   <action name="actionAjuda">
    <property name="text">
-    <string>Ajuda</string>
+    <string>Manual do usuário</string>
    </property>
   </action>
   <action name="actionSobre">
@@ -692,7 +692,7 @@ QTableWidget::item:selected {
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Importar arquivo</string>
+    <string>Importar Dados</string>
    </property>
   </action>
   <action name="changeTextColorBtn">
