@@ -43,8 +43,8 @@ def pressure_gradient_classification(data, kmeans_number, pressure_unit,
     converted_data = convert_classification(classified_data)
 
     # Separate the data into two groups based on the classification
-    top_values = [(prof[i], pressao[i]) for i, label in enumerate(converted_data) if label == 1]
-    bottom_values = [(prof[i], pressao[i]) for i, label in enumerate(converted_data) if label == 0]
+    top_values = [(prof[i], pressao[i]) for i, label in enumerate(converted_data) if label == 0]
+    bottom_values = [(prof[i], pressao[i]) for i, label in enumerate(converted_data) if label == 1]
 
     # Calculate the line of best fit for each group
     top_prof, top_pressao = zip(*top_values)
@@ -122,12 +122,12 @@ def pressure_gradient_classification(data, kmeans_number, pressure_unit,
 
     # Extended top curve
     mean_cota_top = np.mean(np.diff(top_prof))
-    extended_cota_top = [(np.abs(mean_cota_top) + np.max(top_prof))] + list(top_prof)
+    extended_cota_top = list(top_prof) + [(np.min(top_prof) - np.abs(mean_cota_top))]
     extended_pressure_top = np.array(extended_cota_top)*slope_top + intercept_top
 
     # Extended bot curve
     mean_cota_bot = np.mean(np.diff(bottom_prof))
-    extended_cota_bot =  list(bottom_prof) + [(np.min(bottom_prof) + mean_cota_bot)]
+    extended_cota_bot = [(np.max(bottom_prof) - mean_cota_bot)] + list(bottom_prof)
     extended_pressure_bot = np.array(extended_cota_bot)*slope_bottom + intercept_bottom
 
     # Calculate the line of best fit for the top and bottom fluids

@@ -1,30 +1,26 @@
+from bokeh.plotting import figure
+from bokeh.embed import file_html
+from bokeh.resources import CDN
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 import sys
 
-from PyQt6.QtWidgets import (QApplication, QGridLayout, QPushButton, QStyle,
-                             QWidget)
+# Create a Bokeh plot
+plot = figure()
+plot.circle([1, 2, 3, 4, 5], [6, 7, 2, 4, 5])
 
+# Export the plot to HTML
+html = file_html(plot, CDN, "my plot")
 
-class Window(QWidget):
-    def __init__(self):
-        super(Window, self).__init__()
-
-        icons = sorted([attr for attr in dir(QStyle.StandardPixmap) if attr.startswith("SP_")])
-        layout = QGridLayout()
-
-        for n, name in enumerate(icons):
-            btn = QPushButton(name)
-
-            pixmapi = getattr(QStyle.StandardPixmap, name)
-            icon = self.style().standardIcon(pixmapi)
-            btn.setIcon(icon)
-            layout.addWidget(btn, int(n/4), int(n%4))
-
-        self.setLayout(layout)
-
-
+# Create a PyQt application
 app = QApplication(sys.argv)
 
-w = Window()
-w.show()
+# Create a QWebEngineView widget
+web = QWebEngineView()
 
-app.exec()
+# Load the Bokeh plot into the widget
+web.setHtml(html)
+web.show()
+
+# Start the PyQt application
+sys.exit(app.exec_())
