@@ -7,6 +7,9 @@ from PyQt6.QtWidgets import QMessageBox
 
 def pressure_gradient_classification(data, kmeans_number, pressure_unit,
                                      superior_title, x_axis, y_axis):
+    # GAS - RED
+    # OIL - GREEN
+    # WATER - BLUE
     prof = data.iloc[:, 0]
     pressao = data.iloc[:, 1]
 
