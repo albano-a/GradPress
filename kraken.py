@@ -394,6 +394,7 @@ class TableManager:
 class MyGUI(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MyGUI, self).__init__()
+        # from PyQt6 import uic
         # uic.loadUi('maingui.ui', self)
 
         self.setupUi(self)
