@@ -6,22 +6,13 @@ import markdown
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 from PyQt6.QtCore import Qt, QDir
-from PyQt6.QtGui import (QAction, QKeySequence,
-                        QFileSystemModel, QStandardItemModel, QStandardItem,
-                        QFont, QColor)
+from PyQt6.QtGui import (QAction, QKeySequence, QColor)
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QTableWidgetItem,
-                            QFileDialog, QMessageBox, QColorDialog, QFontDialog,
-                            QInputDialog, QMenu)
+                            QFileDialog, QMessageBox, QColorDialog, QFontDialog, QMenu)
 
 from pyui.icons_rc import *
 from pyui.maingui import Ui_MainWindow
-from pyui.simple_plot_window import Ui_SimplePlotWindow
-from pyui.plot_tendencia_window import Ui_plotTendenciaWindow
-from pyui.gradiente_pressao_window import Ui_gradientePressaoWindow
-from pyui.text_editor_window import Ui_textEditorWindow
 
 # Software modules
 from modules.about_module import AboutWindow
