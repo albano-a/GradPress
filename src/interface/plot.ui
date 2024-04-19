@@ -67,7 +67,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Gráfico Simples&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Preencha os campos abaixo para gerar um gráfico simples,&lt;br/&gt;apenas plotando o eixo x e o eixo y&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:12pt; font-weight:600;&quot;&gt;Simple Plot&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size:12pt;&quot;&gt;Fill in the fields below to generate a simple graph, &lt;br/&gt;just plotting the x-axis and the y-axis&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </widget>
@@ -80,13 +80,8 @@
         <height>152</height>
        </size>
       </property>
-      <property name="styleSheet">
-       <string notr="true">QGroupBox {
-	background-color: #ededed;
-}</string>
-      </property>
       <property name="title">
-       <string>Arquivo</string>
+       <string>File</string>
       </property>
       <property name="flat">
        <bool>false</bool>
@@ -118,7 +113,7 @@
 }</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Selecione o arquivo:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Select the file:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -172,6 +167,12 @@
         </item>
         <item row="2" column="0" colspan="4" alignment="Qt::AlignHCenter">
          <widget class="QLabel" name="label_11">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
@@ -186,7 +187,10 @@
 }</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Arquivos aceitos até agora são o .csv e .txt. &lt;br/&gt;Futuramente há a pretensão de colocar &lt;br&gt; suporte a arquivos .xlsx&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;The accepted file formats so far are .csv and .txt. In the future, there is an intention to add support for .xlsx files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -206,7 +210,7 @@
 }</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Tipo de arquivo:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;File type:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -222,13 +226,8 @@
         <height>132</height>
        </size>
       </property>
-      <property name="styleSheet">
-       <string notr="true">QGroupBox {
-	background-color: #ededed;
-}</string>
-      </property>
       <property name="title">
-       <string>Configurações do Gráfico</string>
+       <string>Plot Settings</string>
       </property>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
@@ -249,7 +248,10 @@
            </size>
           </property>
           <property name="title">
-           <string>Limitar a Profundidade</string>
+           <string>Depth limit</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
           </property>
           <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
@@ -269,7 +271,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Profundidade Mínima:</string>
+               <string>Minimum Depth:</string>
               </property>
              </widget>
             </item>
@@ -284,7 +286,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Profundidade Máxima:</string>
+               <string>Maximum Depth:</string>
               </property>
              </widget>
             </item>
@@ -298,7 +300,10 @@
         <item>
          <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
-           <string>Título e eixos do gráfico</string>
+           <string>Title and Axis</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
           </property>
           <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
@@ -318,7 +323,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Cor da Linha</string>
+               <string>Line color</string>
               </property>
              </widget>
             </item>
@@ -330,7 +335,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Eixo y:</string>
+               <string>Y axis:</string>
               </property>
              </widget>
             </item>
@@ -345,7 +350,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Título:</string>
+               <string>Title:</string>
               </property>
              </widget>
             </item>
@@ -370,7 +375,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Eixo x:</string>
+               <string>X axis:</string>
               </property>
              </widget>
             </item>
@@ -392,13 +397,8 @@
         <pointsize>8</pointsize>
        </font>
       </property>
-      <property name="styleSheet">
-       <string notr="true">QGroupBox {
-	background-color: #ededed;
-}</string>
-      </property>
       <property name="title">
-       <string>Configurações dos dados</string>
+       <string>File Settings</string>
       </property>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
@@ -418,7 +418,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Não</string>
+           <string>No</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">headerButtonGroup</string>
@@ -447,7 +447,7 @@
 }</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Quantas linhas?:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;How many lines?:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -466,7 +466,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Sim</string>
+           <string>Yes</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">cotaButtonGroup</string>
@@ -481,7 +481,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Não</string>
+           <string>No</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">cotaButtonGroup</string>
@@ -507,7 +507,7 @@
 }</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Profundidade em cota?:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;TVDSS?*:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -533,7 +533,7 @@
 }</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Mesa Rotativa:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Rotary table:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -552,7 +552,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Sim</string>
+           <string>Yes</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">headerButtonGroup</string>
@@ -578,7 +578,7 @@
 }</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Cabeçalho?:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Header?:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -619,7 +619,7 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Plotar</string>
+       <string>Plot</string>
       </property>
      </widget>
     </item>
@@ -674,8 +674,8 @@ QPushButton:hover {
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="headerButtonGroup"/>
   <buttongroup name="cotaButtonGroup"/>
+  <buttongroup name="headerButtonGroup"/>
   <buttongroup name="fileButtonGroup"/>
  </buttongroups>
 </ui>

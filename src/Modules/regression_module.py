@@ -2,8 +2,8 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 from PyQt6.QtWidgets import QMainWindow, QMessageBox
-from pyui.plot_tendencia_window import Ui_plotTendenciaWindow
-from src.general_fun import pressure_gradient_classification
+from Interface.pyInterface.regression_ui import Ui_plotTendenciaWindow
+from Functions.general import pressure_gradient_classification
 
 
 class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):

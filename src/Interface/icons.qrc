@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="toolbarIcons">
+    <file>img/alignCenter.svg</file>
+    <file>img/alignLeft.svg</file>
+    <file>img/alignRight.svg</file>
+    <file>img/complex.svg</file>
+    <file>img/fill_color.png</file>
+    <file>img/font.png</file>
+    <file>img/font_color.png</file>
+    <file>img/help.png</file>
+    <file>img/mng.svg</file>
+    <file>img/new.svg</file>
+    <file>img/open_folder.svg</file>
+    <file>img/save.svg</file>
+    <file>img/simple.svg</file>
+  </qresource>
+</RCC>

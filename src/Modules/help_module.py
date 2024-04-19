@@ -3,7 +3,7 @@ import markdown
 from PyQt6.QtGui import QFileSystemModel
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtCore import QDir
-from pyui.help import Ui_HelpMainWindow
+from Interface.pyInterface.help_ui import Ui_HelpMainWindow
 
 
 class HelpWindow(QMainWindow, Ui_HelpMainWindow):

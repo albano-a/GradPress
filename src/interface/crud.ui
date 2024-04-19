@@ -60,7 +60,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Gerenciar Arquivos&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot;font-weight:600;&quot;&gt;Manage Files&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="manageFilesLabel_2">
@@ -78,7 +78,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Gerencie aqui os arquivos carregados&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot;font-size:14pt;&quot;&gt;Manage the loaded files here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
@@ -149,7 +149,7 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Adicionar</string>
+       <string>Add</string>
       </property>
      </widget>
      <widget class="QPushButton" name="renameFileBtn">
@@ -166,7 +166,7 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Renomear</string>
+       <string>Rename</string>
       </property>
      </widget>
      <widget class="QPushButton" name="deleteFileBtn">
@@ -183,7 +183,7 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Deletar</string>
+       <string>Delete</string>
       </property>
      </widget>
      <widget class="QPushButton" name="exitManageFilesBtn">
@@ -200,7 +200,7 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Voltar</string>
+       <string>Back</string>
       </property>
      </widget>
     </widget>

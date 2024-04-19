@@ -3,7 +3,7 @@ import shutil
 from PyQt6.QtWidgets import QMainWindow,  QFileDialog, QInputDialog
 from PyQt6.QtCore import QDir
 from PyQt6.QtGui import QFileSystemModel
-from pyui.manage_files import Ui_ManageFilesWindow
+from Interface.pyInterface.crud_ui import Ui_ManageFilesWindow
 
 
 

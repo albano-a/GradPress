@@ -1,7 +1,7 @@
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtCore import QUrl
-from pyui.about import Ui_AboutWindow
+from Interface.pyInterface.about_ui import Ui_AboutWindow
 
 class AboutWindow(QMainWindow, Ui_AboutWindow):
     def __init__(self):

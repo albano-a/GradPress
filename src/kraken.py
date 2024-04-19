@@ -7,25 +7,34 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from PyQt6.QtCore import Qt, QDir, QTimer
-from PyQt6.QtGui import (QAction, QKeySequence, QColor,QPixmap)
-from PyQt6.QtWidgets import (QApplication, QMainWindow, QTableWidgetItem,
-                            QFileDialog, QMessageBox, QColorDialog, QFontDialog, QMenu,
-                            QSplashScreen, QProgressBar)
-
-from pyui.icons_rc import *
-from pyui.maingui import Ui_MainWindow
-
+from PyQt6.QtGui import (
+    QAction,
+    QKeySequence, 
+    QColor,
+    QPixmap
+)
+from PyQt6.QtWidgets import (
+    QApplication, 
+    QMainWindow, 
+    QTableWidgetItem,
+    QFileDialog, 
+    QMessageBox, 
+    QColorDialog, 
+    QFontDialog, 
+    QMenu,
+    QSplashScreen, 
+    QProgressBar
+)
+from icons_rc import *
+from Interface.pyInterface.maingui_ui import Ui_MainWindow
 # Software modules
-from modules.about_module import AboutWindow
-from modules.help_module import HelpWindow
-from src.modules.crud_module import ManageFiles
-from src.modules.plot_module import SimplePlotWindow
-from src.modules.regression_module import PlotTendenciaWindow
-from src.modules.gradient_module import GradientClassificationWin
-from modules.text_editor_module import TextEditorWindow
-
-
-from src.general_fun import pressure_gradient_classification
+from Modules.about_module import AboutWindow
+from Modules.help_module import HelpWindow
+from Modules.crud_module import ManageFiles
+from Modules.plot_module import SimplePlotWindow
+from Modules.regression_module import PlotTendenciaWindow
+from Modules.gradient_module import GradientClassificationWin
+from Functions.general import pressure_gradient_classification
 
 plt.style.use(['bmh'])
 
@@ -433,18 +442,14 @@ class MyGUI(QMainWindow, Ui_MainWindow):
             self.openManageFilesWindow)
         self.actionCalculadora.triggered.connect(
             self.openSimplePlotWindow)
-        self.actionOpenCalculatorToolbar.triggered.connect(
+        self.actionOpenPlotWindowToolbar.triggered.connect(
             self.openSimplePlotWindow)
         self.actionTendencyPlot.triggered.connect(
             self.openPlotTendenciaWindow)
-        self.actionTendencyPlotToolbar.triggered.connect(
+        self.actionRegressionPlotToolbar.triggered.connect(
             self.openPlotTendenciaWindow)
         self.actionClassificacao_de_Fluidos.triggered.connect(
             self.openGradientClassificationWindow)
-        self.actionEditor_de_Texto.triggered.connect(
-            self.openTextEditorWindow)
-        self.actionCodeEditorToolbar.triggered.connect(
-            self.openTextEditorWindow)
 
         self.alignLeftButton.triggered.connect(
             lambda: self.tableManager.textAlignment('left'))
@@ -498,10 +503,6 @@ class MyGUI(QMainWindow, Ui_MainWindow):
     def openGradientClassificationWindow(self):
         self.gradientClassificationWindow = GradientClassificationWin()
         self.gradientClassificationWindow.show()
-
-    def openTextEditorWindow(self):
-        self.textEditorWindow = TextEditorWindow()
-        self.textEditorWindow.show()
 
 def main():
     app = QApplication(sys.argv)

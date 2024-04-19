@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 from PyQt6.QtWidgets import QMainWindow, QMessageBox
-from pyui.simple_plot_window import Ui_SimplePlotWindow
+from Interface.pyInterface.plot_ui import Ui_SimplePlotWindow
 
 
 class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):

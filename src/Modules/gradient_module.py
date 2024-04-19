@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow 
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
-from pyui.gradiente_pressao_window import Ui_gradientePressaoWindow
+from Interface.pyInterface.gradient_ui import Ui_gradientePressaoWindow
 import os
 
 

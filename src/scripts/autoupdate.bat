@@ -1,10 +1,9 @@
 @echo off
 
-pyuic6 ui/maingui.ui -o pyui/maingui.py
-pyuic6 ui/plot_tendencia_window.ui -o pyui/plot_tendencia_window.py
-pyuic6 ui/simple_plot_window.ui -o pyui/simple_plot_window.py
-pyuic6 ui/text_editor.ui -o pyui/text_editor_window.py
-pyuic6 ui/manage_files.ui -o pyui/manage_files.py
-pyuic6 ui/help.ui -o pyui/help.py
-pyuic6 ui/gradiente_pressao_window.ui -o pyui/gradiente_pressao_window.py
-pyuic6 ui/about.ui -o pyui/about.py
+pyuic6 src/Interface/maingui.ui -o src/Interface/pyInterface/maingui_ui.py
+pyuic6 src/Interface/regression.ui -o src/Interface/pyInterface/regression_ui.py
+pyuic6 src/Interface/plot.ui -o src/Interface/pyInterface/plot_ui.py
+pyuic6 src/Interface/crud.ui -o src/Interface/pyInterface/crud_ui.py
+pyuic6 src/Interface/help.ui -o src/Interface/pyInterface/help_ui.py
+pyuic6 src/Interface/gradient.ui -o src/Interface/pyInterface/gradient_ui.py
+pyuic6 src/Interface/about.ui -o src/Interface/pyInterface/about_ui.py
