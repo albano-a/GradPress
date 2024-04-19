@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QMessageBox)
 from pyui.plot_tendencia_window import Ui_plotTendenciaWindow
 
 
-from app_functions import pressure_gradient_classification
+from src.general_fun import pressure_gradient_classification
 
 
 class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):

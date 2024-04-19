@@ -6,10 +6,11 @@ import markdown
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from PyQt6.QtCore import Qt, QDir
-from PyQt6.QtGui import (QAction, QKeySequence, QColor)
+from PyQt6.QtCore import Qt, QDir, QTimer
+from PyQt6.QtGui import (QAction, QKeySequence, QColor,QPixmap)
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QTableWidgetItem,
-                            QFileDialog, QMessageBox, QColorDialog, QFontDialog, QMenu)
+                            QFileDialog, QMessageBox, QColorDialog, QFontDialog, QMenu,
+                            QSplashScreen, QProgressBar)
 
 from pyui.icons_rc import *
 from pyui.maingui import Ui_MainWindow
@@ -17,14 +18,14 @@ from pyui.maingui import Ui_MainWindow
 # Software modules
 from modules.about_module import AboutWindow
 from modules.help_module import HelpWindow
-from modules.manage_files_module import ManageFiles
-from modules.simple_plot_module import SimplePlotWindow
-from modules.plot_tendencia_module import PlotTendenciaWindow
-from modules.gradient_classification_module import GradientClassificationWin
+from src.modules.crud_module import ManageFiles
+from src.modules.plot_module import SimplePlotWindow
+from src.modules.regression_module import PlotTendenciaWindow
+from src.modules.gradient_module import GradientClassificationWin
 from modules.text_editor_module import TextEditorWindow
 
 
-from app_functions import pressure_gradient_classification
+from src.general_fun import pressure_gradient_classification
 
 plt.style.use(['bmh'])
 
@@ -504,8 +505,34 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 
 def main():
     app = QApplication(sys.argv)
+
+    # Create a QPixmap object with the image for the splash screen
+    splash_pix = QPixmap('img/giecar.png')
+
+    # Create a QSplashScreen object with the QPixmap
+    splash = QSplashScreen(splash_pix, Qt.WindowType.WindowStaysOnTopHint)
+
+    # Create a QProgressBar and set its geometry
+    progress_bar = QProgressBar(splash)
+    progress_bar.setGeometry(0, splash_pix.height() - 20, splash_pix.width(), 20)
+
+    # Show the splash screen
+    splash.show()
+
+    # Update the progress bar
+    for i in range(1, 101):
+        progress_bar.setValue(i)
+        # Use a QTimer to wait a bit before moving on
+        QTimer.singleShot(10, lambda: None)
+        app.processEvents()
+
+    # Create and show the main window
     window = MyGUI()
     window.show()
+
+    # Finish the splash screen
+    splash.finish(window)
+
     sys.exit(app.exec())
 
 if __name__ == '__main__':

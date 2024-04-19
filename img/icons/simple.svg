@@ -1,0 +1,60 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="15.5" y="15.5" width="69" height="69" fill="white" stroke="black"/>
+<line x1="15" y1="80.5" x2="19" y2="80.5" stroke="black"/>
+<line x1="19.5" y1="85" x2="19.5" y2="81" stroke="black"/>
+<line x1="23.5" y1="85" x2="23.5" y2="81" stroke="black"/>
+<line x1="27.5" y1="85" x2="27.5" y2="81" stroke="black"/>
+<line x1="31.5" y1="85" x2="31.5" y2="81" stroke="black"/>
+<line x1="21.5" y1="84.0021" x2="21.5" y2="15.9979" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="29.75" y1="84.0041" x2="29.75" y2="16" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="37.75" y1="84.0041" x2="37.75" y2="16" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="45.75" y1="84.0041" x2="45.75" y2="16" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="53.75" y1="84.0041" x2="53.75" y2="16" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="61.75" y1="84.0041" x2="61.75" y2="16" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="77.75" y1="84.0041" x2="77.75" y2="16" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="16" y1="78.75" x2="84.0041" y2="78.75" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="16" y1="70.75" x2="84.0041" y2="70.75" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="16" y1="62.75" x2="84.0041" y2="62.75" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="16" y1="54.75" x2="84.0041" y2="54.75" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="16" y1="46.75" x2="84.0041" y2="46.75" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="16" y1="38.75" x2="84.0041" y2="38.75" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="16" y1="30.75" x2="84.0041" y2="30.75" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="16" y1="22.75" x2="84.0041" y2="22.75" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="69.75" y1="84.0041" x2="69.75" y2="16" stroke="#D3D3D3" stroke-width="0.5"/>
+<line x1="35.5" y1="85" x2="35.5" y2="81" stroke="black"/>
+<line x1="39.5" y1="85" x2="39.5" y2="81" stroke="black"/>
+<line x1="43.5" y1="85" x2="43.5" y2="81" stroke="black"/>
+<line x1="47.5" y1="85" x2="47.5" y2="81" stroke="black"/>
+<line x1="51.5" y1="85" x2="51.5" y2="81" stroke="black"/>
+<line x1="55.5" y1="85" x2="55.5" y2="81" stroke="black"/>
+<line x1="59.5" y1="85" x2="59.5" y2="81" stroke="black"/>
+<line x1="63.5" y1="85" x2="63.5" y2="81" stroke="black"/>
+<line x1="67.5" y1="85" x2="67.5" y2="81" stroke="black"/>
+<line x1="71.5" y1="85" x2="71.5" y2="81" stroke="black"/>
+<line x1="75.5" y1="85" x2="75.5" y2="81" stroke="black"/>
+<line x1="79.5" y1="85" x2="79.5" y2="81" stroke="black"/>
+<line x1="15" y1="76.5" x2="19" y2="76.5" stroke="black"/>
+<line x1="15" y1="72.5" x2="19" y2="72.5" stroke="black"/>
+<line x1="15" y1="68.5" x2="19" y2="68.5" stroke="black"/>
+<line x1="15" y1="64.5" x2="19" y2="64.5" stroke="black"/>
+<line x1="15" y1="60.5" x2="19" y2="60.5" stroke="black"/>
+<line x1="15" y1="56.5" x2="19" y2="56.5" stroke="black"/>
+<line x1="15" y1="52.5" x2="19" y2="52.5" stroke="black"/>
+<line x1="15" y1="48.5" x2="19" y2="48.5" stroke="black"/>
+<line x1="15" y1="44.5" x2="19" y2="44.5" stroke="black"/>
+<line x1="15" y1="40.5" x2="19" y2="40.5" stroke="black"/>
+<line x1="15" y1="36.5" x2="19" y2="36.5" stroke="black"/>
+<line x1="15" y1="32.5" x2="19" y2="32.5" stroke="black"/>
+<line x1="15" y1="28.5" x2="19" y2="28.5" stroke="black"/>
+<line x1="15" y1="24.5" x2="19" y2="24.5" stroke="black"/>
+<line x1="15" y1="20.5" x2="19" y2="20.5" stroke="black"/>
+<circle cx="29.5" cy="27.5" r="2.5" fill="#028CD9"/>
+<circle cx="34.5" cy="37.5" r="2.5" fill="#028CD9"/>
+<circle cx="44.5" cy="42.5" r="2.5" fill="#028CD9"/>
+<circle cx="44.5" cy="42.5" r="2.5" fill="#028CD9"/>
+<circle cx="52.5" cy="55.5" r="2.5" fill="#028CD9"/>
+<circle cx="64.5" cy="59.5" r="2.5" fill="#028CD9"/>
+<circle cx="69.5" cy="65.5" r="2.5" fill="#028CD9"/>
+<circle cx="76.5" cy="69.5" r="2.5" fill="#028CD9"/>
+<circle cx="53.5" cy="47.5" r="2.5" fill="#028CD9"/>
+</svg>
