@@ -674,8 +674,8 @@ QPushButton:hover {
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="fileButtonGroup"/>
   <buttongroup name="cotaButtonGroup"/>
   <buttongroup name="headerButtonGroup"/>
-  <buttongroup name="fileButtonGroup"/>
  </buttongroups>
 </ui>
