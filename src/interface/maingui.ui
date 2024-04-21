@@ -93,6 +93,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>This area shows the current selected cell</string>
+         </property>
          <property name="styleSheet">
           <string notr="true">QComboBox {
 	text-align: center;
@@ -157,10 +160,10 @@ QTableWidget::item {
 
 /* Styling for header sections */
 QHeaderView::section {
-    background-color: #63BE7B ; /* Cor de fundo cinza claro */
+    background-color: #BFC9CA ; /* Cor de fundo cinza claro */
     color: #000000; /* Cor do texto preto */
     font-weight: bold; /* Texto em negrito */
-    border: 1px solid #82CB95 ; /* Borda cinza */
+    border: 1px solid #85929E ; /* Borda cinza */
     padding: 4px; /* Preenchimento interno */
 }
 
@@ -459,9 +462,22 @@ QTableWidget::item:selected {
     <property name="title">
      <string>Calculations and Plots</string>
     </property>
+    <widget class="QMenu" name="menuPressure">
+     <property name="title">
+      <string>Pressure</string>
+     </property>
+     <addaction name="actionFluidContact"/>
+     <addaction name="actionFluidClassification"/>
+    </widget>
+    <widget class="QMenu" name="menuTemperature_2">
+     <property name="title">
+      <string>Temperature</string>
+     </property>
+     <addaction name="actionGradient_Analysis_2"/>
+    </widget>
     <addaction name="actionCalculadora"/>
-    <addaction name="actionTendencyPlot"/>
-    <addaction name="actionClassificacao_de_Fluidos"/>
+    <addaction name="menuPressure"/>
+    <addaction name="menuTemperature_2"/>
     <addaction name="actionTOMI_index"/>
    </widget>
    <widget class="QMenu" name="menuSobre">
@@ -737,6 +753,26 @@ QTableWidget::item:selected {
    </property>
    <property name="toolTip">
     <string>Align right</string>
+   </property>
+  </action>
+  <action name="actionFluidContact">
+   <property name="text">
+    <string>Fluid Contact</string>
+   </property>
+  </action>
+  <action name="actionFluidClassification">
+   <property name="text">
+    <string>Fluid Classification</string>
+   </property>
+  </action>
+  <action name="actionGradient_Analysis">
+   <property name="text">
+    <string>Gradient Analysis</string>
+   </property>
+  </action>
+  <action name="actionGradient_Analysis_2">
+   <property name="text">
+    <string>Gradient Analysis</string>
    </property>
   </action>
  </widget>

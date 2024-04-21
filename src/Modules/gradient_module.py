@@ -40,7 +40,7 @@ class GradientClassificationWin(QMainWindow,
         self.selected_file = None
 
         # list of files in the uploads directory - Select the file option
-        self.files = os.listdir('uploads')
+        self.files = os.listdir('src/uploads')
         self.fileComboBox.addItems(self.files)
 
         self.pressureComboBox.addItems(["psi/ft", "psi/m", "kgf/cm2/m", "bar/m"])

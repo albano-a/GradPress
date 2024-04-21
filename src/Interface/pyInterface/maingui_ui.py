@@ -91,10 +91,10 @@ class Ui_MainWindow(object):
 "\n"
 "/* Styling for header sections */\n"
 "QHeaderView::section {\n"
-"    background-color: #63BE7B ; /* Cor de fundo cinza claro */\n"
+"    background-color: #BFC9CA ; /* Cor de fundo cinza claro */\n"
 "    color: #000000; /* Cor do texto preto */\n"
 "    font-weight: bold; /* Texto em negrito */\n"
-"    border: 1px solid #82CB95 ; /* Borda cinza */\n"
+"    border: 1px solid #85929E ; /* Borda cinza */\n"
 "    padding: 4px; /* Preenchimento interno */\n"
 "}\n"
 "\n"
@@ -176,6 +176,10 @@ class Ui_MainWindow(object):
         self.menuEditar.setObjectName("menuEditar")
         self.menuCalcular = QtWidgets.QMenu(parent=self.menubar)
         self.menuCalcular.setObjectName("menuCalcular")
+        self.menuPressure = QtWidgets.QMenu(parent=self.menuCalcular)
+        self.menuPressure.setObjectName("menuPressure")
+        self.menuTemperature_2 = QtWidgets.QMenu(parent=self.menuCalcular)
+        self.menuTemperature_2.setObjectName("menuTemperature_2")
         self.menuSobre = QtWidgets.QMenu(parent=self.menubar)
         self.menuSobre.setObjectName("menuSobre")
         MainWindow.setMenuBar(self.menubar)
@@ -274,6 +278,14 @@ class Ui_MainWindow(object):
         icon12.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/alignRight.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.alignRightButton.setIcon(icon12)
         self.alignRightButton.setObjectName("alignRightButton")
+        self.actionFluidContact = QtGui.QAction(parent=MainWindow)
+        self.actionFluidContact.setObjectName("actionFluidContact")
+        self.actionFluidClassification = QtGui.QAction(parent=MainWindow)
+        self.actionFluidClassification.setObjectName("actionFluidClassification")
+        self.actionGradient_Analysis = QtGui.QAction(parent=MainWindow)
+        self.actionGradient_Analysis.setObjectName("actionGradient_Analysis")
+        self.actionGradient_Analysis_2 = QtGui.QAction(parent=MainWindow)
+        self.actionGradient_Analysis_2.setObjectName("actionGradient_Analysis_2")
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionAbrir)
         self.menuFile.addAction(self.actionSalvar)
@@ -281,9 +293,12 @@ class Ui_MainWindow(object):
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionSair)
         self.menuEditar.addAction(self.actionGerenciar_Arquivos)
+        self.menuPressure.addAction(self.actionFluidContact)
+        self.menuPressure.addAction(self.actionFluidClassification)
+        self.menuTemperature_2.addAction(self.actionGradient_Analysis_2)
         self.menuCalcular.addAction(self.actionCalculadora)
-        self.menuCalcular.addAction(self.actionTendencyPlot)
-        self.menuCalcular.addAction(self.actionClassificacao_de_Fluidos)
+        self.menuCalcular.addAction(self.menuPressure.menuAction())
+        self.menuCalcular.addAction(self.menuTemperature_2.menuAction())
         self.menuCalcular.addAction(self.actionTOMI_index)
         self.menuSobre.addAction(self.actionAjuda)
         self.menuSobre.addAction(self.actionSobre)
@@ -313,6 +328,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.cellNameBox.setToolTip(_translate("MainWindow", "This area shows the current selected cell"))
         self.formulaBar.setPlaceholderText(_translate("MainWindow", "Insert a function here..."))
         item = self.mainSheetTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "A"))
@@ -365,6 +381,8 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuEditar.setTitle(_translate("MainWindow", "Manage"))
         self.menuCalcular.setTitle(_translate("MainWindow", "Calculations and Plots"))
+        self.menuPressure.setTitle(_translate("MainWindow", "Pressure"))
+        self.menuTemperature_2.setTitle(_translate("MainWindow", "Temperature"))
         self.menuSobre.setTitle(_translate("MainWindow", "Help"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.toolBar_2.setWindowTitle(_translate("MainWindow", "toolBar_2"))
@@ -410,3 +428,7 @@ class Ui_MainWindow(object):
         self.alignCenterButton.setToolTip(_translate("MainWindow", "Align center"))
         self.alignRightButton.setText(_translate("MainWindow", "alignRightButton"))
         self.alignRightButton.setToolTip(_translate("MainWindow", "Align right"))
+        self.actionFluidContact.setText(_translate("MainWindow", "Fluid Contact"))
+        self.actionFluidClassification.setText(_translate("MainWindow", "Fluid Classification"))
+        self.actionGradient_Analysis.setText(_translate("MainWindow", "Gradient Analysis"))
+        self.actionGradient_Analysis_2.setText(_translate("MainWindow", "Gradient Analysis"))

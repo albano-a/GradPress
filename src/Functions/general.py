@@ -1,9 +1,32 @@
 import pandas as pd
 import numpy as np
 import time
+import os
+import shutil
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import (
+    QFileDialog, 
+    QMessageBox, 
+)
+
+def uploadFile(self):
+        try:
+            filename = QFileDialog.getOpenFileName(None, 'Open File', '',
+                                        'CSV, TXT, XLSX (*.csv *.txt *.xlsx)')
+            if filename[0] != '':
+                dest_path = os.path.join('src/uploads', os.path.basename(filename[0]))
+                # Check if the file already exists in the uploads directory
+                if os.path.exists(dest_path):
+                    QMessageBox.warning(None, "File already exists",
+                        "This file was already uploaded before.")
+                    return
+                # Copy the file to the uploads folder
+                shutil.copy(filename[0], dest_path)
+                QMessageBox.info(None, 'Import file',
+                                 "Successfully imported file")
+        except Exception as e:
+            QMessageBox.critical(None, "Error", f"Um erro ocorreu: {e}")
 
 def timing_function(func):
     def wrapper(self):

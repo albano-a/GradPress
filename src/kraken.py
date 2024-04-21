@@ -6,12 +6,18 @@ import markdown
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from PyQt6.QtCore import Qt, QDir, QTimer
+from PyQt6.QtCore import (
+    Qt, 
+    QDir, 
+    QTimer, 
+    QEvent,
+    QObject
+    )
 from PyQt6.QtGui import (
     QAction,
     QKeySequence, 
     QColor,
-    QPixmap
+    QPixmap,
 )
 from PyQt6.QtWidgets import (
     QApplication, 
@@ -23,7 +29,7 @@ from PyQt6.QtWidgets import (
     QFontDialog, 
     QMenu,
     QSplashScreen, 
-    QProgressBar
+    QProgressBar,
 )
 from icons_rc import *
 from Interface.pyInterface.maingui_ui import Ui_MainWindow
@@ -34,7 +40,7 @@ from Modules.crud_module import ManageFiles
 from Modules.plot_module import SimplePlotWindow
 from Modules.regression_module import PlotTendenciaWindow
 from Modules.gradient_module import GradientClassificationWin
-from Functions.general import timing_function
+from Functions.general import timing_function, uploadFile
 
 plt.style.use(['bmh'])
 
@@ -53,7 +59,6 @@ class TableManager:
         self.table.cellClicked.connect(self.updateFormulaBar)
         self.formulaBar.textChanged.connect(self.updateCurrentItem)
         self.table.customContextMenuRequested.connect(self.contextMenuEvent)
-
 
     def contextMenuEvent(self, event):
         contextMenu = QMenu()
@@ -94,12 +99,6 @@ class TableManager:
                 actions[action_text] = action_func
 
         selected_action = contextMenu.exec(self.table.mapToGlobal(event))
-
-        if selected_action:
-            action_text = selected_action.text()
-            if action_text in actions:
-                actions[action_text]()
-
 
     def updateFormulaBar(self, row, column):
         try:
@@ -171,7 +170,7 @@ class TableManager:
                 item = self.table.item(r, c)
                 if item is not None:
                     item.setSelected(True)
-    @timing_function
+
     def addRow(self, above=True):
         rowPosition = self.table.currentRow() \
                         if above else self.table.rowCount()
@@ -206,13 +205,23 @@ class TableManager:
 
     def saveTable(self):
         try:
-            options = QFileDialog.Options()
             filename, _ = QFileDialog.getSaveFileName(None,
-                                                      'Save File', '',
-                                                      'CSV (*.csv)',
-                                                      options=options)
+                                                    'Save File', '',
+                                                    'CSV (*.csv);;XLSX (*.xlsx)')
             if filename:
-                with open(filename, 'w', encoding='UTF-8') as file:
+                if filename.endswith('.csv'):
+                    with open(filename, 'w', encoding='UTF-8') as file:
+                        for row in range(self.table.rowCount()):
+                            row_data = []
+                            for column in range(self.table.columnCount()):
+                                item = self.table.item(row, column)
+                                if item is not None:
+                                    row_data.append(item.text())
+                            if row_data:
+                                file.write(','.join(row_data))
+                                file.write('\n')
+                elif filename.endswith('.xlsx'):
+                    data = []
                     for row in range(self.table.rowCount()):
                         row_data = []
                         for column in range(self.table.columnCount()):
@@ -220,8 +229,11 @@ class TableManager:
                             if item is not None:
                                 row_data.append(item.text())
                         if row_data:
-                            file.write(','.join(row_data))
-                            file.write('\n')
+                            data.append(row_data)
+                    headers = data[0]
+                    data = data[1:]
+                    df = pd.DataFrame(data, columns=headers)
+                    df.to_excel(filename, index=False)
                 QMessageBox.information(None, 'Sucesso',
                                         'Tabela salva com sucesso!')
             else:
@@ -229,61 +241,55 @@ class TableManager:
                                     'Nenhum arquivo selecionado.')
         except Exception as e:
             QMessageBox.critical(None, 'Error', f'Um erro ocorreu: {str(e)}')
+    # Open csv to QTableWidget
+    def openTable(self):
+        filename = QFileDialog.getOpenFileName(
+            None, 'Open File',
+            '', 'CSV, TXT, XLSX (*.csv *.txt *.xlsx)'
+        )
+        if filename[0] != '':
+            if filename[0].endswith('.xlsx'):
+                dataframe = pd.read_excel(filename[0])
+                rowPosition = 0
+                # Set the column count and headers
+                # Insert the column titles as the first row
+                self.table.insertRow(rowPosition)
+                for column, title in enumerate(dataframe.columns):
+                    item = QTableWidgetItem(str(title))
+                    self.table.setItem(rowPosition, column, item)
+                rowPosition += 1
+                
+                for row in dataframe.values.tolist():
+                    self.table.insertRow(rowPosition)
+                    self.table.setColumnCount(
+                            max(self.table.columnCount(), len(row)))
+                    for column, data in enumerate(row):
+                        item = QTableWidgetItem(str(data))
+                        self.table.setItem(rowPosition, column, item)
+                    # Move to the next row
+                    rowPosition += 1
+                self.table.update()
+                
+            else:
+                with open(filename[0], 'r', encoding='UTF-8') as file:
+                    dialect = csv.Sniffer().sniff(file.read(1024))
+                    file.seek(0)
+                    reader = csv.reader(file, dialect)
+                    # self.table.clearContents()
 
-    def openCSV(self):
-        try:
-            filename = QFileDialog.getOpenFileName(None, 'Open File', '',
-                                        'CSV, TXT, XLSX (*.csv *.txt *.xlsx)')
-            if filename[0] != '':
-                dest_path = os.path.join('uploads', os.path.basename(filename[0]))
-                # Check if the file already exists in the uploads directory
-                if os.path.exists(dest_path):
-                    QMessageBox.warning(None, "Arquivo já existente",
-                        "Esse arquivo já foi carregado anteriormente.")
-                    return
-                # Copy the file to the uploads folder
-                shutil.copy(filename[0], dest_path)
-                if filename[0].endswith('.xlsx'):
-                    # Read the XLSX file with pandas
-                    dataframe = pd.read_excel(filename[0])
-                    # Convert the dataframe to a list of lists and iterate over the rows
-                    for row in dataframe.values.tolist():
-                        rowPosition = self.table.rowCount()
+                    rowPosition = 0
+                    for row in reader:
                         self.table.insertRow(rowPosition)
-                        # Ensure the table has enough columns
-                        self.table.setColumnCount(max(self.table.columnCount(), len(row)))
-                        # Add the data to the table
-                        for column, data in enumerate(row):
-                            if data is not None:
-                                self.table.setItem(rowPosition, column,
-                                                   QTableWidgetItem(str(data)))
-                            else:
-                                print(f"Warning:\
-                                      Trying to add None value at row\
-                                      {rowPosition}, column {column}")
-                            self.table.update()
-                else:
-                    with open(filename[0], 'r', encoding='UTF-8') as file:
-                        dialect = csv.Sniffer().sniff(file.read(1024))
-                        file.seek(0)
-                        reader = csv.reader(file, dialect)
-                        for row in reader:
-                            rowPosition = self.table.rowCount()
-                            self.table.insertRow(rowPosition)
-                            # Ensure the table has enough columns
-                            self.table.setColumnCount(
+                        self.table.setColumnCount(
                                 max(self.table.columnCount(), len(row)))
-                            # Add the data to the table
-                            for column, data in enumerate(row):
-                                if data is not None:
-                                    self.table.setItem(rowPosition, column, QTableWidgetItem(str(data)))
-                                else:
-                                    print(f"Warning: Trying to add None\
-                                          value at row {rowPosition},\
-                                          column {column}")
-                                self.table.update()
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
+                        for column, data in enumerate(row):
+                            item = QTableWidgetItem(str(data))
+                            self.table.setItem(rowPosition, column, item)
+                            
+                        # Move to the next row
+                        rowPosition += 1
+                        
+                    self.table.update()
 
     def newTable(self):
         try:
@@ -407,50 +413,67 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.tableManager = TableManager(self.mainSheetTable,
                                          self.formulaBar,
                                          self.cellNameBox)
-
+        
+    
         #new file
         self.newFileToolbar.triggered.connect(self.tableManager.newTable)
         self.actionNew.triggered.connect(self.tableManager.newTable)
 
-        #opening
-        self.actionAbrirToolbar.triggered.connect(
-            self.tableManager.openCSV)
+        
+        # Menubar
         self.actionAbrir.triggered.connect(
-            self.tableManager.openCSV)
+            self.tableManager.openTable
+            )
         self.actionImportar_Arquivo.triggered.connect(
-            self.tableManager.openCSV)
-        # saving
-        self.actionSaveToolbar.triggered.connect(
-            self.tableManager.saveTable)
+            uploadFile
+            )
         self.actionSalvar.triggered.connect(
-            self.tableManager.saveTable)
-        # font
-        self.actionChangeFontToolbar.triggered.connect(
-            self.tableManager.changeFont)
-
-        self.changeTextColorBtn.triggered.connect(
-            self.tableManager.changeTextColor)
-        self.changeCellColorBtn.triggered.connect(
-            self.tableManager.changeCellColor)
+            self.tableManager.saveTable
+            )
         self.actionSobre.triggered.connect(
-            self.openAboutWindow)
+            self.openAboutWindow
+            )
         self.actionAjuda.triggered.connect(
-            self.openHelpWindow)
+            self.openHelpWindow
+            )
         self.actionGerenciar_Arquivos.triggered.connect(
-            self.openManageFilesWindow)
-        self.actionManageFilesToolbar.triggered.connect(
-            self.openManageFilesWindow)
+            self.openManageFilesWindow
+            )
         self.actionCalculadora.triggered.connect(
-            self.openSimplePlotWindow)
+            self.openSimplePlotWindow
+            )
+        self.actionFluidContact.triggered.connect(
+            self.openPlotTendenciaWindow
+            )
+        self.actionFluidClassification.triggered.connect(
+            self.openGradientClassificationWindow
+            )
+        
+        # Toolbar
+        self.actionAbrirToolbar.triggered.connect(
+            self.tableManager.openTable
+            )
+        self.actionSaveToolbar.triggered.connect(
+            self.tableManager.saveTable
+            )               
+        self.actionChangeFontToolbar.triggered.connect(
+            self.tableManager.changeFont
+            )
+        self.changeTextColorBtn.triggered.connect(
+            self.tableManager.changeTextColor
+            )
+        self.changeCellColorBtn.triggered.connect(
+            self.tableManager.changeCellColor
+            )       
+        self.actionManageFilesToolbar.triggered.connect(
+            self.openManageFilesWindow
+            )
         self.actionOpenPlotWindowToolbar.triggered.connect(
-            self.openSimplePlotWindow)
-        self.actionTendencyPlot.triggered.connect(
-            self.openPlotTendenciaWindow)
+            self.openSimplePlotWindow
+            )
         self.actionRegressionPlotToolbar.triggered.connect(
-            self.openPlotTendenciaWindow)
-        self.actionClassificacao_de_Fluidos.triggered.connect(
-            self.openGradientClassificationWindow)
-
+            self.openPlotTendenciaWindow
+            )
         self.alignLeftButton.triggered.connect(
             lambda: self.tableManager.textAlignment('left'))
         self.alignCenterButton.triggered.connect(

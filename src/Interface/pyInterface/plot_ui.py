@@ -40,9 +40,6 @@ class Ui_SimplePlotWindow(object):
         self.gridLayout.addWidget(self.titleFrame, 0, 0, 1, 2)
         self.selectFileGroupBox = QtWidgets.QGroupBox(parent=self.centralwidget)
         self.selectFileGroupBox.setMaximumSize(QtCore.QSize(16777215, 152))
-        self.selectFileGroupBox.setStyleSheet("QGroupBox {\n"
-"    background-color: #ededed;\n"
-"}")
         self.selectFileGroupBox.setFlat(False)
         self.selectFileGroupBox.setCheckable(False)
         self.selectFileGroupBox.setObjectName("selectFileGroupBox")
@@ -87,6 +84,7 @@ class Ui_SimplePlotWindow(object):
         self.fileButtonGroup.addButton(self.xlsxRadioButton)
         self.gridLayout_2.addWidget(self.xlsxRadioButton, 1, 3, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.label_11 = QtWidgets.QLabel(parent=self.layoutWidget)
+        self.label_11.setMinimumSize(QtCore.QSize(250, 0))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_11.setFont(font)
@@ -110,9 +108,6 @@ class Ui_SimplePlotWindow(object):
         self.gridLayout.addWidget(self.selectFileGroupBox, 2, 0, 1, 1)
         self.groupBox_5 = QtWidgets.QGroupBox(parent=self.centralwidget)
         self.groupBox_5.setMaximumSize(QtCore.QSize(16777215, 132))
-        self.groupBox_5.setStyleSheet("QGroupBox {\n"
-"    background-color: #ededed;\n"
-"}")
         self.groupBox_5.setObjectName("groupBox_5")
         self.layoutWidget1 = QtWidgets.QWidget(parent=self.groupBox_5)
         self.layoutWidget1.setGeometry(QtCore.QRect(10, 20, 631, 101))
@@ -122,6 +117,7 @@ class Ui_SimplePlotWindow(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.groupBox = QtWidgets.QGroupBox(parent=self.layoutWidget1)
         self.groupBox.setMaximumSize(QtCore.QSize(250, 16777215))
+        self.groupBox.setFlat(True)
         self.groupBox.setObjectName("groupBox")
         self.layoutWidget2 = QtWidgets.QWidget(parent=self.groupBox)
         self.layoutWidget2.setGeometry(QtCore.QRect(10, 20, 231, 71))
@@ -149,6 +145,7 @@ class Ui_SimplePlotWindow(object):
         self.gridLayout_4.addWidget(self.inputProfMax, 1, 1, 1, 1)
         self.horizontalLayout.addWidget(self.groupBox)
         self.groupBox_2 = QtWidgets.QGroupBox(parent=self.layoutWidget1)
+        self.groupBox_2.setFlat(True)
         self.groupBox_2.setObjectName("groupBox_2")
         self.layoutWidget3 = QtWidgets.QWidget(parent=self.groupBox_2)
         self.layoutWidget3.setGeometry(QtCore.QRect(10, 20, 360, 74))
@@ -199,9 +196,6 @@ class Ui_SimplePlotWindow(object):
         font = QtGui.QFont()
         font.setPointSize(8)
         self.cotaRadioBtnGroupBox.setFont(font)
-        self.cotaRadioBtnGroupBox.setStyleSheet("QGroupBox {\n"
-"    background-color: #ededed;\n"
-"}")
         self.cotaRadioBtnGroupBox.setObjectName("cotaRadioBtnGroupBox")
         self.layoutWidget4 = QtWidgets.QWidget(parent=self.cotaRadioBtnGroupBox)
         self.layoutWidget4.setGeometry(QtCore.QRect(9, 21, 301, 121))

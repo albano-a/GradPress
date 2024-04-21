@@ -14,7 +14,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
         self.selected_file = None
 
         # list of files in the uploads directory - Select the file option
-        self.files = os.listdir('uploads')
+        self.files = os.listdir('src/uploads')
         self.selectFileComboBox.addItems(self.files)
 
         # prof cota radio buttons
