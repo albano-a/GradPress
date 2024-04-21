@@ -34,7 +34,7 @@ from Modules.crud_module import ManageFiles
 from Modules.plot_module import SimplePlotWindow
 from Modules.regression_module import PlotTendenciaWindow
 from Modules.gradient_module import GradientClassificationWin
-from Functions.general import pressure_gradient_classification
+from Functions.general import timing_function
 
 plt.style.use(['bmh'])
 
@@ -171,7 +171,7 @@ class TableManager:
                 item = self.table.item(r, c)
                 if item is not None:
                     item.setSelected(True)
-
+    @timing_function
     def addRow(self, above=True):
         rowPosition = self.table.currentRow() \
                         if above else self.table.rowCount()
@@ -480,26 +480,32 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 
         self.show()
 
+    @timing_function
     def openAboutWindow(self):
         self.aboutWindow = AboutWindow()
         self.aboutWindow.show()
 
+    @timing_function
     def openHelpWindow(self):
         self.helpWindow = HelpWindow()
         self.helpWindow.show()
 
+    @timing_function
     def openManageFilesWindow(self):
         self.manageFiles = ManageFiles()
         self.manageFiles.show()
 
+    @timing_function
     def openSimplePlotWindow(self):
         self.simplePlotWindow = SimplePlotWindow()
         self.simplePlotWindow.show()
 
+    @timing_function
     def openPlotTendenciaWindow(self):
         self.plotTendenciaWindow = PlotTendenciaWindow()
         self.plotTendenciaWindow.show()
 
+    @timing_function 
     def openGradientClassificationWindow(self):
         self.gradientClassificationWindow = GradientClassificationWin()
         self.gradientClassificationWindow.show()

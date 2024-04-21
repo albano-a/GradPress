@@ -1,10 +1,20 @@
 import pandas as pd
 import numpy as np
+import time
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from PyQt6.QtWidgets import QMessageBox
 
+def timing_function(func):
+    def wrapper(self):
+        start_time = time.time()
+        result = func(self)
+        end_time = time.time()
+        print(f"Execution of {func.__name__} took {end_time - start_time} seconds")
+        return result
+    return wrapper
 
+@timing_function
 def pressure_gradient_classification(data, kmeans_number, pressure_unit,
                                      superior_title, x_axis, y_axis):
     # GAS - RED
