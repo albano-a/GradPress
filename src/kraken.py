@@ -30,6 +30,9 @@ from PyQt6.QtWidgets import (
     QMenu,
     QSplashScreen, 
     QProgressBar,
+    QStyle, 
+    QFileDialog, 
+    QTextEdit
 )
 from icons_rc import *
 from Interface.pyInterface.maingui_ui import Ui_MainWindow
@@ -421,6 +424,7 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 
         
         # Menubar
+        
         self.actionAbrir.triggered.connect(
             self.tableManager.openTable
             )
