@@ -16,7 +16,11 @@ class Ui_ManageFilesWindow(object):
         ManageFilesWindow.setMinimumSize(QtCore.QSize(650, 500))
         ManageFilesWindow.setMaximumSize(QtCore.QSize(650, 500))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("src/Interface\\../icon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(
+            QtGui.QPixmap("src/Interface\\../icon.ico"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         ManageFilesWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=ManageFilesWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -55,52 +59,60 @@ class Ui_ManageFilesWindow(object):
         self.splitter.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.splitter.setObjectName("splitter")
         self.addFileBtn = QtWidgets.QPushButton(parent=self.splitter)
-        self.addFileBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
+        self.addFileBtn.setStyleSheet(
+            "QPushButton {\n"
+            "    border-radius: 5px;\n"
+            "    border: 1px solid rgb(171, 171, 171);\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
+            "    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
+            "}"
+        )
         self.addFileBtn.setObjectName("addFileBtn")
         self.renameFileBtn = QtWidgets.QPushButton(parent=self.splitter)
-        self.renameFileBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
+        self.renameFileBtn.setStyleSheet(
+            "QPushButton {\n"
+            "    border-radius: 5px;\n"
+            "    border: 1px solid rgb(171, 171, 171);\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
+            "    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
+            "}"
+        )
         self.renameFileBtn.setObjectName("renameFileBtn")
         self.deleteFileBtn = QtWidgets.QPushButton(parent=self.splitter)
-        self.deleteFileBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
+        self.deleteFileBtn.setStyleSheet(
+            "QPushButton {\n"
+            "    border-radius: 5px;\n"
+            "    border: 1px solid rgb(171, 171, 171);\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
+            "    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
+            "}"
+        )
         self.deleteFileBtn.setObjectName("deleteFileBtn")
         self.exitManageFilesBtn = QtWidgets.QPushButton(parent=self.splitter)
-        self.exitManageFilesBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
+        self.exitManageFilesBtn.setStyleSheet(
+            "QPushButton {\n"
+            "    border-radius: 5px;\n"
+            "    border: 1px solid rgb(171, 171, 171);\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
+            "    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
+            "}"
+        )
         self.exitManageFilesBtn.setObjectName("exitManageFilesBtn")
         ManageFilesWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(parent=ManageFilesWindow)
@@ -113,8 +125,18 @@ class Ui_ManageFilesWindow(object):
     def retranslateUi(self, ManageFilesWindow):
         _translate = QtCore.QCoreApplication.translate
         ManageFilesWindow.setWindowTitle(_translate("ManageFilesWindow", "MainWindow"))
-        self.manageFilesLabel.setText(_translate("ManageFilesWindow", "<html><head/><body><p align=\"center\"><span style=\"font-weight:600;\">Manage Files</span></p></body></html>"))
-        self.manageFilesLabel_2.setText(_translate("ManageFilesWindow", "<html><head/><body><p align=\"center\"><span style=\"font-size:14pt;\">Manage the loaded files here</span></p></body></html>"))
+        self.manageFilesLabel.setText(
+            _translate(
+                "ManageFilesWindow",
+                '<html><head/><body><p align="center"><span style="font-weight:600;">Manage Files</span></p></body></html>',
+            )
+        )
+        self.manageFilesLabel_2.setText(
+            _translate(
+                "ManageFilesWindow",
+                '<html><head/><body><p align="center"><span style="font-size:14pt;">Manage the loaded files here</span></p></body></html>',
+            )
+        )
         self.addFileBtn.setText(_translate("ManageFilesWindow", "Add"))
         self.renameFileBtn.setText(_translate("ManageFilesWindow", "Rename"))
         self.deleteFileBtn.setText(_translate("ManageFilesWindow", "Delete"))

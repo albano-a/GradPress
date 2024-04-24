@@ -15,7 +15,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         self.selected_file = None
 
         # list of files in the uploads directory - Select the file option
-        self.files = os.listdir('src/uploads')
+        self.files = os.listdir("src/uploads")
         self.selectFileComboBox.addItems(self.files)
 
         # prof cota radio buttons
@@ -23,12 +23,22 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         self.cotaProfNao.toggled.connect(self.on_cotaProfNao_toggled)
         self.headerSim.toggled.connect(self.on_headerSim_toggled)
 
-        self.lineColorComboBox.addItems(['blue', 'red', 'green',
-                                         'yellow', 'black', 'purple',
-                                         'orange', 'pink', 'brown', 'gray'])
+        self.lineColorComboBox.addItems(
+            [
+                "blue",
+                "red",
+                "green",
+                "yellow",
+                "black",
+                "purple",
+                "orange",
+                "pink",
+                "brown",
+                "gray",
+            ]
+        )
 
-        self.inputPressureUnit.addItems(["psi/ft", "psi/m",
-                                         "kgf/cm2/m", "bar/m"])
+        self.inputPressureUnit.addItems(["psi/ft", "psi/m", "kgf/cm2/m", "bar/m"])
 
         # plot btn
         self.tendenciaPlotBtn.clicked.connect(self.call_plot_trends)
@@ -47,7 +57,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
 
         self.selected_file = self.selectFileComboBox.currentText()
         # Check if self.header_lines is not an empty string
-        if self.header_lines != '':
+        if self.header_lines != "":
             # Convert self.header_lines to an integer
             skiprows = int(self.header_lines)
         else:
@@ -56,35 +66,41 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         # Get the text of the checked button in the fileButtonGroup
         self.file_type_button_text = self.fileButtonGroup.checkedButton().text()
 
-        if self.file_type_button_text == 'csv':
+        if self.file_type_button_text == "csv":
             try:
-                dataframe = pd.read_csv(f'uploads/{self.selected_file}',
-                                delimiter='[;,]',
-                                names=["prof", "pressao"],
-                                engine='python',
-                                skiprows=skiprows)
+                dataframe = pd.read_csv(
+                    f"uploads/{self.selected_file}",
+                    delimiter="[;,]",
+                    names=["prof", "pressao"],
+                    engine="python",
+                    skiprows=skiprows,
+                )
                 return dataframe
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
                 return pd.DataFrame()
 
-        elif self.file_type_button_text == 'txt':
+        elif self.file_type_button_text == "txt":
             try:
-                dataframe = pd.read_csv(f'uploads/{self.selected_file}',
-                                skiprows=skiprows,
-                                delimiter='\t',
-                                names=["prof", "pressao"],
-                                engine='python')
+                dataframe = pd.read_csv(
+                    f"uploads/{self.selected_file}",
+                    skiprows=skiprows,
+                    delimiter="\t",
+                    names=["prof", "pressao"],
+                    engine="python",
+                )
                 return dataframe
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
                 return pd.DataFrame()
 
-        elif self.file_type_button_text == 'xlsx':
+        elif self.file_type_button_text == "xlsx":
             try:
-                dataframe = pd.read_excel(f'uploads/{self.selected_file}',
-                                            skiprows=skiprows,
-                                            names=["prof", "pressao"])
+                dataframe = pd.read_excel(
+                    f"uploads/{self.selected_file}",
+                    skiprows=skiprows,
+                    names=["prof", "pressao"],
+                )
                 return dataframe
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
@@ -103,14 +119,18 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         # self.prof_max = self.inputProfMax.text()
 
         # Check if self.mesa_rotativa is not an empty string
-        if self.mesa_rotativa != '':
+        if self.mesa_rotativa != "":
             # Convert self.mesa_rotativa to an integer and subtract y
             y = int(self.mesa_rotativa) - y
 
         fig, axs, messages = pressure_gradient_classification(
-                                         self.dataframe, self.kmeansClusters,
-                                         self.pressure_unit,
-                                         self.title, self.x_axis, self.y_axis)
+            self.dataframe,
+            self.kmeansClusters,
+            self.pressure_unit,
+            self.title,
+            self.x_axis,
+            self.y_axis,
+        )
         for message in messages:
             self.outputAfterPlotted.append(message)
         plt.show()

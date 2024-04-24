@@ -1,10 +1,9 @@
 import os
 import shutil
-from PyQt6.QtWidgets import QMainWindow,  QFileDialog, QInputDialog
+from PyQt6.QtWidgets import QMainWindow, QFileDialog, QInputDialog
 from PyQt6.QtCore import QDir
 from PyQt6.QtGui import QFileSystemModel
 from Interface.pyInterface.crud_ui import Ui_ManageFilesWindow
-
 
 
 class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
@@ -14,7 +13,7 @@ class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
 
         self.selected_file_path = None
 
-         # Create a QFileSystemModel
+        # Create a QFileSystemModel
         self.model = QFileSystemModel()
         self.model.setRootPath(QDir.rootPath())
 
@@ -22,7 +21,7 @@ class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
         self.manageFilesTreeView.setModel(self.model)
 
         # Set the root index for manageFilesTreeView
-        self.root_path = os.path.dirname(os.path.abspath(__file__)) + '/uploads'
+        self.root_path = os.path.dirname(os.path.abspath(__file__)) + "/uploads"
         self.manageFilesTreeView.setRootIndex(self.model.index(self.root_path))
 
         # Connect the clicked signal to our custom slot
@@ -50,7 +49,9 @@ class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
     def add_file(self):
         try:
             # Abre um diálogo de arquivo para selecionar um arquivo para adicionar
-            file_path, _ = QFileDialog.getOpenFileName(self, "Abrir arquivo", "", 'CSV, TXT, XLSX (*.csv *.txt *.xlsx)')
+            file_path, _ = QFileDialog.getOpenFileName(
+                self, "Abrir arquivo", "", "CSV, TXT, XLSX (*.csv *.txt *.xlsx)"
+            )
 
             if file_path:
                 # Define o diretório de destino
@@ -69,7 +70,9 @@ class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
                     self.manageFilesTreeView.setModel(self.model)
 
                     # Define a visualização em árvore de volta para o diretório de uploads
-                    self.manageFilesTreeView.setRootIndex(self.model.index(self.root_path))
+                    self.manageFilesTreeView.setRootIndex(
+                        self.model.index(self.root_path)
+                    )
                 except Exception as e:
                     print(f"Erro ao atualizar a visualização em árvore: {e}")
         except Exception as e:
@@ -86,10 +89,14 @@ class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
                 current_directory = os.path.dirname(file_path)
 
                 # Obtém o novo nome do arquivo do usuário
-                new_file_name, ok = QInputDialog.getText(self, "Renomear arquivo", "Digite o novo nome do arquivo:")
+                new_file_name, ok = QInputDialog.getText(
+                    self, "Renomear arquivo", "Digite o novo nome do arquivo:"
+                )
                 if ok and new_file_name:
                     # Cria o novo caminho do arquivo
-                    new_file_path = os.path.join(os.path.dirname(self.selected_file_path), new_file_name)
+                    new_file_path = os.path.join(
+                        os.path.dirname(self.selected_file_path), new_file_name
+                    )
 
                     # Tenta renomear o arquivo
                     try:
@@ -104,7 +111,9 @@ class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
                         self.manageFilesTreeView.setModel(self.model)
 
                         # Define a visualização em árvore de volta para o diretório atual
-                        self.manageFilesTreeView.setRootIndex(self.model.index(current_directory))
+                        self.manageFilesTreeView.setRootIndex(
+                            self.model.index(current_directory)
+                        )
                     except Exception as e:
                         print(f"Erro ao atualizar a visualização em árvore: {e}")
         except Exception as e:
@@ -133,7 +142,9 @@ class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
                     self.manageFilesTreeView.setModel(self.model)
 
                     # Define a visualização em árvore de volta para o diretório atual
-                    self.manageFilesTreeView.setRootIndex(self.model.index(current_directory))
+                    self.manageFilesTreeView.setRootIndex(
+                        self.model.index(current_directory)
+                    )
                 except Exception as e:
                     print(f"Erro ao atualizar a visualização em árvore: {e}")
         except Exception as e:

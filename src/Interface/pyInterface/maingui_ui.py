@@ -13,14 +13,21 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1055, 842)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Expanding,
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMinimumSize(QtCore.QSize(500, 500))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("src/Interface\\../icon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(
+            QtGui.QPixmap("src/Interface\\../icon.ico"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         MainWindow.setWindowIcon(icon)
         MainWindow.setAnimated(True)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
@@ -29,7 +36,10 @@ class Ui_MainWindow(object):
         self.verticalLayout.setContentsMargins(-1, -1, -1, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame = QtWidgets.QFrame(parent=self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Preferred,
+            QtWidgets.QSizePolicy.Policy.Preferred,
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
@@ -37,10 +47,12 @@ class Ui_MainWindow(object):
         self.frame.setMinimumSize(QtCore.QSize(0, 0))
         self.frame.setMaximumSize(QtCore.QSize(16777215, 100))
         self.frame.setAutoFillBackground(False)
-        self.frame.setStyleSheet("QFrame {\n"
-"    border: none;  /* Remove qualquer borda */\n"
-"    margin: 0px;   /* Define a margem como zero */\n"
-"}")
+        self.frame.setStyleSheet(
+            "QFrame {\n"
+            "    border: none;  /* Remove qualquer borda */\n"
+            "    margin: 0px;   /* Define a margem como zero */\n"
+            "}"
+        )
         self.frame.setObjectName("frame")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -48,10 +60,9 @@ class Ui_MainWindow(object):
         self.cellNameBox = QtWidgets.QComboBox(parent=self.frame)
         self.cellNameBox.setMinimumSize(QtCore.QSize(100, 0))
         self.cellNameBox.setMaximumSize(QtCore.QSize(150, 16777215))
-        self.cellNameBox.setStyleSheet("QComboBox {\n"
-"    text-align: center;\n"
-"}\n"
-"")
+        self.cellNameBox.setStyleSheet(
+            "QComboBox {\n" "    text-align: center;\n" "}\n" ""
+        )
         self.cellNameBox.setObjectName("cellNameBox")
         self.horizontalLayout.addWidget(self.cellNameBox)
         self.formulaBar = QtWidgets.QLineEdit(parent=self.frame)
@@ -65,48 +76,61 @@ class Ui_MainWindow(object):
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.mainSheetTable = QtWidgets.QTableWidget(parent=self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Expanding,
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.mainSheetTable.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.mainSheetTable.sizePolicy().hasHeightForWidth()
+        )
         self.mainSheetTable.setSizePolicy(sizePolicy)
-        self.mainSheetTable.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
-        self.mainSheetTable.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.ActionsContextMenu)
+        self.mainSheetTable.viewport().setProperty(
+            "cursor", QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor)
+        )
+        self.mainSheetTable.setContextMenuPolicy(
+            QtCore.Qt.ContextMenuPolicy.ActionsContextMenu
+        )
         self.mainSheetTable.setAutoFillBackground(False)
-        self.mainSheetTable.setStyleSheet("/* Table background and borders */\n"
-"QTableWidget {\n"
-"    background-color: #ffffff; /* Cor de fundo branca */\n"
-"    border: 1px solid #000000; /* Borda preta */\n"
-"    border-radius: 0px; /* Sem arredondamento de cantos */\n"
-"    gridline-color: #d4d4d4; /* Cor das linhas da grade */\n"
-"    margin: 0;\n"
-"}\n"
-"\n"
-"/* Styling for table items */\n"
-"QTableWidget::item {\n"
-"    border: none; /* Sem borda */\n"
-"    color: #000000; /* Cor do texto preto */\n"
-"    font-size: 10pt; /* Tamanho da fonte */\n"
-"}\n"
-"\n"
-"/* Styling for header sections */\n"
-"QHeaderView::section {\n"
-"    background-color: #BFC9CA ; /* Cor de fundo cinza claro */\n"
-"    color: #000000; /* Cor do texto preto */\n"
-"    font-weight: bold; /* Texto em negrito */\n"
-"    border: 1px solid #85929E ; /* Borda cinza */\n"
-"    padding: 4px; /* Preenchimento interno */\n"
-"}\n"
-"\n"
-"/* Selected items */\n"
-"QTableWidget::item:selected {\n"
-"    border: 1px solid #aeaeae; /* Cor de fundo azul escuro para itens selecionados */\n"
-"    background-color: #e6e6e6;\n"
-"}\n"
-"")
+        self.mainSheetTable.setStyleSheet(
+            "/* Table background and borders */\n"
+            "QTableWidget {\n"
+            "    background-color: #ffffff; /* Cor de fundo branca */\n"
+            "    border: 1px solid #000000; /* Borda preta */\n"
+            "    border-radius: 0px; /* Sem arredondamento de cantos */\n"
+            "    gridline-color: #d4d4d4; /* Cor das linhas da grade */\n"
+            "    margin: 0;\n"
+            "}\n"
+            "\n"
+            "/* Styling for table items */\n"
+            "QTableWidget::item {\n"
+            "    border: none; /* Sem borda */\n"
+            "    color: #000000; /* Cor do texto preto */\n"
+            "    font-size: 10pt; /* Tamanho da fonte */\n"
+            "}\n"
+            "\n"
+            "/* Styling for header sections */\n"
+            "QHeaderView::section {\n"
+            "    background-color: #BFC9CA ; /* Cor de fundo cinza claro */\n"
+            "    color: #000000; /* Cor do texto preto */\n"
+            "    font-weight: bold; /* Texto em negrito */\n"
+            "    border: 1px solid #85929E ; /* Borda cinza */\n"
+            "    padding: 4px; /* Preenchimento interno */\n"
+            "}\n"
+            "\n"
+            "/* Selected items */\n"
+            "QTableWidget::item:selected {\n"
+            "    border: 1px solid #aeaeae; /* Cor de fundo azul escuro para itens selecionados */\n"
+            "    background-color: #e6e6e6;\n"
+            "}\n"
+            ""
+        )
         self.mainSheetTable.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.mainSheetTable.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
-        self.mainSheetTable.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
+        self.mainSheetTable.setSizeAdjustPolicy(
+            QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored
+        )
         self.mainSheetTable.setRowCount(100)
         self.mainSheetTable.setColumnCount(24)
         self.mainSheetTable.setObjectName("mainSheetTable")
@@ -213,69 +237,119 @@ class Ui_MainWindow(object):
         self.actionSobre.setObjectName("actionSobre")
         self.newFileToolbar = QtGui.QAction(parent=MainWindow)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/new.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon1.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/new.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.newFileToolbar.setIcon(icon1)
         self.newFileToolbar.setObjectName("newFileToolbar")
         self.actionAbrirToolbar = QtGui.QAction(parent=MainWindow)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/open_folder.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon2.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/open_folder.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.actionAbrirToolbar.setIcon(icon2)
         self.actionAbrirToolbar.setObjectName("actionAbrirToolbar")
         self.actionSaveToolbar = QtGui.QAction(parent=MainWindow)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/save.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon3.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/save.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.actionSaveToolbar.setIcon(icon3)
         self.actionSaveToolbar.setObjectName("actionSaveToolbar")
         self.actionManageFilesToolbar = QtGui.QAction(parent=MainWindow)
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/mng.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon4.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/mng.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.actionManageFilesToolbar.setIcon(icon4)
         self.actionManageFilesToolbar.setObjectName("actionManageFilesToolbar")
         self.actionOpenPlotWindowToolbar = QtGui.QAction(parent=MainWindow)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/simple.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon5.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/simple.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.actionOpenPlotWindowToolbar.setIcon(icon5)
         self.actionOpenPlotWindowToolbar.setObjectName("actionOpenPlotWindowToolbar")
         self.actionChangeFontToolbar = QtGui.QAction(parent=MainWindow)
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/font.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon6.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/font.png"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.actionChangeFontToolbar.setIcon(icon6)
         self.actionChangeFontToolbar.setObjectName("actionChangeFontToolbar")
         self.actionRegressionPlotToolbar = QtGui.QAction(parent=MainWindow)
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/complex.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon7.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/complex.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.actionRegressionPlotToolbar.setIcon(icon7)
         self.actionRegressionPlotToolbar.setObjectName("actionRegressionPlotToolbar")
         self.actionTendencyPlot = QtGui.QAction(parent=MainWindow)
         self.actionTendencyPlot.setObjectName("actionTendencyPlot")
         self.actionClassificacao_de_Fluidos = QtGui.QAction(parent=MainWindow)
-        self.actionClassificacao_de_Fluidos.setObjectName("actionClassificacao_de_Fluidos")
+        self.actionClassificacao_de_Fluidos.setObjectName(
+            "actionClassificacao_de_Fluidos"
+        )
         self.actionImportar_Arquivo = QtGui.QAction(parent=MainWindow)
         self.actionImportar_Arquivo.setEnabled(True)
         self.actionImportar_Arquivo.setObjectName("actionImportar_Arquivo")
         self.changeTextColorBtn = QtGui.QAction(parent=MainWindow)
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/font_color.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon8.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/font_color.png"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.changeTextColorBtn.setIcon(icon8)
         self.changeTextColorBtn.setObjectName("changeTextColorBtn")
         self.changeCellColorBtn = QtGui.QAction(parent=MainWindow)
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/fill_color.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon9.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/fill_color.png"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.changeCellColorBtn.setIcon(icon9)
         self.changeCellColorBtn.setObjectName("changeCellColorBtn")
         self.alignLeftButton = QtGui.QAction(parent=MainWindow)
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/alignLeft.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon10.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/alignLeft.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.alignLeftButton.setIcon(icon10)
         self.alignLeftButton.setObjectName("alignLeftButton")
         self.alignCenterButton = QtGui.QAction(parent=MainWindow)
         icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/alignCenter.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon11.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/alignCenter.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.alignCenterButton.setIcon(icon11)
         self.alignCenterButton.setObjectName("alignCenterButton")
         self.alignRightButton = QtGui.QAction(parent=MainWindow)
         icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap(":/toolbarIcons/img/alignRight.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon12.addPixmap(
+            QtGui.QPixmap(":/toolbarIcons/img/alignRight.svg"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         self.alignRightButton.setIcon(icon12)
         self.alignRightButton.setObjectName("alignRightButton")
         self.actionFluidContact = QtGui.QAction(parent=MainWindow)
@@ -328,8 +402,12 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.cellNameBox.setToolTip(_translate("MainWindow", "This area shows the current selected cell"))
-        self.formulaBar.setPlaceholderText(_translate("MainWindow", "Insert a function here..."))
+        self.cellNameBox.setToolTip(
+            _translate("MainWindow", "This area shows the current selected cell")
+        )
+        self.formulaBar.setPlaceholderText(
+            _translate("MainWindow", "Insert a function here...")
+        )
         item = self.mainSheetTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "A"))
         item = self.mainSheetTable.horizontalHeaderItem(1)
@@ -397,31 +475,60 @@ class Ui_MainWindow(object):
         self.actionSobre.setText(_translate("MainWindow", "About"))
         self.newFileToolbar.setText(_translate("MainWindow", "New File"))
         self.newFileToolbar.setToolTip(_translate("MainWindow", "Open a new file"))
-        self.newFileToolbar.setStatusTip(_translate("MainWindow", "Abrir um novo arquivo .csv"))
+        self.newFileToolbar.setStatusTip(
+            _translate("MainWindow", "Abrir um novo arquivo .csv")
+        )
         self.actionAbrirToolbar.setText(_translate("MainWindow", "Open"))
         self.actionAbrirToolbar.setToolTip(_translate("MainWindow", "Open file"))
-        self.actionAbrirToolbar.setStatusTip(_translate("MainWindow", "Abrir um arquivo .csv já existente"))
+        self.actionAbrirToolbar.setStatusTip(
+            _translate("MainWindow", "Abrir um arquivo .csv já existente")
+        )
         self.actionSaveToolbar.setText(_translate("MainWindow", "Save"))
         self.actionSaveToolbar.setToolTip(_translate("MainWindow", "Save file"))
-        self.actionSaveToolbar.setStatusTip(_translate("MainWindow", "Salvar o arquivo"))
+        self.actionSaveToolbar.setStatusTip(
+            _translate("MainWindow", "Salvar o arquivo")
+        )
         self.actionManageFilesToolbar.setText(_translate("MainWindow", "Manage Files"))
-        self.actionManageFilesToolbar.setToolTip(_translate("MainWindow", "Manage uploaded files"))
-        self.actionManageFilesToolbar.setStatusTip(_translate("MainWindow", "Gerencie os arquivos que foram carregados"))
+        self.actionManageFilesToolbar.setToolTip(
+            _translate("MainWindow", "Manage uploaded files")
+        )
+        self.actionManageFilesToolbar.setStatusTip(
+            _translate("MainWindow", "Gerencie os arquivos que foram carregados")
+        )
         self.actionOpenPlotWindowToolbar.setText(_translate("MainWindow", "Open plot"))
-        self.actionOpenPlotWindowToolbar.setToolTip(_translate("MainWindow", "Open the plot window"))
-        self.actionOpenPlotWindowToolbar.setStatusTip(_translate("MainWindow", "Abra a seção de cálculos, para calcular gradiente de pressão e classificar poços"))
+        self.actionOpenPlotWindowToolbar.setToolTip(
+            _translate("MainWindow", "Open the plot window")
+        )
+        self.actionOpenPlotWindowToolbar.setStatusTip(
+            _translate(
+                "MainWindow",
+                "Abra a seção de cálculos, para calcular gradiente de pressão e classificar poços",
+            )
+        )
         self.actionChangeFontToolbar.setText(_translate("MainWindow", "Fonte"))
         self.actionChangeFontToolbar.setToolTip(_translate("MainWindow", "Change font"))
-        self.actionChangeFontToolbar.setStatusTip(_translate("MainWindow", "Altere a fonte utilizada"))
-        self.actionRegressionPlotToolbar.setText(_translate("MainWindow", "Open regression plot"))
-        self.actionRegressionPlotToolbar.setToolTip(_translate("MainWindow", "Open regression plot"))
+        self.actionChangeFontToolbar.setStatusTip(
+            _translate("MainWindow", "Altere a fonte utilizada")
+        )
+        self.actionRegressionPlotToolbar.setText(
+            _translate("MainWindow", "Open regression plot")
+        )
+        self.actionRegressionPlotToolbar.setToolTip(
+            _translate("MainWindow", "Open regression plot")
+        )
         self.actionTendencyPlot.setText(_translate("MainWindow", "Fluid Contact Plot"))
-        self.actionClassificacao_de_Fluidos.setText(_translate("MainWindow", "Fluid Classification"))
+        self.actionClassificacao_de_Fluidos.setText(
+            _translate("MainWindow", "Fluid Classification")
+        )
         self.actionImportar_Arquivo.setText(_translate("MainWindow", "Import data"))
         self.changeTextColorBtn.setText(_translate("MainWindow", "changeTextColorBtn"))
-        self.changeTextColorBtn.setToolTip(_translate("MainWindow", "Change text color"))
+        self.changeTextColorBtn.setToolTip(
+            _translate("MainWindow", "Change text color")
+        )
         self.changeCellColorBtn.setText(_translate("MainWindow", "changeCellColorBtn"))
-        self.changeCellColorBtn.setToolTip(_translate("MainWindow", "Change cell color"))
+        self.changeCellColorBtn.setToolTip(
+            _translate("MainWindow", "Change cell color")
+        )
         self.alignLeftButton.setText(_translate("MainWindow", "alignLeftButton"))
         self.alignLeftButton.setToolTip(_translate("MainWindow", "Align left"))
         self.alignCenterButton.setText(_translate("MainWindow", "alignCenterButton"))
@@ -429,6 +536,12 @@ class Ui_MainWindow(object):
         self.alignRightButton.setText(_translate("MainWindow", "alignRightButton"))
         self.alignRightButton.setToolTip(_translate("MainWindow", "Align right"))
         self.actionFluidContact.setText(_translate("MainWindow", "Fluid Contact"))
-        self.actionFluidClassification.setText(_translate("MainWindow", "Fluid Classification"))
-        self.actionGradient_Analysis.setText(_translate("MainWindow", "Gradient Analysis"))
-        self.actionGradient_Analysis_2.setText(_translate("MainWindow", "Gradient Analysis"))
+        self.actionFluidClassification.setText(
+            _translate("MainWindow", "Fluid Classification")
+        )
+        self.actionGradient_Analysis.setText(
+            _translate("MainWindow", "Gradient Analysis")
+        )
+        self.actionGradient_Analysis_2.setText(
+            _translate("MainWindow", "Gradient Analysis")
+        )

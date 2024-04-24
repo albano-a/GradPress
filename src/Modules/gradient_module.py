@@ -1,11 +1,10 @@
-from PyQt6.QtWidgets import QMainWindow 
+from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from Interface.pyInterface.gradient_ui import Ui_gradientePressaoWindow
 import os
 
 
-class GradientClassificationWin(QMainWindow,
-                                Ui_gradientePressaoWindow):
+class GradientClassificationWin(QMainWindow, Ui_gradientePressaoWindow):
     # TODO: fully implement this function
     def __init__(self):
         super(GradientClassificationWin, self).__init__()
@@ -13,9 +12,15 @@ class GradientClassificationWin(QMainWindow,
         self.setWindowTitle("Classificação do Gradiente de Pressão")
 
         model = QStandardItemModel(10, 5, self)
-        model.setHorizontalHeaderLabels(['Fluido', 'Gradiente (psi/ft)',
-                                         'Gradiente (psi/m)', 'Gradiente (kgf/cm2/m)',
-                                         'Gradiente (bar/m)'])
+        model.setHorizontalHeaderLabels(
+            [
+                "Fluido",
+                "Gradiente (psi/ft)",
+                "Gradiente (psi/m)",
+                "Gradiente (kgf/cm2/m)",
+                "Gradiente (bar/m)",
+            ]
+        )
 
         data = [
             ["Dry Gas Zero", 0.000, 0.000, 0.000, 0.000],
@@ -27,7 +32,7 @@ class GradientClassificationWin(QMainWindow,
             ["Fresh Water", 0.433, 1.421, 0.100, 0.098],
             ["Sea Water", 0.444, 1.457, 0.102, 0.101],
             ["Salt sat. Water", 0.520, 1.706, 0.120, 0.118],
-            ["Salt sat. Water Max", 100.000, 100.000, 100.000, 100.000]
+            ["Salt sat. Water Max", 100.000, 100.000, 100.000, 100.000],
         ]
 
         for row in range(len(data)):
@@ -40,7 +45,7 @@ class GradientClassificationWin(QMainWindow,
         self.selected_file = None
 
         # list of files in the uploads directory - Select the file option
-        self.files = os.listdir('src/uploads')
+        self.files = os.listdir("src/uploads")
         self.fileComboBox.addItems(self.files)
 
         self.pressureComboBox.addItems(["psi/ft", "psi/m", "kgf/cm2/m", "bar/m"])

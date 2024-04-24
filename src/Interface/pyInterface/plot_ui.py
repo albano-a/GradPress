@@ -16,7 +16,11 @@ class Ui_SimplePlotWindow(object):
         SimplePlotWindow.setMinimumSize(QtCore.QSize(670, 530))
         SimplePlotWindow.setMaximumSize(QtCore.QSize(670, 530))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("src/Interface\\../icon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(
+            QtGui.QPixmap("src/Interface\\../icon.ico"),
+            QtGui.QIcon.Mode.Normal,
+            QtGui.QIcon.State.Off,
+        )
         SimplePlotWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=SimplePlotWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -31,7 +35,10 @@ class Ui_SimplePlotWindow(object):
         self.titleFrame.setObjectName("titleFrame")
         self.label = QtWidgets.QLabel(parent=self.titleFrame)
         self.label.setGeometry(QtCore.QRect(10, 0, 631, 71))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Expanding,
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
@@ -54,9 +61,7 @@ class Ui_SimplePlotWindow(object):
         self.gridLayout_2.addWidget(self.selectFileComboBox, 0, 1, 1, 3)
         self.label_2 = QtWidgets.QLabel(parent=self.layoutWidget)
         self.label_2.setMouseTracking(True)
-        self.label_2.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_2.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_2.setObjectName("label_2")
         self.gridLayout_2.addWidget(self.label_2, 0, 0, 1, 1)
         self.csvRadioButton = QtWidgets.QRadioButton(parent=self.layoutWidget)
@@ -67,14 +72,18 @@ class Ui_SimplePlotWindow(object):
         self.fileButtonGroup = QtWidgets.QButtonGroup(SimplePlotWindow)
         self.fileButtonGroup.setObjectName("fileButtonGroup")
         self.fileButtonGroup.addButton(self.csvRadioButton)
-        self.gridLayout_2.addWidget(self.csvRadioButton, 1, 1, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.gridLayout_2.addWidget(
+            self.csvRadioButton, 1, 1, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter
+        )
         self.txtRadioButton = QtWidgets.QRadioButton(parent=self.layoutWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.txtRadioButton.setFont(font)
         self.txtRadioButton.setObjectName("txtRadioButton")
         self.fileButtonGroup.addButton(self.txtRadioButton)
-        self.gridLayout_2.addWidget(self.txtRadioButton, 1, 2, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.gridLayout_2.addWidget(
+            self.txtRadioButton, 1, 2, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter
+        )
         self.xlsxRadioButton = QtWidgets.QRadioButton(parent=self.layoutWidget)
         self.xlsxRadioButton.setEnabled(True)
         font = QtGui.QFont()
@@ -82,27 +91,27 @@ class Ui_SimplePlotWindow(object):
         self.xlsxRadioButton.setFont(font)
         self.xlsxRadioButton.setObjectName("xlsxRadioButton")
         self.fileButtonGroup.addButton(self.xlsxRadioButton)
-        self.gridLayout_2.addWidget(self.xlsxRadioButton, 1, 3, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.gridLayout_2.addWidget(
+            self.xlsxRadioButton, 1, 3, 1, 1, QtCore.Qt.AlignmentFlag.AlignHCenter
+        )
         self.label_11 = QtWidgets.QLabel(parent=self.layoutWidget)
         self.label_11.setMinimumSize(QtCore.QSize(250, 0))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_11.setFont(font)
         self.label_11.setMouseTracking(True)
-        self.label_11.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_11.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_11.setWordWrap(True)
         self.label_11.setObjectName("label_11")
-        self.gridLayout_2.addWidget(self.label_11, 2, 0, 1, 4, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.gridLayout_2.addWidget(
+            self.label_11, 2, 0, 1, 4, QtCore.Qt.AlignmentFlag.AlignHCenter
+        )
         self.label_3 = QtWidgets.QLabel(parent=self.layoutWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_3.setFont(font)
         self.label_3.setMouseTracking(True)
-        self.label_3.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_3.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_3.setObjectName("label_3")
         self.gridLayout_2.addWidget(self.label_3, 1, 0, 1, 1)
         self.gridLayout.addWidget(self.selectFileGroupBox, 2, 0, 1, 1)
@@ -130,7 +139,9 @@ class Ui_SimplePlotWindow(object):
         font.setPointSize(9)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
-        self.gridLayout_4.addWidget(self.label_6, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.gridLayout_4.addWidget(
+            self.label_6, 0, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight
+        )
         self.inputProfMin = QtWidgets.QLineEdit(parent=self.layoutWidget2)
         self.inputProfMin.setObjectName("inputProfMin")
         self.gridLayout_4.addWidget(self.inputProfMin, 0, 1, 1, 1)
@@ -139,7 +150,9 @@ class Ui_SimplePlotWindow(object):
         font.setPointSize(9)
         self.label_7.setFont(font)
         self.label_7.setObjectName("label_7")
-        self.gridLayout_4.addWidget(self.label_7, 1, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight)
+        self.gridLayout_4.addWidget(
+            self.label_7, 1, 0, 1, 1, QtCore.Qt.AlignmentFlag.AlignRight
+        )
         self.inputProfMax = QtWidgets.QLineEdit(parent=self.layoutWidget2)
         self.inputProfMax.setObjectName("inputProfMax")
         self.gridLayout_4.addWidget(self.inputProfMax, 1, 1, 1, 1)
@@ -218,9 +231,7 @@ class Ui_SimplePlotWindow(object):
         font.setPointSize(10)
         self.labelHeaderLines.setFont(font)
         self.labelHeaderLines.setMouseTracking(True)
-        self.labelHeaderLines.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.labelHeaderLines.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.labelHeaderLines.setObjectName("labelHeaderLines")
         self.gridLayout_3.addWidget(self.labelHeaderLines, 3, 0, 1, 1)
         self.inputHeaderLines = QtWidgets.QLineEdit(parent=self.layoutWidget4)
@@ -248,9 +259,7 @@ class Ui_SimplePlotWindow(object):
         font.setPointSize(10)
         self.label_4.setFont(font)
         self.label_4.setMouseTracking(True)
-        self.label_4.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_4.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_4.setObjectName("label_4")
         self.gridLayout_3.addWidget(self.label_4, 0, 0, 1, 1)
         self.labelMesaRotativa = QtWidgets.QLabel(parent=self.layoutWidget4)
@@ -259,9 +268,7 @@ class Ui_SimplePlotWindow(object):
         font.setPointSize(10)
         self.labelMesaRotativa.setFont(font)
         self.labelMesaRotativa.setMouseTracking(True)
-        self.labelMesaRotativa.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.labelMesaRotativa.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.labelMesaRotativa.setObjectName("labelMesaRotativa")
         self.gridLayout_3.addWidget(self.labelMesaRotativa, 1, 0, 1, 1)
         self.inputMesaRotativa = QtWidgets.QLineEdit(parent=self.layoutWidget4)
@@ -280,32 +287,38 @@ class Ui_SimplePlotWindow(object):
         font.setPointSize(10)
         self.label_5.setFont(font)
         self.label_5.setMouseTracking(True)
-        self.label_5.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_5.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_5.setObjectName("label_5")
         self.gridLayout_3.addWidget(self.label_5, 2, 0, 1, 1)
         self.gridLayout.addWidget(self.cotaRadioBtnGroupBox, 2, 1, 1, 1)
         self.simplePlotBtn = QtWidgets.QPushButton(parent=self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.simplePlotBtn.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.simplePlotBtn.sizePolicy().hasHeightForWidth()
+        )
         self.simplePlotBtn.setSizePolicy(sizePolicy)
         self.simplePlotBtn.setMinimumSize(QtCore.QSize(200, 25))
         self.simplePlotBtn.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.simplePlotBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
+        self.simplePlotBtn.setStyleSheet(
+            "QPushButton {\n"
+            "    border-radius: 5px;\n"
+            "    border: 1px solid rgb(171, 171, 171);\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
+            "}\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
+            "    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
+            "}"
+        )
         self.simplePlotBtn.setObjectName("simplePlotBtn")
-        self.gridLayout.addWidget(self.simplePlotBtn, 6, 0, 1, 2, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.gridLayout.addWidget(
+            self.simplePlotBtn, 6, 0, 1, 2, QtCore.Qt.AlignmentFlag.AlignHCenter
+        )
         self.line = QtWidgets.QFrame(parent=self.centralwidget)
         self.line.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
@@ -346,14 +359,34 @@ class Ui_SimplePlotWindow(object):
     def retranslateUi(self, SimplePlotWindow):
         _translate = QtCore.QCoreApplication.translate
         SimplePlotWindow.setWindowTitle(_translate("SimplePlotWindow", "MainWindow"))
-        self.label.setText(_translate("SimplePlotWindow", "<html><head/><body><p><span style=\"font-size:12pt; font-weight:600;\">Simple Plot</span></p><p><span style=\"font-size:12pt;\">Fill in the fields below to generate a simple graph, <br/>just plotting the x-axis and the y-axis</span></p><p><br/></p></body></html>"))
+        self.label.setText(
+            _translate(
+                "SimplePlotWindow",
+                '<html><head/><body><p><span style="font-size:12pt; font-weight:600;">Simple Plot</span></p><p><span style="font-size:12pt;">Fill in the fields below to generate a simple graph, <br/>just plotting the x-axis and the y-axis</span></p><p><br/></p></body></html>',
+            )
+        )
         self.selectFileGroupBox.setTitle(_translate("SimplePlotWindow", "File"))
-        self.label_2.setText(_translate("SimplePlotWindow", "<html><head/><body><p align=\"right\"><span style=\" font-size:10pt;\">Select the file:</span></p></body></html>"))
+        self.label_2.setText(
+            _translate(
+                "SimplePlotWindow",
+                '<html><head/><body><p align="right"><span style=" font-size:10pt;">Select the file:</span></p></body></html>',
+            )
+        )
         self.csvRadioButton.setText(_translate("SimplePlotWindow", "csv"))
         self.txtRadioButton.setText(_translate("SimplePlotWindow", "txt"))
         self.xlsxRadioButton.setText(_translate("SimplePlotWindow", "xlsx"))
-        self.label_11.setText(_translate("SimplePlotWindow", "<html><head/><body><p align=\"center\">The accepted file formats so far are .csv and .txt. In the future, there is an intention to add support for .xlsx files.</p></body></html>"))
-        self.label_3.setText(_translate("SimplePlotWindow", "<html><head/><body><p align=\"right\">File type:</p></body></html>"))
+        self.label_11.setText(
+            _translate(
+                "SimplePlotWindow",
+                '<html><head/><body><p align="center">The accepted file formats so far are .csv and .txt. In the future, there is an intention to add support for .xlsx files.</p></body></html>',
+            )
+        )
+        self.label_3.setText(
+            _translate(
+                "SimplePlotWindow",
+                '<html><head/><body><p align="right">File type:</p></body></html>',
+            )
+        )
         self.groupBox_5.setTitle(_translate("SimplePlotWindow", "Plot Settings"))
         self.groupBox.setTitle(_translate("SimplePlotWindow", "Depth limit"))
         self.label_6.setText(_translate("SimplePlotWindow", "Minimum Depth:"))
@@ -363,18 +396,57 @@ class Ui_SimplePlotWindow(object):
         self.label_10.setText(_translate("SimplePlotWindow", "Y axis:"))
         self.label_8.setText(_translate("SimplePlotWindow", "Title:"))
         self.label_9.setText(_translate("SimplePlotWindow", "X axis:"))
-        self.cotaRadioBtnGroupBox.setTitle(_translate("SimplePlotWindow", "File Settings"))
+        self.cotaRadioBtnGroupBox.setTitle(
+            _translate("SimplePlotWindow", "File Settings")
+        )
         self.headerNao.setText(_translate("SimplePlotWindow", "No"))
-        self.labelHeaderLines.setStatusTip(_translate("SimplePlotWindow", "Se houver cabeçalho, quantas linhas pular?"))
-        self.labelHeaderLines.setText(_translate("SimplePlotWindow", "<html><head/><body><p align=\"right\">How many lines?:</p></body></html>"))
+        self.labelHeaderLines.setStatusTip(
+            _translate("SimplePlotWindow", "Se houver cabeçalho, quantas linhas pular?")
+        )
+        self.labelHeaderLines.setText(
+            _translate(
+                "SimplePlotWindow",
+                '<html><head/><body><p align="right">How many lines?:</p></body></html>',
+            )
+        )
         self.cotaProfSim.setText(_translate("SimplePlotWindow", "Yes"))
         self.cotaProfNao.setText(_translate("SimplePlotWindow", "No"))
-        self.label_4.setStatusTip(_translate("SimplePlotWindow", "Profundidade em cota é igual a mesa rotativa menos a profundidade medida."))
-        self.label_4.setText(_translate("SimplePlotWindow", "<html><head/><body><p align=\"right\">TVDSS?*:</p></body></html>"))
-        self.labelMesaRotativa.setStatusTip(_translate("SimplePlotWindow", "Mesa rotativa é a altura da plataforma até a superfície do mar/superfície terrestre."))
-        self.labelMesaRotativa.setText(_translate("SimplePlotWindow", "<html><head/><body><p align=\"right\">Rotary table:</p></body></html>"))
+        self.label_4.setStatusTip(
+            _translate(
+                "SimplePlotWindow",
+                "Profundidade em cota é igual a mesa rotativa menos a profundidade medida.",
+            )
+        )
+        self.label_4.setText(
+            _translate(
+                "SimplePlotWindow",
+                '<html><head/><body><p align="right">TVDSS?*:</p></body></html>',
+            )
+        )
+        self.labelMesaRotativa.setStatusTip(
+            _translate(
+                "SimplePlotWindow",
+                "Mesa rotativa é a altura da plataforma até a superfície do mar/superfície terrestre.",
+            )
+        )
+        self.labelMesaRotativa.setText(
+            _translate(
+                "SimplePlotWindow",
+                '<html><head/><body><p align="right">Rotary table:</p></body></html>',
+            )
+        )
         self.headerSim.setText(_translate("SimplePlotWindow", "Yes"))
-        self.label_5.setStatusTip(_translate("SimplePlotWindow", "Se o arquivo possui cabeçalho. Comum em arquivos las e csv."))
-        self.label_5.setText(_translate("SimplePlotWindow", "<html><head/><body><p align=\"right\">Header?:</p></body></html>"))
+        self.label_5.setStatusTip(
+            _translate(
+                "SimplePlotWindow",
+                "Se o arquivo possui cabeçalho. Comum em arquivos las e csv.",
+            )
+        )
+        self.label_5.setText(
+            _translate(
+                "SimplePlotWindow",
+                '<html><head/><body><p align="right">Header?:</p></body></html>',
+            )
+        )
         self.simplePlotBtn.setText(_translate("SimplePlotWindow", "Plot"))
         self.toolBar.setWindowTitle(_translate("SimplePlotWindow", "toolBar"))

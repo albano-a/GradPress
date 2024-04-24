@@ -20,7 +20,7 @@ class HelpWindow(QMainWindow, Ui_HelpMainWindow):
         self.helpTreeView.setModel(self.model)
 
         # Set the root index for helpTreeView
-        root_path = os.path.dirname(os.path.abspath(__file__)) + '/docs'
+        root_path = os.path.dirname(os.path.abspath(__file__)) + "/docs"
         self.helpTreeView.setRootIndex(self.model.index(root_path))
 
         # Hide the "Size" and "Type" columns
@@ -38,8 +38,8 @@ class HelpWindow(QMainWindow, Ui_HelpMainWindow):
         file_path = self.helpTreeView.model().filePath(index)
 
         # Check if it's a markdown file
-        if os.path.isfile(file_path) and file_path.endswith('.md'):
-            with open(file_path, 'r', encoding='utf-8') as file:
+        if os.path.isfile(file_path) and file_path.endswith(".md"):
+            with open(file_path, "r", encoding="utf-8") as file:
                 content = file.read()
 
             # Convert markdown to HTML and display the

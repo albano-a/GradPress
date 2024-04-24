@@ -6,36 +6,31 @@ import markdown
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from PyQt6.QtCore import (
-    Qt, 
-    QDir, 
-    QTimer, 
-    QEvent,
-    QObject
-    )
+from PyQt6.QtCore import Qt, QDir, QTimer, QEvent, QObject
 from PyQt6.QtGui import (
     QAction,
-    QKeySequence, 
+    QKeySequence,
     QColor,
     QPixmap,
 )
 from PyQt6.QtWidgets import (
-    QApplication, 
-    QMainWindow, 
+    QApplication,
+    QMainWindow,
     QTableWidgetItem,
-    QFileDialog, 
-    QMessageBox, 
-    QColorDialog, 
-    QFontDialog, 
+    QFileDialog,
+    QMessageBox,
+    QColorDialog,
+    QFontDialog,
     QMenu,
-    QSplashScreen, 
+    QSplashScreen,
     QProgressBar,
-    QStyle, 
-    QFileDialog, 
-    QTextEdit
+    QStyle,
+    QFileDialog,
+    QTextEdit,
 )
 from icons_rc import *
 from Interface.pyInterface.maingui_ui import Ui_MainWindow
+
 # Software modules
 from Modules.about_module import AboutWindow
 from Modules.help_module import HelpWindow
@@ -45,7 +40,8 @@ from Modules.regression_module import PlotTendenciaWindow
 from Modules.gradient_module import GradientClassificationWin
 from Functions.general import timing_function, uploadFile
 
-plt.style.use(['bmh'])
+plt.style.use(["bmh"])
+
 
 class TableManager:
     def __init__(self, table, formulaBar, cellNameBox):
@@ -71,7 +67,7 @@ class TableManager:
             "Copiar": self.copy,
             "Colar": self.paste,
             "Recortar": self.cut,
-            "Limpar": self.clear
+            "Limpar": self.clear,
         }
 
         for action_text, action_func in actions.items():
@@ -85,14 +81,14 @@ class TableManager:
                 "Inserir Linha Acima": lambda: self.addRow(above=True),
                 "Inserir Linha Abaixo": lambda: self.addRow(above=False),
                 "Inserir Coluna à Direita": lambda: self.addColumn(left=False),
-                "Inserir Coluna à Esquerda": lambda: self.addColumn(left=True)
+                "Inserir Coluna à Esquerda": lambda: self.addColumn(left=True),
             },
             "Excluir...": {
                 "Excluir Linha Acima": lambda: self.removeRow(above=True),
                 "Excluir Linha Abaixo": lambda: self.removeRow(above=False),
                 "Excluir Coluna à Direita": lambda: self.removeColumn(left=False),
-                "Excluir Coluna à Esquerda": lambda: self.removeColumn(left=True)
-            }
+                "Excluir Coluna à Esquerda": lambda: self.removeColumn(left=True),
+            },
         }
 
         for submenu_text, submenu_actions in submenus.items():
@@ -107,7 +103,9 @@ class TableManager:
         try:
             if row >= 0 and column >= 0:  # Check that row and column are valid
                 currentItem = self.table.item(row, column)
-                if currentItem and currentItem.text():  # Check that item and its text are not None
+                if (
+                    currentItem and currentItem.text()
+                ):  # Check that item and its text are not None
                     self.formulaBar.blockSignals(True)
                     self.formulaBar.setText(currentItem.text())
                     self.formulaBar.blockSignals(False)
@@ -128,10 +126,13 @@ class TableManager:
         except Exception as e:
             print(f"Error ao atualizar o item atual: {e}")
 
-    def updateCellComboBox(self, currentRow, currentColumn,
-                           previousRow, previousColumn):
+    def updateCellComboBox(
+        self, currentRow, currentColumn, previousRow, previousColumn
+    ):
         try:
-            if currentRow >= 0 and currentColumn >= 0:  # Check that currentRow and currentColumn are valid
+            if (
+                currentRow >= 0 and currentColumn >= 0
+            ):  # Check that currentRow and currentColumn are valid
                 # Convert column number to letter and add 1 to row number
                 cellName = f"{chr(65 + currentColumn)}{currentRow + 1}"
                 if cellName:  # Check that cellName is not None
@@ -154,11 +155,15 @@ class TableManager:
 
     def onCellEntered(self, index):
         modifiers = QApplication.keyboardModifiers()
-        if modifiers == Qt.KeyboardModifier.NoModifier \
-            and QApplication.mouseButtons() == Qt.MouseButton.LeftButton:
+        if (
+            modifiers == Qt.KeyboardModifier.NoModifier
+            and QApplication.mouseButtons() == Qt.MouseButton.LeftButton
+        ):
             selected = self.table.selectedRanges()
-            if not selected or (selected[0].bottomRow() != index.row() and \
-                selected[0].rightColumn() != index.column()):
+            if not selected or (
+                selected[0].bottomRow() != index.row()
+                and selected[0].rightColumn() != index.column()
+            ):
                 self.table.clearSelection()
                 self.table.setCurrentCell(index.row(), index.column())
                 item = self.table.itemFromIndex(index)
@@ -175,8 +180,7 @@ class TableManager:
                     item.setSelected(True)
 
     def addRow(self, above=True):
-        rowPosition = self.table.currentRow() \
-                        if above else self.table.rowCount()
+        rowPosition = self.table.currentRow() if above else self.table.rowCount()
         self.table.insertRow(rowPosition)
 
     def addColumn(self, left=True):
@@ -184,21 +188,19 @@ class TableManager:
         if not left:
             colPosition += 1
         self.table.insertColumn(colPosition)
-        headers = [self.excel_style(i)
-                   for i in range(1, self.table.columnCount() + 1)]
+        headers = [self.excel_style(i) for i in range(1, self.table.columnCount() + 1)]
         self.table.setHorizontalHeaderLabels(headers)
 
     def removeRow(self, above=True):
-        rowPosition = self.table.currentRow() \
-                        if above else self.table.rowCount() - 1
+        rowPosition = self.table.currentRow() if above else self.table.rowCount() - 1
         self.table.removeRow(rowPosition)
 
     def removeColumn(self, left=True):
-        colPosition = self.table.currentColumn() \
-                        if left else self.table.columnCount() - 1
+        colPosition = (
+            self.table.currentColumn() if left else self.table.columnCount() - 1
+        )
         self.table.removeColumn(colPosition)
-        headers = [self.excel_style(i)
-                   for i in range(1, self.table.columnCount() + 1)]
+        headers = [self.excel_style(i) for i in range(1, self.table.columnCount() + 1)]
         self.table.setHorizontalHeaderLabels(headers)
 
     def changeFont(self):
@@ -208,12 +210,12 @@ class TableManager:
 
     def saveTable(self):
         try:
-            filename, _ = QFileDialog.getSaveFileName(None,
-                                                    'Save File', '',
-                                                    'CSV (*.csv);;XLSX (*.xlsx)')
+            filename, _ = QFileDialog.getSaveFileName(
+                None, "Save File", "", "CSV (*.csv);;XLSX (*.xlsx)"
+            )
             if filename:
-                if filename.endswith('.csv'):
-                    with open(filename, 'w', encoding='UTF-8') as file:
+                if filename.endswith(".csv"):
+                    with open(filename, "w", encoding="UTF-8") as file:
                         for row in range(self.table.rowCount()):
                             row_data = []
                             for column in range(self.table.columnCount()):
@@ -221,9 +223,9 @@ class TableManager:
                                 if item is not None:
                                     row_data.append(item.text())
                             if row_data:
-                                file.write(','.join(row_data))
-                                file.write('\n')
-                elif filename.endswith('.xlsx'):
+                                file.write(",".join(row_data))
+                                file.write("\n")
+                elif filename.endswith(".xlsx"):
                     data = []
                     for row in range(self.table.rowCount()):
                         row_data = []
@@ -237,21 +239,19 @@ class TableManager:
                     data = data[1:]
                     df = pd.DataFrame(data, columns=headers)
                     df.to_excel(filename, index=False)
-                QMessageBox.information(None, 'Sucesso',
-                                        'Tabela salva com sucesso!')
+                QMessageBox.information(None, "Sucesso", "Tabela salva com sucesso!")
             else:
-                QMessageBox.warning(None, 'Aviso',
-                                    'Nenhum arquivo selecionado.')
+                QMessageBox.warning(None, "Aviso", "Nenhum arquivo selecionado.")
         except Exception as e:
-            QMessageBox.critical(None, 'Error', f'Um erro ocorreu: {str(e)}')
+            QMessageBox.critical(None, "Error", f"Um erro ocorreu: {str(e)}")
+
     # Open csv to QTableWidget
     def openTable(self):
         filename = QFileDialog.getOpenFileName(
-            None, 'Open File',
-            '', 'CSV, TXT, XLSX (*.csv *.txt *.xlsx)'
+            None, "Open File", "", "CSV, TXT, XLSX (*.csv *.txt *.xlsx)"
         )
-        if filename[0] != '':
-            if filename[0].endswith('.xlsx'):
+        if filename[0] != "":
+            if filename[0].endswith(".xlsx"):
                 dataframe = pd.read_excel(filename[0])
                 rowPosition = 0
                 # Set the column count and headers
@@ -261,20 +261,19 @@ class TableManager:
                     item = QTableWidgetItem(str(title))
                     self.table.setItem(rowPosition, column, item)
                 rowPosition += 1
-                
+
                 for row in dataframe.values.tolist():
                     self.table.insertRow(rowPosition)
-                    self.table.setColumnCount(
-                            max(self.table.columnCount(), len(row)))
+                    self.table.setColumnCount(max(self.table.columnCount(), len(row)))
                     for column, data in enumerate(row):
                         item = QTableWidgetItem(str(data))
                         self.table.setItem(rowPosition, column, item)
                     # Move to the next row
                     rowPosition += 1
                 self.table.update()
-                
+
             else:
-                with open(filename[0], 'r', encoding='UTF-8') as file:
+                with open(filename[0], "r", encoding="UTF-8") as file:
                     dialect = csv.Sniffer().sniff(file.read(1024))
                     file.seek(0)
                     reader = csv.reader(file, dialect)
@@ -284,45 +283,53 @@ class TableManager:
                     for row in reader:
                         self.table.insertRow(rowPosition)
                         self.table.setColumnCount(
-                                max(self.table.columnCount(), len(row)))
+                            max(self.table.columnCount(), len(row))
+                        )
                         for column, data in enumerate(row):
                             item = QTableWidgetItem(str(data))
                             self.table.setItem(rowPosition, column, item)
-                            
+
                         # Move to the next row
                         rowPosition += 1
-                        
+
                     self.table.update()
 
     def newTable(self):
         try:
-            reply = QMessageBox.question(self.table, 'Nova Tabela',
-            "Você tem certeza de que deseja criar uma nova tabela? \
+            reply = QMessageBox.question(
+                self.table,
+                "Nova Tabela",
+                "Você tem certeza de que deseja criar uma nova tabela? \
                 Todo o progresso atual será perdido.",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No)
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No,
+            )
             if reply == QMessageBox.StandardButton.Yes:
                 self.table.setRowCount(0)
                 self.table.setColumnCount(0)
                 self.table.setRowCount(100)
                 self.table.setColumnCount(26)
-                headers = [self.excel_style(i)
-                           for i in range(1, self.table.columnCount() + 1)]
+                headers = [
+                    self.excel_style(i) for i in range(1, self.table.columnCount() + 1)
+                ]
                 self.table.setHorizontalHeaderLabels(headers)
         except Exception as e:
-            QMessageBox.critical(self.table, 'Erro',
-                f'Ocorreu um erro ao criar uma nova tabela: {str(e)}')
+            QMessageBox.critical(
+                self.table,
+                "Erro",
+                f"Ocorreu um erro ao criar uma nova tabela: {str(e)}",
+            )
 
     def textAlignment(self, alignment):
         # left, center, right
         selected_items = self.table.selectedItems()
-        if alignment == 'left':
+        if alignment == "left":
             for item in selected_items:
                 item.setTextAlignment(Qt.AlignmentFlag.AlignLeft)
-        elif alignment == 'center':
+        elif alignment == "center":
             for item in selected_items:
                 item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-        elif alignment == 'right':
+        elif alignment == "right":
             for item in selected_items:
                 item.setTextAlignment(Qt.AlignmentFlag.AlignRight)
 
@@ -335,13 +342,13 @@ class TableManager:
                     for item in selected_items:
                         item.setBackground(QColor(color))
                 else:
-                    QMessageBox.warning(None, 'Aviso',
-                                        'Nenhuma célula selecionada.')
+                    QMessageBox.warning(None, "Aviso", "Nenhuma célula selecionada.")
             else:
-                QMessageBox.warning(None, 'Aviso', 'Cor inválida selecionada.')
+                QMessageBox.warning(None, "Aviso", "Cor inválida selecionada.")
         except Exception as e:
-            QMessageBox.critical(None, 'Erro',
-            f'Ocorreu um erro ao alterar a cor da célula: {str(e)}')
+            QMessageBox.critical(
+                None, "Erro", f"Ocorreu um erro ao alterar a cor da célula: {str(e)}"
+            )
 
     def changeTextColor(self):
         try:
@@ -350,18 +357,18 @@ class TableManager:
                 for item in self.table.selectedItems():
                     item.setForeground(color)
             else:
-                QMessageBox.warning(None, 'Aviso', 'Cor inválida selecionada.')
+                QMessageBox.warning(None, "Aviso", "Cor inválida selecionada.")
         except Exception as e:
-            QMessageBox.critical(None, 'Erro',
-            f'Ocorreu um erro ao alterar a cor do texto: {str(e)}')
+            QMessageBox.critical(
+                None, "Erro", f"Ocorreu um erro ao alterar a cor do texto: {str(e)}"
+            )
 
     def copy(self):
         selected = self.table.selectedRanges()[0]
         s = ""
         for r in range(selected.rowCount()):
             for c in range(selected.columnCount()):
-                item = self.table.item(selected.topRow() + r,
-                                       selected.leftColumn() + c)
+                item = self.table.item(selected.topRow() + r, selected.leftColumn() + c)
                 if item is not None:
                     s += item.text() + "\t"
                 else:
@@ -374,24 +381,24 @@ class TableManager:
         s = QApplication.clipboard().text()
         for r, line in enumerate(s.split("\n")[:-1]):  # remove last '\n'
             for c, text in enumerate(line.split("\t")):
-                item = self.table.item(selected.topRow() + r,
-                                       selected.leftColumn() + c)
+                item = self.table.item(selected.topRow() + r, selected.leftColumn() + c)
                 if item is None:
                     item = QTableWidgetItem()
-                    self.table.setItem(selected.topRow() + r,
-                                       selected.leftColumn() + c, item)
+                    self.table.setItem(
+                        selected.topRow() + r, selected.leftColumn() + c, item
+                    )
                 item.setText(text)
 
     def cut(self):
         self.copy()
         for item in self.table.selectedItems():
             if item is not None:
-                item.setText('')
+                item.setText("")
 
     def clear(self):
         for item in self.table.selectedItems():
             if item is not None:
-                item.setText('')
+                item.setText("")
 
     @staticmethod
     def excel_style(col):
@@ -400,6 +407,7 @@ class TableManager:
             col, remainder = divmod(col - 1, 26)
             string = chr(65 + remainder) + string
         return string
+
 
 class MyGUI(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -413,77 +421,46 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.actionSair.triggered.connect(QApplication.instance().quit)
 
         # Create a TableManager for the mainSheetTable
-        self.tableManager = TableManager(self.mainSheetTable,
-                                         self.formulaBar,
-                                         self.cellNameBox)
-        
-    
-        #new file
+        self.tableManager = TableManager(
+            self.mainSheetTable, self.formulaBar, self.cellNameBox
+        )
+
+        # new file
         self.newFileToolbar.triggered.connect(self.tableManager.newTable)
         self.actionNew.triggered.connect(self.tableManager.newTable)
 
-        
         # Menubar
-        
-        self.actionAbrir.triggered.connect(
-            self.tableManager.openTable
-            )
-        self.actionImportar_Arquivo.triggered.connect(
-            uploadFile
-            )
-        self.actionSalvar.triggered.connect(
-            self.tableManager.saveTable
-            )
-        self.actionSobre.triggered.connect(
-            self.openAboutWindow
-            )
-        self.actionAjuda.triggered.connect(
-            self.openHelpWindow
-            )
-        self.actionGerenciar_Arquivos.triggered.connect(
-            self.openManageFilesWindow
-            )
-        self.actionCalculadora.triggered.connect(
-            self.openSimplePlotWindow
-            )
-        self.actionFluidContact.triggered.connect(
-            self.openPlotTendenciaWindow
-            )
+
+        self.actionAbrir.triggered.connect(self.tableManager.openTable)
+        self.actionImportar_Arquivo.triggered.connect(uploadFile)
+        self.actionSalvar.triggered.connect(self.tableManager.saveTable)
+        self.actionSobre.triggered.connect(self.openAboutWindow)
+        self.actionAjuda.triggered.connect(self.openHelpWindow)
+        self.actionGerenciar_Arquivos.triggered.connect(self.openManageFilesWindow)
+        self.actionCalculadora.triggered.connect(self.openSimplePlotWindow)
+        self.actionFluidContact.triggered.connect(self.openPlotTendenciaWindow)
         self.actionFluidClassification.triggered.connect(
             self.openGradientClassificationWindow
-            )
-        
+        )
+
         # Toolbar
-        self.actionAbrirToolbar.triggered.connect(
-            self.tableManager.openTable
-            )
-        self.actionSaveToolbar.triggered.connect(
-            self.tableManager.saveTable
-            )               
-        self.actionChangeFontToolbar.triggered.connect(
-            self.tableManager.changeFont
-            )
-        self.changeTextColorBtn.triggered.connect(
-            self.tableManager.changeTextColor
-            )
-        self.changeCellColorBtn.triggered.connect(
-            self.tableManager.changeCellColor
-            )       
-        self.actionManageFilesToolbar.triggered.connect(
-            self.openManageFilesWindow
-            )
-        self.actionOpenPlotWindowToolbar.triggered.connect(
-            self.openSimplePlotWindow
-            )
-        self.actionRegressionPlotToolbar.triggered.connect(
-            self.openPlotTendenciaWindow
-            )
+        self.actionAbrirToolbar.triggered.connect(self.tableManager.openTable)
+        self.actionSaveToolbar.triggered.connect(self.tableManager.saveTable)
+        self.actionChangeFontToolbar.triggered.connect(self.tableManager.changeFont)
+        self.changeTextColorBtn.triggered.connect(self.tableManager.changeTextColor)
+        self.changeCellColorBtn.triggered.connect(self.tableManager.changeCellColor)
+        self.actionManageFilesToolbar.triggered.connect(self.openManageFilesWindow)
+        self.actionOpenPlotWindowToolbar.triggered.connect(self.openSimplePlotWindow)
+        self.actionRegressionPlotToolbar.triggered.connect(self.openPlotTendenciaWindow)
         self.alignLeftButton.triggered.connect(
-            lambda: self.tableManager.textAlignment('left'))
+            lambda: self.tableManager.textAlignment("left")
+        )
         self.alignCenterButton.triggered.connect(
-            lambda: self.tableManager.textAlignment('center'))
+            lambda: self.tableManager.textAlignment("center")
+        )
         self.alignRightButton.triggered.connect(
-            lambda: self.tableManager.textAlignment('right'))
+            lambda: self.tableManager.textAlignment("right")
+        )
 
         # Create actions
         copyAction = QAction(self)
@@ -532,16 +509,17 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.plotTendenciaWindow = PlotTendenciaWindow()
         self.plotTendenciaWindow.show()
 
-    @timing_function 
+    @timing_function
     def openGradientClassificationWindow(self):
         self.gradientClassificationWindow = GradientClassificationWin()
         self.gradientClassificationWindow.show()
+
 
 def main():
     app = QApplication(sys.argv)
 
     # Create a QPixmap object with the image for the splash screen
-    splash_pix = QPixmap('img/giecar.png')
+    splash_pix = QPixmap("img/giecar.png")
 
     # Create a QSplashScreen object with the QPixmap
     splash = QSplashScreen(splash_pix, Qt.WindowType.WindowStaysOnTopHint)
@@ -569,5 +547,6 @@ def main():
 
     sys.exit(app.exec())
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
