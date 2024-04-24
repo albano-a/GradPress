@@ -19,7 +19,7 @@ from PyQt6.QtWidgets import (
     QFontDialog,
     QMenu,
     QSplashScreen,
-    QProgressBar
+    QProgressBar,
 )
 from icons_rc import *
 from Interface.pyInterface.maingui_ui import Ui_MainWindow
@@ -90,7 +90,7 @@ class TableManager:
                 submenu.addAction(action_text, action_func)
                 actions[action_text] = action_func
 
-        #selected_action = contextMenu.exec(self.table.mapToGlobal(event))
+        # selected_action = contextMenu.exec(self.table.mapToGlobal(event))
 
     def updateFormulaBar(self, row, column):
         try:
