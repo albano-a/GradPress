@@ -1,12 +1,8 @@
-import os
-import shutil
 import sys
 import csv
-import markdown
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
-from PyQt6.QtCore import Qt, QDir, QTimer, QEvent, QObject
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import (
     QAction,
     QKeySequence,
@@ -23,10 +19,7 @@ from PyQt6.QtWidgets import (
     QFontDialog,
     QMenu,
     QSplashScreen,
-    QProgressBar,
-    QStyle,
-    QFileDialog,
-    QTextEdit,
+    QProgressBar
 )
 from icons_rc import *
 from Interface.pyInterface.maingui_ui import Ui_MainWindow
@@ -97,7 +90,7 @@ class TableManager:
                 submenu.addAction(action_text, action_func)
                 actions[action_text] = action_func
 
-        selected_action = contextMenu.exec(self.table.mapToGlobal(event))
+        #selected_action = contextMenu.exec(self.table.mapToGlobal(event))
 
     def updateFormulaBar(self, row, column):
         try:

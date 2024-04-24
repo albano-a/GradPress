@@ -134,7 +134,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             cota_button_text = self.cotaButtonGroup.checkedButton().text()
 
             if cota_button_text != "Yes" or cota_button_text != "No":
-                QMessageBox.critical(self, "Error", f"Yes or No not selected!")
+                QMessageBox.critical(self, "Error", "Yes or No not selected!")
 
             if cota_button_text == "Yes":
                 plt.plot(x, y, "o", color=self.selected_color)
