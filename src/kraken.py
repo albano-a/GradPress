@@ -30,6 +30,7 @@ from Modules.help_module import HelpWindow
 from Modules.crud_module import ManageFiles
 from Modules.plot_module import SimplePlotWindow
 from Modules.regression_module import PlotTendenciaWindow
+from Modules.temperatureModule import TemperatureAnalysis
 from Modules.gradient_module import GradientClassificationWin
 from Functions.general import timing_function, uploadFile
 
@@ -432,6 +433,7 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.actionGerenciar_Arquivos.triggered.connect(self.openManageFilesWindow)
         self.actionCalculadora.triggered.connect(self.openSimplePlotWindow)
         self.actionFluidContact.triggered.connect(self.openPlotTendenciaWindow)
+        self.actionTemperatureGradient.triggered.connect(self.openTemperatureWindow)
         self.actionFluidClassification.triggered.connect(
             self.openGradientClassificationWindow
         )
@@ -507,6 +509,10 @@ class MyGUI(QMainWindow, Ui_MainWindow):
         self.gradientClassificationWindow = GradientClassificationWin()
         self.gradientClassificationWindow.show()
 
+    def openTemperatureWindow(self):
+        self.openTemperatureWin = TemperatureAnalysis()
+        self.openTemperatureWin.show()
+
 
 def main():
     app = QApplication(sys.argv)
@@ -530,6 +536,11 @@ def main():
         # Use a QTimer to wait a bit before moving on
         QTimer.singleShot(10, lambda: None)
         app.processEvents()
+
+    with open("./img/css/kraken.qss", "r") as file:
+        content = file.read()
+
+    app.setStyleSheet(content)
 
     # Create and show the main window
     window = MyGUI()

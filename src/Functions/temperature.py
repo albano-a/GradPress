@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error
 
-plt.style.use(["bmh"])
-
 
 def read_temp_file(filename):
     temperatura = pd.read_excel(filename)
@@ -86,8 +84,8 @@ def fitting_curves(temp_top, temp_bot, tvdss, break_value):
     return temp_total, predic, lr.coef_, lr.intercept_
 
 
-def main():
-    temp, md, tvdss = read_temp_file("../uploads/Dados de Temperatura_Andre.xlsx")
+def main(filename):
+    temp, md, tvdss = read_temp_file(filename)
     temp_top, tvdss_top, y_top, temp_bot, tvdss_bot, y_bot = ridge_regression(
         temp, tvdss
     )
@@ -98,30 +96,4 @@ def main():
     # y = ax + b
     temp_total, predic, a, b = fitting_curves(temp_top, temp_bot, tvdss, best_break)
 
-    fig, axs = plt.subplots(1, 2, sharey=True, figsize=(8, 5))
-    plt.suptitle("Gradiente de Temperatura")
-    plot1, plot2 = axs
-
-    plot1.plot(temp_top, tvdss_top, "o", label="Topo")
-    plot1.plot(temp_bot, tvdss_bot, "o", label="Base")
-    plot1.plot(temp_top, y_top, color="red")
-    plot1.plot(temp_bot, y_bot, color="red")
-    plot1.set_title("Regressão no dado original")
-    plot1.set_xlabel("Temperatura (ºC)")
-    plot1.set_ylabel("TVDSS (m)")
-    plot1.set_xlim(95, 115)
-
-    plot2.plot(temp_total, tvdss, "o", label="Corrigido")
-    plot2.plot(
-        temp_total, predic, "--", color="red", label=f"y = {a[0]:.2f}x + {b:.2f}"
-    )
-    plot2.set_title("Dado corrigido")
-    plot2.set_xlabel("Temperatura (ºC)")
-    plot2.set_ylabel("TVDSS (m)")
-    plot2.legend(loc="upper right")
-
-    plt.tight_layout()
-    plt.show()
-
-
-main()
+    return temp_top, tvdss_top, y_top, temp_bot, tvdss_bot, y_bot, temp_total, tvdss
