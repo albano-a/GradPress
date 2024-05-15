@@ -22,9 +22,27 @@ plt.style.use(["bmh"])
 
 
 class ConfigurationDialog(QDialog, Ui_configurationPlotDialog):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.setupUi(self)
+        self.tempDialogButtonBox.accepted.connect(self.exportChoices)
+        self.tempDialogButtonBox.rejected.connect(self.reject)
+        self.parent = parent
+
+    def exportChoices(self):
+        style = self.plotStyleBox.currentText()
+        plotTitle = self.plotTitleInputTemp.text()
+        fontSize = int(self.fontsizeInputTemp.text())
+        axisX = self.axisXInputTemp.text()
+        axisY = self.axisYInputTemp.text()
+        
+        if isinstance(self.parent, TemperatureAnalysis):
+            print("Parent is TemperatureAnalysis")
+            self.parent.plotTemperature(plotTitle, fontSize, axisX, axisY, style)
+
+
+        print(style, plotTitle, fontSize, axisX, axisY)
+        print("Exporting choices...")
 
 
 class TemperatureAnalysis(QMainWindow, Ui_mainWindow):
@@ -68,14 +86,16 @@ class TemperatureAnalysis(QMainWindow, Ui_mainWindow):
             self.inputFilePath.setText(filePath)
 
     def openPlotConfigurationDialog(self):
-        dialog = ConfigurationDialog()
+        dialog = ConfigurationDialog(self)
         dialog.exec()
 
-    def plotTemperature(self):
+    def plotTemperature(self, title="", font_size=12, axis_x="", axis_y="", style=""):
         self.figure.clear()
         # This function has to plot in the `plotFrame` frame the temperature. For that, it
         # needs to run the function `temp.main` and store it's returning values in variables.
         # Then prepare the plot using the matplotlib function
+        plt.style.use([style])
+
         fname = self.inputFilePath.text()
         bot_lim = self.minDepthInput.text()
         top_lim = self.maxDepthInput.text()
@@ -93,15 +113,14 @@ class TemperatureAnalysis(QMainWindow, Ui_mainWindow):
         )
         
         
-        
         ax = self.canvas.figure.add_subplot(111)
-        ax.set_title("Temperature", fontweight="bold", fontsize=14, color="#212121")
+        ax.set_title(title, fontweight="bold", fontsize=font_size, color="#212121")
         ax.scatter(temp_total, tvdss, label="Corrected")
         ax.plot(temp_total, predic, '--', color="red", label=f"Regression y = {a}x + {b}")
         if bot_lim is not None and top_lim is not None:
                     plt.ylim(bot_lim, top_lim)
-        ax.set_xlabel("Temp")
-        ax.set_ylabel("Depth")
+        ax.set_xlabel(axis_x)
+        ax.set_ylabel(axis_y)
         ax.legend(loc="upper right")
         self.canvas.draw()
         
