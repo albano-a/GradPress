@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMinimumSize(QtCore.QSize(500, 500))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("src/Interface\\../icon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("src/Interface/../icon.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setAnimated(True)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
@@ -73,37 +73,6 @@ class Ui_MainWindow(object):
         self.mainSheetTable.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
         self.mainSheetTable.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.ActionsContextMenu)
         self.mainSheetTable.setAutoFillBackground(False)
-        self.mainSheetTable.setStyleSheet("/* Table background and borders */\n"
-"QTableWidget {\n"
-"    background-color: #ffffff; /* Cor de fundo branca */\n"
-"    border: 1px solid #000000; /* Borda preta */\n"
-"    border-radius: 0px; /* Sem arredondamento de cantos */\n"
-"    gridline-color: #d4d4d4; /* Cor das linhas da grade */\n"
-"    margin: 0;\n"
-"}\n"
-"\n"
-"/* Styling for table items */\n"
-"QTableWidget::item {\n"
-"    border: none; /* Sem borda */\n"
-"    color: #000000; /* Cor do texto preto */\n"
-"    font-size: 10pt; /* Tamanho da fonte */\n"
-"}\n"
-"\n"
-"/* Styling for header sections */\n"
-"QHeaderView::section {\n"
-"    background-color: #BFC9CA ; /* Cor de fundo cinza claro */\n"
-"    color: #000000; /* Cor do texto preto */\n"
-"    font-weight: bold; /* Texto em negrito */\n"
-"    border: 1px solid #85929E ; /* Borda cinza */\n"
-"    padding: 4px; /* Preenchimento interno */\n"
-"}\n"
-"\n"
-"/* Selected items */\n"
-"QTableWidget::item:selected {\n"
-"    border: 1px solid #aeaeae; /* Cor de fundo azul escuro para itens selecionados */\n"
-"    background-color: #e6e6e6;\n"
-"}\n"
-"")
         self.mainSheetTable.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.mainSheetTable.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.mainSheetTable.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
@@ -168,7 +137,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1055, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1055, 26))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(parent=self.menubar)
         self.menuFile.setObjectName("menuFile")

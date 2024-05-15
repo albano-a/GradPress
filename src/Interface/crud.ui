@@ -136,69 +136,21 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QPushButton" name="addFileBtn">
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-      </property>
       <property name="text">
        <string>Add</string>
       </property>
      </widget>
      <widget class="QPushButton" name="renameFileBtn">
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-      </property>
       <property name="text">
        <string>Rename</string>
       </property>
      </widget>
      <widget class="QPushButton" name="deleteFileBtn">
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-      </property>
       <property name="text">
        <string>Delete</string>
       </property>
      </widget>
      <widget class="QPushButton" name="exitManageFilesBtn">
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
-      </property>
       <property name="text">
        <string>Back</string>
       </property>

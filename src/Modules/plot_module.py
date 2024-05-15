@@ -2,6 +2,8 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 from PyQt6.QtWidgets import QMainWindow, QMessageBox
+import matplotlib
+matplotlib.use('Qt5Agg')
 from Interface.pyInterface.plot_ui import Ui_SimplePlotWindow
 from Functions.general import timing_function
 
@@ -72,7 +74,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             if self.file_type_button_text == "csv":
                 try:
                     dataframe = pd.read_csv(
-                        f"uploads/{self.selected_file}",
+                        f"src/uploads/{self.selected_file}",
                         delimiter="[;,]",
                         names=["prof", "pressao"],
                         engine="python",
@@ -86,7 +88,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             elif self.file_type_button_text == "txt":
                 try:
                     dataframe = pd.read_csv(
-                        f"uploads/{self.selected_file}",
+                        f"src/uploads/{self.selected_file}",
                         skiprows=skiprows,
                         delimiter="\t",
                         names=["prof", "pressao"],
@@ -100,7 +102,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             elif self.file_type_button_text == "xlsx":
                 try:
                     dataframe = pd.read_excel(
-                        f"uploads/{self.selected_file}",
+                        f"src/uploads/{self.selected_file}",
                         skiprows=skiprows,
                         names=["prof", "pressao"],
                     )
@@ -133,9 +135,6 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             # Obtém o texto do botão marcado no cotaButtonGroup
             cota_button_text = self.cotaButtonGroup.checkedButton().text()
 
-            if cota_button_text != "Yes" or cota_button_text != "No":
-                QMessageBox.critical(self, "Error", "Yes or No not selected!")
-
             if cota_button_text == "Yes":
                 plt.plot(x, y, "o", color=self.selected_color)
                 plt.title(title)
@@ -144,7 +143,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
                 if ymin is not None and ymax is not None:
                     plt.ylim(ymin, ymax)
                 plt.show()
-                print("plotted")
+                print("plotted cota yes")
 
             elif cota_button_text == "No":
                 plt.plot(x, y, "o", color=self.selected_color)
@@ -155,7 +154,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
                     plt.ylim(ymin, ymax)
                     plt.gca().invert_yaxis()
                 plt.show()
-                print("plotted")
+                print("plotted cota no")
         except Exception as e:
             QMessageBox.critical(self, "Error", f"There was an error in the plot: {e}")
 

@@ -7,7 +7,6 @@ from PyQt6.QtGui import (
     QAction,
     QKeySequence,
     QColor,
-    QPixmap,
 )
 from PyQt6.QtWidgets import (
     QApplication,
@@ -18,8 +17,6 @@ from PyQt6.QtWidgets import (
     QColorDialog,
     QFontDialog,
     QMenu,
-    QSplashScreen,
-    QProgressBar,
 )
 from icons_rc import *
 from Interface.pyInterface.maingui_ui import Ui_MainWindow
@@ -479,32 +476,26 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 
         self.show()
 
-    @timing_function
     def openAboutWindow(self):
         self.aboutWindow = AboutWindow()
         self.aboutWindow.show()
 
-    @timing_function
     def openHelpWindow(self):
         self.helpWindow = HelpWindow()
         self.helpWindow.show()
 
-    @timing_function
     def openManageFilesWindow(self):
         self.manageFiles = ManageFiles()
         self.manageFiles.show()
 
-    @timing_function
     def openSimplePlotWindow(self):
         self.simplePlotWindow = SimplePlotWindow()
         self.simplePlotWindow.show()
 
-    @timing_function
     def openPlotTendenciaWindow(self):
         self.plotTendenciaWindow = PlotTendenciaWindow()
         self.plotTendenciaWindow.show()
 
-    @timing_function
     def openGradientClassificationWindow(self):
         self.gradientClassificationWindow = GradientClassificationWin()
         self.gradientClassificationWindow.show()
@@ -515,39 +506,18 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 
 
 def main():
+    sys.argv += ['-platform', 'xcb', '-style', 'Fusion']
+    
     app = QApplication(sys.argv)
 
-    # Create a QPixmap object with the image for the splash screen
-    splash_pix = QPixmap("img/giecar.png")
+    # with open("./img/css/kraken.qss", "r") as file:
+    #     content = file.read()
 
-    # Create a QSplashScreen object with the QPixmap
-    splash = QSplashScreen(splash_pix, Qt.WindowType.WindowStaysOnTopHint)
-
-    # Create a QProgressBar and set its geometry
-    progress_bar = QProgressBar(splash)
-    progress_bar.setGeometry(0, splash_pix.height() - 20, splash_pix.width(), 20)
-
-    # Show the splash screen
-    splash.show()
-
-    # Update the progress bar
-    for i in range(1, 101):
-        progress_bar.setValue(i)
-        # Use a QTimer to wait a bit before moving on
-        QTimer.singleShot(10, lambda: None)
-        app.processEvents()
-
-    with open("./img/css/kraken.qss", "r") as file:
-        content = file.read()
-
-    app.setStyleSheet(content)
+    # app.setStyleSheet(content)
 
     # Create and show the main window
     window = MyGUI()
     window.show()
-
-    # Finish the splash screen
-    splash.finish(window)
 
     sys.exit(app.exec())
 

@@ -22,7 +22,7 @@ class Ui_AboutWindow(object):
         AboutWindow.setMaximumSize(QtCore.QSize(405, 390))
         AboutWindow.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.DefaultContextMenu)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("J:/Universidade/GIECAR/qt_kraken_conversion/about.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("src/Interface/J:/Universidade/GIECAR/qt_kraken_conversion/about.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         AboutWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=AboutWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -36,7 +36,7 @@ class Ui_AboutWindow(object):
         self.label_2 = QtWidgets.QLabel(parent=self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(10, 10, 101, 91))
         self.label_2.setText("")
-        self.label_2.setPixmap(QtGui.QPixmap("src/Interface\\../icon.ico"))
+        self.label_2.setPixmap(QtGui.QPixmap("src/Interface/../icon.ico"))
         self.label_2.setObjectName("label_2")
         self.groupBox = QtWidgets.QGroupBox(parent=self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(10, 150, 381, 191))
@@ -50,7 +50,7 @@ class Ui_AboutWindow(object):
         self.label_4.setWordWrap(True)
         self.label_4.setObjectName("label_4")
         self.layoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
-        self.layoutWidget.setGeometry(QtCore.QRect(20, 110, 181, 22))
+        self.layoutWidget.setGeometry(QtCore.QRect(20, 110, 182, 23))
         self.layoutWidget.setObjectName("layoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -63,19 +63,8 @@ class Ui_AboutWindow(object):
         self.giecarBtn.setMaximumSize(QtCore.QSize(60, 20))
         font = QtGui.QFont()
         font.setBold(True)
-        font.setWeight(87)
+        font.setWeight(75)
         self.giecarBtn.setFont(font)
-        self.giecarBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"    font-weight: 700; /* Set font weight to 700 */\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
         self.giecarBtn.setObjectName("giecarBtn")
         self.horizontalLayout.addWidget(self.giecarBtn)
         self.githubBtn = QtWidgets.QPushButton(parent=self.layoutWidget)
@@ -83,19 +72,8 @@ class Ui_AboutWindow(object):
         self.githubBtn.setMaximumSize(QtCore.QSize(60, 20))
         font = QtGui.QFont()
         font.setBold(True)
-        font.setWeight(87)
+        font.setWeight(75)
         self.githubBtn.setFont(font)
-        self.githubBtn.setStyleSheet("QPushButton {\n"
-"    border-radius: 5px;\n"
-"    border: 1px solid rgb(171, 171, 171);\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));\n"
-"    font-weight: 700; /* Set font weight to 700 */\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));\n"
-"    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */\n"
-"}")
         self.githubBtn.setObjectName("githubBtn")
         self.horizontalLayout.addWidget(self.githubBtn)
         self.layoutWidget.raise_()
@@ -104,7 +82,7 @@ class Ui_AboutWindow(object):
         self.label_2.raise_()
         AboutWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=AboutWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 405, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 405, 26))
         self.menubar.setObjectName("menubar")
         AboutWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=AboutWindow)

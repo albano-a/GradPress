@@ -15,7 +15,7 @@ class Ui_HelpMainWindow(object):
         HelpMainWindow.resize(800, 600)
         HelpMainWindow.setMaximumSize(QtCore.QSize(800, 600))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("src/Interface\\../help.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("src/Interface/../help.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         HelpMainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(parent=HelpMainWindow)
         self.centralwidget.setObjectName("centralwidget")

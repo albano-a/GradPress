@@ -69,7 +69,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         if self.file_type_button_text == "csv":
             try:
                 dataframe = pd.read_csv(
-                    f"uploads/{self.selected_file}",
+                    f"src/uploads/{self.selected_file}",
                     delimiter="[;,]",
                     names=["prof", "pressao"],
                     engine="python",
@@ -83,7 +83,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         elif self.file_type_button_text == "txt":
             try:
                 dataframe = pd.read_csv(
-                    f"uploads/{self.selected_file}",
+                    f"src/uploads/{self.selected_file}",
                     skiprows=skiprows,
                     delimiter="\t",
                     names=["prof", "pressao"],
@@ -97,7 +97,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         elif self.file_type_button_text == "xlsx":
             try:
                 dataframe = pd.read_excel(
-                    f"uploads/{self.selected_file}",
+                    f"src/uploads/{self.selected_file}",
                     skiprows=skiprows,
                     names=["prof", "pressao"],
                 )

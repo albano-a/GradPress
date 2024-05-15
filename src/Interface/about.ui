@@ -124,8 +124,8 @@
      <rect>
       <x>20</x>
       <y>110</y>
-      <width>181</width>
-      <height>22</height>
+      <width>182</width>
+      <height>23</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -152,25 +152,12 @@
        </property>
        <property name="font">
         <font>
-         <weight>87</weight>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="toolTip">
         <string>Acessar o site do Grupo de Interpretação Exploratória e Caracterização de Reservatório</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-	font-weight: 700; /* Set font weight to 700 */
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
        </property>
        <property name="text">
         <string>GIECAR</string>
@@ -193,25 +180,12 @@ QPushButton:hover {
        </property>
        <property name="font">
         <font>
-         <weight>87</weight>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="toolTip">
         <string>Acessar o GitHub do projeto</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    border-radius: 5px;
-    border: 1px solid rgb(171, 171, 171);
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(253, 253, 253, 255), stop:1 rgba(239, 239, 239, 255));
-	font-weight: 700; /* Set font weight to 700 */
-}
-
-QPushButton:hover {
-    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(239, 239, 239, 255), stop:1 rgba(253, 253, 253, 255));
-    border: 1px solid rgb(171, 171, 171); /* Optional: Add border color on hover */
-}</string>
        </property>
        <property name="text">
         <string>GitHub</string>
@@ -231,7 +205,7 @@ QPushButton:hover {
      <x>0</x>
      <y>0</y>
      <width>405</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

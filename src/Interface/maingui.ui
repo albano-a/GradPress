@@ -141,39 +141,6 @@
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
-          <property name="styleSheet">
-           <string notr="true">/* Table background and borders */
-QTableWidget {
-    background-color: #ffffff; /* Cor de fundo branca */
-    border: 1px solid #000000; /* Borda preta */
-    border-radius: 0px; /* Sem arredondamento de cantos */
-    gridline-color: #d4d4d4; /* Cor das linhas da grade */
-	margin: 0;
-}
-
-/* Styling for table items */
-QTableWidget::item {
-    border: none; /* Sem borda */
-    color: #000000; /* Cor do texto preto */
-    font-size: 10pt; /* Tamanho da fonte */
-}
-
-/* Styling for header sections */
-QHeaderView::section {
-    background-color: #BFC9CA ; /* Cor de fundo cinza claro */
-    color: #000000; /* Cor do texto preto */
-    font-weight: bold; /* Texto em negrito */
-    border: 1px solid #85929E ; /* Borda cinza */
-    padding: 4px; /* Preenchimento interno */
-}
-
-/* Selected items */
-QTableWidget::item:selected {
-    border: 1px solid #aeaeae; /* Cor de fundo azul escuro para itens selecionados */
-	background-color: #e6e6e6;
-}
-</string>
-          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -438,7 +405,7 @@ QTableWidget::item:selected {
      <x>0</x>
      <y>0</y>
      <width>1055</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
