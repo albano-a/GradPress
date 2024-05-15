@@ -72,21 +72,34 @@ class TemperatureAnalysis(QMainWindow, Ui_mainWindow):
         dialog.exec()
 
     def plotTemperature(self):
+        self.figure.clear()
         # This function has to plot in the `plotFrame` frame the temperature. For that, it
         # needs to run the function `temp.main` and store it's returning values in variables.
         # Then prepare the plot using the matplotlib function
         fname = self.inputFilePath.text()
+        bot_lim = self.minDepthInput.text()
+        top_lim = self.maxDepthInput.text()
+
+        if bot_lim == "" and top_lim == "":
+            bot_lim = None
+            top_lim = None
+        else:    
+            bot_lim = int(bot_lim)
+            top_lim = int(top_lim)
+
 
         temp_top, tvdss_top, y_top, temp_bot, tvdss_bot, y_bot, temp_total, tvdss, predic, a, b = (
             temp.main(fname)
         )
         
-        self.figure.clear()
+        
         
         ax = self.canvas.figure.add_subplot(111)
         ax.set_title("Temperature", fontweight="bold", fontsize=14, color="#212121")
         ax.scatter(temp_total, tvdss, label="Corrected")
         ax.plot(temp_total, predic, '--', color="red", label=f"Regression y = {a}x + {b}")
+        if bot_lim is not None and top_lim is not None:
+                    plt.ylim(bot_lim, top_lim)
         ax.set_xlabel("Temp")
         ax.set_ylabel("Depth")
         ax.legend(loc="upper right")
