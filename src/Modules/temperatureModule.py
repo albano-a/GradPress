@@ -65,14 +65,30 @@ class TemperatureAnalysis(QMainWindow, Ui_mainWindow):
         )
 
         if filePath:
-            fileDirName = os.path.dirname(filePath)
-            self.inputFilePath.setText(fileDirName)
-
-        return fileDirName
+            self.inputFilePath.setText(filePath)
 
     def openPlotConfigurationDialog(self):
         dialog = ConfigurationDialog()
         dialog.exec()
 
     def plotTemperature(self):
-        pass
+        # This function has to plot in the `plotFrame` frame the temperature. For that, it
+        # needs to run the function `temp.main` and store it's returning values in variables.
+        # Then prepare the plot using the matplotlib function
+        fname = self.inputFilePath.text()
+
+        temp_top, tvdss_top, y_top, temp_bot, tvdss_bot, y_bot, temp_total, tvdss, predic, a, b = (
+            temp.main(fname)
+        )
+        
+        self.figure.clear()
+        
+        ax = self.canvas.figure.add_subplot(111)
+        ax.set_title("Temperature", fontweight="bold", fontsize=14, color="#212121")
+        ax.scatter(temp_total, tvdss, label="Corrected")
+        ax.plot(temp_total, predic, '--', color="red", label=f"Regression y = {a}x + {b}")
+        ax.set_xlabel("Temp")
+        ax.set_ylabel("Depth")
+        ax.legend(loc="upper right")
+        self.canvas.draw()
+        

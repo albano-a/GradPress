@@ -506,8 +506,8 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 
 
 def main():
-    sys.argv += ['-platform', 'xcb', '-style', 'Fusion']
-    
+    sys.argv += ["-platform", "xcb", "-style", "Fusion"]
+
     app = QApplication(sys.argv)
 
     # with open("./img/css/kraken.qss", "r") as file:

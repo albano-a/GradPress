@@ -21,7 +21,12 @@ class Ui_configurationPlotDialog(object):
         self.groupBox.setObjectName("groupBox")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.groupBox)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(
+            20,
+            40,
+            QtWidgets.QSizePolicy.Policy.Minimum,
+            QtWidgets.QSizePolicy.Policy.Expanding,
+        )
         self.gridLayout_2.addItem(spacerItem, 8, 0, 1, 1)
         self.plotTitleInputTemp = QtWidgets.QLineEdit(parent=self.groupBox)
         self.plotTitleInputTemp.setObjectName("plotTitleInputTemp")
@@ -57,41 +62,68 @@ class Ui_configurationPlotDialog(object):
         self.axisYInputTemp.setObjectName("axisYInputTemp")
         self.gridLayout_2.addWidget(self.axisYInputTemp, 7, 0, 1, 2)
         self.fontsizeInputTemp = QtWidgets.QLineEdit(parent=self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.fontsizeInputTemp.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.fontsizeInputTemp.sizePolicy().hasHeightForWidth()
+        )
         self.fontsizeInputTemp.setSizePolicy(sizePolicy)
         self.fontsizeInputTemp.setObjectName("fontsizeInputTemp")
         self.gridLayout_2.addWidget(self.fontsizeInputTemp, 3, 1, 1, 1)
         self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 1)
         self.horizontalLayout.addLayout(self.gridLayout)
-        self.tempDialogButtonBox = QtWidgets.QDialogButtonBox(parent=configurationPlotDialog)
+        self.tempDialogButtonBox = QtWidgets.QDialogButtonBox(
+            parent=configurationPlotDialog
+        )
         self.tempDialogButtonBox.setOrientation(QtCore.Qt.Orientation.Vertical)
-        self.tempDialogButtonBox.setStandardButtons(QtWidgets.QDialogButtonBox.StandardButton.Cancel|QtWidgets.QDialogButtonBox.StandardButton.Ok)
+        self.tempDialogButtonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.StandardButton.Cancel
+            | QtWidgets.QDialogButtonBox.StandardButton.Ok
+        )
         self.tempDialogButtonBox.setObjectName("tempDialogButtonBox")
         self.horizontalLayout.addWidget(self.tempDialogButtonBox)
 
         self.retranslateUi(configurationPlotDialog)
-        self.tempDialogButtonBox.accepted.connect(configurationPlotDialog.accept) # type: ignore
-        self.tempDialogButtonBox.rejected.connect(configurationPlotDialog.reject) # type: ignore
+        self.tempDialogButtonBox.accepted.connect(configurationPlotDialog.accept)  # type: ignore
+        self.tempDialogButtonBox.rejected.connect(configurationPlotDialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(configurationPlotDialog)
 
     def retranslateUi(self, configurationPlotDialog):
         _translate = QtCore.QCoreApplication.translate
-        configurationPlotDialog.setWindowTitle(_translate("configurationPlotDialog", "Dialog"))
+        configurationPlotDialog.setWindowTitle(
+            _translate("configurationPlotDialog", "Dialog")
+        )
         self.groupBox.setTitle(_translate("configurationPlotDialog", "Configure"))
         self.label_2.setText(_translate("configurationPlotDialog", "Plot Title"))
         self.label_5.setText(_translate("configurationPlotDialog", "Fontsize"))
-        self.plotStyleBox.setItemText(0, _translate("configurationPlotDialog", "default"))
-        self.plotStyleBox.setItemText(1, _translate("configurationPlotDialog", "classic"))
+        self.plotStyleBox.setItemText(
+            0, _translate("configurationPlotDialog", "default")
+        )
+        self.plotStyleBox.setItemText(
+            1, _translate("configurationPlotDialog", "classic")
+        )
         self.plotStyleBox.setItemText(2, _translate("configurationPlotDialog", "bmh"))
-        self.plotStyleBox.setItemText(3, _translate("configurationPlotDialog", "ggplot"))
-        self.plotStyleBox.setItemText(4, _translate("configurationPlotDialog", "fivethirtyeight"))
-        self.plotStyleBox.setItemText(5, _translate("configurationPlotDialog", "seaborn-v0_8"))
+        self.plotStyleBox.setItemText(
+            3, _translate("configurationPlotDialog", "ggplot")
+        )
+        self.plotStyleBox.setItemText(
+            4, _translate("configurationPlotDialog", "fivethirtyeight")
+        )
+        self.plotStyleBox.setItemText(
+            5, _translate("configurationPlotDialog", "seaborn-v0_8")
+        )
         self.label.setText(_translate("configurationPlotDialog", "Plot Style"))
-        self.axisXInputTemp.setPlaceholderText(_translate("configurationPlotDialog", "Temperatura (F/C)"))
+        self.axisXInputTemp.setPlaceholderText(
+            _translate("configurationPlotDialog", "Temperatura (F/C)")
+        )
         self.label_3.setText(_translate("configurationPlotDialog", "X Axis Label"))
         self.label_4.setText(_translate("configurationPlotDialog", "Y Axis Label"))
-        self.axisYInputTemp.setPlaceholderText(_translate("configurationPlotDialog", "TVDSS (m)"))
-        self.fontsizeInputTemp.setPlaceholderText(_translate("configurationPlotDialog", "11, 12, ..."))
+        self.axisYInputTemp.setPlaceholderText(
+            _translate("configurationPlotDialog", "TVDSS (m)")
+        )
+        self.fontsizeInputTemp.setPlaceholderText(
+            _translate("configurationPlotDialog", "11, 12, ...")
+        )

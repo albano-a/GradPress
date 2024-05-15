@@ -3,7 +3,8 @@ import os
 import matplotlib.pyplot as plt
 from PyQt6.QtWidgets import QMainWindow, QMessageBox
 import matplotlib
-matplotlib.use('Qt5Agg')
+
+matplotlib.use("Qt5Agg")
 from Interface.pyInterface.plot_ui import Ui_SimplePlotWindow
 from Functions.general import timing_function
 

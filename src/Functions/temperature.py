@@ -96,4 +96,5 @@ def main(filename):
     # y = ax + b
     temp_total, predic, a, b = fitting_curves(temp_top, temp_bot, tvdss, best_break)
 
-    return temp_top, tvdss_top, y_top, temp_bot, tvdss_bot, y_bot, temp_total, tvdss
+    return temp_top, tvdss_top, y_top, temp_bot, tvdss_bot, y_bot, temp_total, tvdss, predic, a, b
+
