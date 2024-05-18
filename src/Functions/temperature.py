@@ -6,7 +6,7 @@ from sklearn.metrics import mean_squared_error
 
 
 def read_temp_file(filename):
-    temperatura = pd.read_excel(filename)
+    temperatura = pd.read_excel(filename, engine="openpyxl")
     temp = temperatura.iloc[:, 0]
     measured_depth = temperatura.iloc[:, 1]
     tvdss = temperatura.iloc[:, 2]
@@ -92,9 +92,18 @@ def main(filename):
     temp_top, temp_bot, best_break = finding_best_breakpoit(
         temp_top, temp_bot, tvdss, break_range=(-50, 50)
     )
-    print(best_break)
-    # y = ax + b
     temp_total, predic, a, b = fitting_curves(temp_top, temp_bot, tvdss, best_break)
 
-    return temp_top, tvdss_top, y_top, temp_bot, tvdss_bot, y_bot, temp_total, tvdss, predic, a, b
-
+    return (
+        temp_top,
+        tvdss_top,
+        y_top,
+        temp_bot,
+        tvdss_bot,
+        y_bot,
+        temp_total,
+        tvdss,
+        predic,
+        a,
+        b,
+    )

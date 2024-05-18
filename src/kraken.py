@@ -29,16 +29,16 @@ from Modules.plot_module import SimplePlotWindow
 from Modules.regression_module import PlotTendenciaWindow
 from Modules.temperatureModule import TemperatureAnalysis
 from Modules.gradient_module import GradientClassificationWin
-from Functions.general import timing_function, uploadFile
+from Functions.general import uploadFile
 
 plt.style.use(["bmh"])
 
 
 class TableManager:
-    def __init__(self, table, formulaBar, cellNameBox):
+    def __init__(self, table, formulabar, cellnamebox):
         self.table = table
-        self.formulaBar = formulaBar
-        self.cellNameBox = cellNameBox
+        self.formulaBar = formulabar
+        self.cellNameBox = cellnamebox
         self.start_cell = None
 
         self.table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
@@ -506,16 +506,7 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 
 
 def main():
-    sys.argv += ["-platform", "xcb", "-style", "Fusion"]
-
-    app = QApplication(sys.argv)
-
-    # with open("./img/css/kraken.qss", "r") as file:
-    #     content = file.read()
-
-    # app.setStyleSheet(content)
-
-    # Create and show the main window
+    app = QApplication([])
     window = MyGUI()
     window.show()
 

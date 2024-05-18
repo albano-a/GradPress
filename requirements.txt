@@ -2,5 +2,8 @@ PyQt6
 PyQt5
 pandas
 numpy
-PyQt6-QScintilla
+markdown
+matplotlib
 ruptures
+scikit-learn
+openpyxl

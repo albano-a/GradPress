@@ -6,7 +6,6 @@ import matplotlib
 
 matplotlib.use("Qt5Agg")
 from Interface.pyInterface.plot_ui import Ui_SimplePlotWindow
-from Functions.general import timing_function
 
 
 class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
@@ -159,7 +158,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"There was an error in the plot: {e}")
 
-    @timing_function
+
     def call_plot_simple(self):
         self.dataframe = self.open_file_for_simple_plotting()
         self.title = self.inputPlotTitle.text()
