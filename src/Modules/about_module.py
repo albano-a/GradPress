@@ -1,6 +1,6 @@
-from PyQt6.QtGui import QDesktopServices
-from PyQt6.QtWidgets import QMainWindow
-from PyQt6.QtCore import QUrl
+from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtCore import QUrl
 from Interface.pyInterface.about_ui import Ui_AboutWindow
 
 

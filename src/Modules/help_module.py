@@ -1,8 +1,8 @@
 import os
 import markdown
-from PyQt6.QtGui import QFileSystemModel
-from PyQt6.QtWidgets import QMainWindow
-from PyQt6.QtCore import QDir
+# from PyQt5.QtGui import 
+from PyQt5.QtWidgets import QMainWindow, QFileSystemModel
+from PyQt5.QtCore import QDir
 from Interface.pyInterface.help_ui import Ui_HelpMainWindow
 
 

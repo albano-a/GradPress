@@ -1,8 +1,8 @@
 import os
 import shutil
-from PyQt6.QtWidgets import QMainWindow, QFileDialog, QInputDialog
-from PyQt6.QtCore import QDir
-from PyQt6.QtGui import QFileSystemModel
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QInputDialog, QFileSystemModel
+from PyQt5.QtCore import QDir
+#from PyQt5.QtGui import 
 from Interface.pyInterface.crud_ui import Ui_ManageFilesWindow
 
 

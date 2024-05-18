@@ -2,13 +2,12 @@ import sys
 import csv
 import pandas as pd
 import matplotlib.pyplot as plt
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import (
-    QAction,
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtGui import (
     QKeySequence,
     QColor,
 )
-from PyQt6.QtWidgets import (
+from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
     QTableWidgetItem,
@@ -17,6 +16,7 @@ from PyQt6.QtWidgets import (
     QColorDialog,
     QFontDialog,
     QMenu,
+    QAction,
 )
 from icons_rc import *
 from Interface.pyInterface.maingui_ui import Ui_MainWindow
@@ -403,7 +403,7 @@ class TableManager:
 class MyGUI(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MyGUI, self).__init__()
-        # from PyQt6 import uic
+        # from PyQt5 import uic
         # uic.loadUi('maingui.ui', self)
 
         self.setupUi(self)

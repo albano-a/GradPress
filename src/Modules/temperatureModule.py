@@ -5,7 +5,7 @@ import pandas as pd
 from Functions import temperature as temp
 from Interface.pyInterface.temperatureInterface import Ui_mainWindow
 from Interface.pyInterface.temperatureInterfaceDialog import Ui_configurationPlotDialog
-from PyQt6.QtWidgets import (
+from PyQt5.QtWidgets import (
     QMainWindow,
     QMessageBox,
     QVBoxLayout,

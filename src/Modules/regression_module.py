@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-from PyQt6.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from Interface.pyInterface.regression_ui import Ui_plotTendenciaWindow
 from Functions.general import pressure_gradient_classification
 
