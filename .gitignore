@@ -4,3 +4,4 @@ pyui/__pycache__/maingui.cpython-312.pyc
 *.pyc
 *.pyc
 /env
+/build
