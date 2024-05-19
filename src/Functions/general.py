@@ -5,7 +5,7 @@ import os
 import shutil
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from PyQt6.QtWidgets import (
+from PyQt5.QtWidgets import (
     QFileDialog,
     QMessageBox,
 )

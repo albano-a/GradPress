@@ -28,7 +28,9 @@ class Ui_mainWindow(object):
         self.importFileToolBtn.setObjectName("importFileToolBtn")
         self.gridLayout.addWidget(self.importFileToolBtn, 0, 1, 1, 1)
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
@@ -52,15 +54,19 @@ class Ui_mainWindow(object):
         self.plotButtonTemp.setObjectName("plotButtonTemp")
         self.verticalLayout.addWidget(self.plotButtonTemp)
         self.plotFrame = QtWidgets.QFrame(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.plotFrame.sizePolicy().hasHeightForWidth())
         self.plotFrame.setSizePolicy(sizePolicy)
-        self.plotFrame.setStyleSheet("QFrame {\n"
-"    border: 1px solid #212121;\n"
-"background-color: #f9f9f9;\n"
-"}")
+        self.plotFrame.setStyleSheet(
+            "QFrame {\n"
+            "    border: 1px solid #212121;\n"
+            "background-color: #f9f9f9;\n"
+            "}"
+        )
         self.plotFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.plotFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.plotFrame.setObjectName("plotFrame")
@@ -111,13 +117,17 @@ class Ui_mainWindow(object):
         self.importFileToolBtn.setText(_translate("mainWindow", "..."))
         self.label_2.setText(_translate("mainWindow", "Depth (Optional):"))
         self.minDepthInput.setPlaceholderText(_translate("mainWindow", "Min. Depth"))
-        self.inputFilePath.setPlaceholderText(_translate("mainWindow", "Input file\'s path or import it..."))
+        self.inputFilePath.setPlaceholderText(
+            _translate("mainWindow", "Input file's path or import it...")
+        )
         self.maxDepthInput.setPlaceholderText(_translate("mainWindow", "Max. Depth"))
         self.configurationButton.setText(_translate("mainWindow", "Config..."))
         self.plotButtonTemp.setText(_translate("mainWindow", "Plot"))
         self.backwardPlotButton.setText(_translate("mainWindow", "Backward"))
         self.homePlotButton.setText(_translate("mainWindow", "Home"))
-        self.configureSubplotsButton.setText(_translate("mainWindow", "Configure Subplots"))
+        self.configureSubplotsButton.setText(
+            _translate("mainWindow", "Configure Subplots")
+        )
         self.forwardPlotButton.setText(_translate("mainWindow", "Forward"))
         self.panPlotButton.setText(_translate("mainWindow", "Pan"))
         self.zoomPlotButton.setText(_translate("mainWindow", "Zoom"))

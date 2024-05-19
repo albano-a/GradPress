@@ -1,17 +1,24 @@
+import sys
+import os
 from cx_Freeze import setup, Executable
 
+# Add the 'src' directory to the PYTHONPATH
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
+
 build_exe_options = {
-    "excludes": ["tkinter", "unittest"],
-    "zip_include_packages": ["matplotlib", "numpy", "PyQt5", "markdown", "pandas", "scikit-learn", "openpyxl"],
+    "include_files": [
+        ("src/uploads", "src/uploads"),
+        ("C:/Windows/System32/vcomp140.dll", "vcomp140.dll"),
+        ("C:/Windows/System32/msvcp140.dll", "msvcp140.dll"),
+        ("src/functions", "src/functions"),
+        ("src/images", "src/images"),
+        ("src/interface", "src/interface"),
+        ("src/modules", "src/modules"),
+        ("src/scripts", "src/scripts"),
+        ("src/uploads", "src/uploads"),
+        "LICENSE",
+    ],
 }
-# options = {
-#     'build_exe': {
-#         'packages': ['package1', 'package2'],  # Python packages that should be included
-#         'include_files': ['data_file1', 'data_file2'],  # Non-Python files that should be included
-#     },
-# }
-
-
 setup(
     name="Kraken",
     version="0.7.7",
@@ -20,5 +27,5 @@ setup(
     author_email="geof.aalbano@gmail.com",  # Add your email here
     options={"build_exe": build_exe_options},
     url="http://albano-dev.netlify.app",  # Add your website or project URL here
-    executables=[Executable("src/kraken.py", base="gui", icon="src/icon.ico")],
+    executables=[Executable("src/kraken.py", base="Win32GUI", icon="src/icon.ico")],
 )

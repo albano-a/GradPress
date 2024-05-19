@@ -3,11 +3,7 @@ import csv
 import pandas as pd
 import matplotlib.pyplot as plt
 from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import (
-    QKeySequence,
-    QColor,
-    QIcon
-)
+from PyQt5.QtGui import QKeySequence, QColor, QIcon
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -404,7 +400,6 @@ class MainProgram(QMainWindow, Ui_MainWindow):
         super(MainProgram, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("Kraken Geophysics")
-        self.setWindowIcon(QIcon("icon.ico"))
 
         self.actionSair.triggered.connect(QApplication.instance().quit)
 
@@ -474,32 +469,53 @@ class MainProgram(QMainWindow, Ui_MainWindow):
         self.show()
 
     def openAboutWindow(self):
-        self.aboutWindow = AboutWindow()
-        self.aboutWindow.show()
+        try:
+            self.aboutWindow = AboutWindow()
+            self.aboutWindow.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
     def openHelpWindow(self):
-        self.helpWindow = HelpWindow()
-        self.helpWindow.show()
+        try:
+            self.helpWindow = HelpWindow()
+            self.helpWindow.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
     def openManageFilesWindow(self):
-        self.manageFiles = ManageFiles()
-        self.manageFiles.show()
+        try:
+            self.manageFiles = ManageFiles()
+            self.manageFiles.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
     def openSimplePlotWindow(self):
-        self.simplePlotWindow = SimplePlotWindow()
-        self.simplePlotWindow.show()
+        try:
+            self.simplePlotWindow = SimplePlotWindow()
+            self.simplePlotWindow.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
     def openPlotTendenciaWindow(self):
-        self.plotTendenciaWindow = PlotTendenciaWindow()
-        self.plotTendenciaWindow.show()
+        try:
+            self.plotTendenciaWindow = PlotTendenciaWindow()
+            self.plotTendenciaWindow.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
     def openGradientClassificationWindow(self):
-        self.gradientClassificationWindow = GradientClassificationWin()
-        self.gradientClassificationWindow.show()
+        try:
+            self.gradientClassificationWindow = GradientClassificationWin()
+            self.gradientClassificationWindow.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
     def openTemperatureWindow(self):
-        self.openTemperatureWin = TemperatureAnalysis()
-        self.openTemperatureWin.show()
+        try:
+            self.openTemperatureWin = TemperatureAnalysis()
+            self.openTemperatureWin.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
 
 def main():

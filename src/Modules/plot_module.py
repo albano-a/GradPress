@@ -158,7 +158,6 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"There was an error in the plot: {e}")
 
-
     def call_plot_simple(self):
         self.dataframe = self.open_file_for_simple_plotting()
         self.title = self.inputPlotTitle.text()

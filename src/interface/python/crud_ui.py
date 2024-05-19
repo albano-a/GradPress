@@ -18,7 +18,13 @@ class Ui_ManageFilesWindow(object):
         ManageFilesWindow.setMinimumSize(QtCore.QSize(650, 500))
         ManageFilesWindow.setMaximumSize(QtCore.QSize(650, 500))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("src/interface/design\\../../../../Documents/GitHub/Kraken/src/icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap(
+                "src/interface/design\\../../../../Documents/GitHub/Kraken/src/icon.ico"
+            ),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         ManageFilesWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(ManageFilesWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -75,8 +81,18 @@ class Ui_ManageFilesWindow(object):
     def retranslateUi(self, ManageFilesWindow):
         _translate = QtCore.QCoreApplication.translate
         ManageFilesWindow.setWindowTitle(_translate("ManageFilesWindow", "MainWindow"))
-        self.manageFilesLabel.setText(_translate("ManageFilesWindow", "<html><head/><body><p align=\"center\"><span style=\"font-weight:600;\">Manage Files</span></p></body></html>"))
-        self.manageFilesLabel_2.setText(_translate("ManageFilesWindow", "<html><head/><body><p align=\"center\"><span style=\"font-size:14pt;\">Manage the loaded files here</span></p></body></html>"))
+        self.manageFilesLabel.setText(
+            _translate(
+                "ManageFilesWindow",
+                '<html><head/><body><p align="center"><span style="font-weight:600;">Manage Files</span></p></body></html>',
+            )
+        )
+        self.manageFilesLabel_2.setText(
+            _translate(
+                "ManageFilesWindow",
+                '<html><head/><body><p align="center"><span style="font-size:14pt;">Manage the loaded files here</span></p></body></html>',
+            )
+        )
         self.addFileBtn.setText(_translate("ManageFilesWindow", "Add"))
         self.renameFileBtn.setText(_translate("ManageFilesWindow", "Rename"))
         self.deleteFileBtn.setText(_translate("ManageFilesWindow", "Delete"))
