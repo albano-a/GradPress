@@ -1,9 +1,8 @@
 import os
-import markdown
-# from PyQt5.QtGui import 
+import markdown 
 from PyQt5.QtWidgets import QMainWindow, QFileSystemModel
 from PyQt5.QtCore import QDir
-from Interface.pyInterface.help_ui import Ui_HelpMainWindow
+from interface.python.help_ui import Ui_HelpMainWindow
 
 
 class HelpWindow(QMainWindow, Ui_HelpMainWindow):

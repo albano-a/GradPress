@@ -1,6 +1,0 @@
-PyQt6
-PyQt5
-pandas
-numpy
-PyQt6-QScintilla
-ruptures

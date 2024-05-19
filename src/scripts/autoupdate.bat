@@ -1,9 +1,11 @@
 @echo off
 
-pyuic5 src/Interface/maingui.ui -o src/Interface/pyInterface/maingui_ui.py
-pyuic5 src/Interface/regression.ui -o src/Interface/pyInterface/regression_ui.py
-pyuic5 src/Interface/plot.ui -o src/Interface/pyInterface/plot_ui.py
-pyuic5 src/Interface/crud.ui -o src/Interface/pyInterface/crud_ui.py
-pyuic5 src/Interface/help.ui -o src/Interface/pyInterface/help_ui.py
-pyuic5 src/Interface/gradient.ui -o src/Interface/pyInterface/gradient_ui.py
-pyuic5 src/Interface/about.ui -o src/Interface/pyInterface/about_ui.py
+pyuic5 src/interface/design/maingui.ui -o src/interface/python/maingui_ui.py
+pyuic5 src/interface/design/regression.ui -o src/interface/python/regression_ui.py
+pyuic5 src/interface/design/plot.ui -o src/interface/python/plot_ui.py
+pyuic5 src/interface/design/crud.ui -o src/interface/python/crud_ui.py
+pyuic5 src/interface/design/help.ui -o src/interface/python/help_ui.py
+pyuic5 src/interface/design/gradient.ui -o src/interface/python/gradient_ui.py
+pyuic5 src/interface/design/about.ui -o src/interface/python/about_ui.py
+pyuic5 src/interface/design/temperatureinterface.ui -o src/interface/python/temperatureinterface.py
+pyuic5 src/interface/design/temperatureinterfaceDialog.ui -o src/interface/python/temperatureinterfaceDialog.py

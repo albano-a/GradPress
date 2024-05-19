@@ -1,7 +1,7 @@
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import QUrl
-from Interface.pyInterface.about_ui import Ui_AboutWindow
+from interface.python.about_ui import Ui_AboutWindow
 
 
 class AboutWindow(QMainWindow, Ui_AboutWindow):

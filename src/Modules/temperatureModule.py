@@ -1,10 +1,8 @@
 import matplotlib.pyplot as plt
-import os
-import pandas as pd
 
-from Functions import temperature as temp
-from Interface.pyInterface.temperatureInterface import Ui_mainWindow
-from Interface.pyInterface.temperatureInterfaceDialog import Ui_configurationPlotDialog
+from functions import temperature as temp
+from interface.python.temperatureInterface import Ui_mainWindow
+from interface.python.temperatureInterfaceDialog import Ui_configurationPlotDialog
 from PyQt5.QtWidgets import (
     QMainWindow,
     QMessageBox,

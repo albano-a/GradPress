@@ -2,8 +2,7 @@ import os
 import shutil
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QInputDialog, QFileSystemModel
 from PyQt5.QtCore import QDir
-#from PyQt5.QtGui import 
-from Interface.pyInterface.crud_ui import Ui_ManageFilesWindow
+from interface.python.crud_ui import Ui_ManageFilesWindow
 
 
 class ManageFiles(QMainWindow, Ui_ManageFilesWindow):

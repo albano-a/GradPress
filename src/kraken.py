@@ -6,6 +6,7 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import (
     QKeySequence,
     QColor,
+    QIcon
 )
 from PyQt5.QtWidgets import (
     QApplication,
@@ -18,27 +19,25 @@ from PyQt5.QtWidgets import (
     QMenu,
     QAction,
 )
-from icons_rc import *
-from Interface.pyInterface.maingui_ui import Ui_MainWindow
-
-# Software modules
-from Modules.about_module import AboutWindow
-from Modules.help_module import HelpWindow
-from Modules.crud_module import ManageFiles
-from Modules.plot_module import SimplePlotWindow
-from Modules.regression_module import PlotTendenciaWindow
-from Modules.temperatureModule import TemperatureAnalysis
-from Modules.gradient_module import GradientClassificationWin
-from Functions.general import uploadFile
+from interface.python.maingui_ui import Ui_MainWindow
+from main_rc import *
+from modules.about_module import AboutWindow
+from modules.help_module import HelpWindow
+from modules.crud_module import ManageFiles
+from modules.plot_module import SimplePlotWindow
+from modules.regression_module import PlotTendenciaWindow
+from modules.temperatureModule import TemperatureAnalysis
+from modules.gradient_module import GradientClassificationWin
+from functions.general import uploadFile
 
 plt.style.use(["bmh"])
 
 
 class TableManager:
-    def __init__(self, table, formulabar, cellnamebox):
+    def __init__(self, table, formulaBar, cellNameBox):
         self.table = table
-        self.formulaBar = formulabar
-        self.cellNameBox = cellnamebox
+        self.formulaBar = formulaBar
+        self.cellNameBox = cellNameBox
         self.start_cell = None
 
         self.table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
@@ -400,14 +399,12 @@ class TableManager:
         return string
 
 
-class MyGUI(QMainWindow, Ui_MainWindow):
+class MainProgram(QMainWindow, Ui_MainWindow):
     def __init__(self):
-        super(MyGUI, self).__init__()
-        # from PyQt5 import uic
-        # uic.loadUi('maingui.ui', self)
-
+        super(MainProgram, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("Kraken Geophysics")
+        self.setWindowIcon(QIcon("icon.ico"))
 
         self.actionSair.triggered.connect(QApplication.instance().quit)
 
@@ -507,7 +504,7 @@ class MyGUI(QMainWindow, Ui_MainWindow):
 
 def main():
     app = QApplication([])
-    window = MyGUI()
+    window = MainProgram()
     window.show()
 
     sys.exit(app.exec())

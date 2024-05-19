@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox
 import matplotlib
 
 matplotlib.use("Qt5Agg")
-from Interface.pyInterface.plot_ui import Ui_SimplePlotWindow
+from interface.python.plot_ui import Ui_SimplePlotWindow
 
 
 class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
