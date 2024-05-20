@@ -1,21 +1,22 @@
 import sys
 import os
+import requests
 from cx_Freeze import setup, Executable
 
 # Add the 'src' directory to the PYTHONPATH
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 build_exe_options = {
+    "packages": ["os", "requests", "sklearn"],  # Include necessary packages
     "include_files": [
-        ("src/uploads", "src/uploads"),
-        ("C:/Windows/System32/vcomp140.dll", "vcomp140.dll"),
-        ("C:/Windows/System32/msvcp140.dll", "msvcp140.dll"),
-        ("src/functions", "src/functions"),
-        ("src/images", "src/images"),
-        ("src/interface", "src/interface"),
-        ("src/modules", "src/modules"),
-        ("src/scripts", "src/scripts"),
-        ("src/uploads", "src/uploads"),
+        ("src/uploads", "uploads"),
+        ("C:/Windows/SysWOW64/vcomp140.dll", "vcomp140.dll"),
+        ("C:/Windows/SysWOW64/msvcp140.dll", "msvcp140.dll"),
+        ("src/functions", "functions"),
+        ("src/images", "images"),
+        ("src/interface", "interface"),
+        ("src/modules", "modules"),
+        ("src/scripts", "scripts"),
         "LICENSE",
     ],
 }
