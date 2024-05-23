@@ -1,0 +1,1 @@
+pyuic6 src/interface/design/temperatureinterfaceDialog.ui -o src/interface/python/temperatureinterfaceDialog.py
