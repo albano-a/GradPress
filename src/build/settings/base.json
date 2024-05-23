@@ -1,0 +1,6 @@
+{
+  "app_name": "Kraken",
+  "author": "Andre Albano",
+  "main_module": "src/kraken.py",
+  "version": "0.8.1"
+}
