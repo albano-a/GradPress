@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 from interface.python.regression_ui import Ui_plotTendenciaWindow
 from functions.general import pressure_gradient_classification
 
@@ -14,14 +14,11 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
 
         self.selected_file = None
 
-        # list of files in the uploads directory - Select the file option
-        self.files = os.listdir("src/uploads")
-        self.selectFileComboBox.addItems(self.files)
-
         # prof cota radio buttons
         # if cotaProfNao is checked, labelMesaRotativa and inputMesaRotativa became enabled
         self.cotaProfNao.toggled.connect(self.on_cotaProfNao_toggled)
         self.headerSim.toggled.connect(self.on_headerSim_toggled)
+        self.filepathButton.clicked.connect(self.copy_file_path)
 
         self.lineColorComboBox.addItems(
             [
@@ -43,6 +40,19 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         # plot btn
         self.tendenciaPlotBtn.clicked.connect(self.call_plot_trends)
 
+    def copy_file_path(self):
+        """Open file dialog for copying file path"""
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getOpenFileName(
+            self,
+            "Open File",
+            "uploads",
+            "CSV, TXT, XLSX (*.csv, *.txt, *.xlsx);;All Files (*)",
+        )
+
+        if file_path:
+            self.fileLineEdit.setText(file_path)
+
     def on_cotaProfNao_toggled(self, checked):
         self.labelMesaRotativa.setEnabled(checked)
         self.inputMesaRotativa.setEnabled(checked)
@@ -55,7 +65,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
 
         self.header_lines = self.inputHeaderLines.text()
 
-        self.selected_file = self.selectFileComboBox.currentText()
+        self.selected_file = self.fileLineEdit.text()
         # Check if self.header_lines is not an empty string
         if self.header_lines != "":
             # Convert self.header_lines to an integer
@@ -69,7 +79,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         if self.file_type_button_text == "csv":
             try:
                 dataframe = pd.read_csv(
-                    f"src/uploads/{self.selected_file}",
+                    self.selected_file,
                     delimiter="[;,]",
                     names=["prof", "pressao"],
                     engine="python",
@@ -83,7 +93,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         elif self.file_type_button_text == "txt":
             try:
                 dataframe = pd.read_csv(
-                    f"src/uploads/{self.selected_file}",
+                    self.selected_file,
                     skiprows=skiprows,
                     delimiter="\t",
                     names=["prof", "pressao"],
@@ -97,7 +107,7 @@ class PlotTendenciaWindow(QMainWindow, Ui_plotTendenciaWindow):
         elif self.file_type_button_text == "xlsx":
             try:
                 dataframe = pd.read_excel(
-                    f"src/uploads/{self.selected_file}",
+                    self.selected_file,
                     skiprows=skiprows,
                     names=["prof", "pressao"],
                 )

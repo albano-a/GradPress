@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src/interface/design/help.ui'
+# Form implementation generated from reading ui file 'src/main/python/interface/design/help.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -17,19 +17,15 @@ class Ui_HelpMainWindow(object):
         HelpMainWindow.resize(800, 600)
         HelpMainWindow.setMaximumSize(QtCore.QSize(800, 600))
         icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap(
-                "src/interface/design\\../../../../Documents/GitHub/Kraken/src/help.png"
-            ),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
+        icon.addPixmap(QtGui.QPixmap("src/main/python/interface/design\\../../../../Documents/GitHub/Kraken/src/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         HelpMainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(HelpMainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(260, 10, 521, 531))
-        self.frame.setStyleSheet("QFrame {\n" "    border: 1px solid #212121\n" "}")
+        self.frame.setStyleSheet("QFrame {\n"
+"    border: 1px solid #212121\n"
+"}")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -45,7 +41,9 @@ class Ui_HelpMainWindow(object):
         self.helpTextEdit.setObjectName("helpTextEdit")
         self.frame_2 = QtWidgets.QFrame(self.centralwidget)
         self.frame_2.setGeometry(QtCore.QRect(10, 10, 241, 531))
-        self.frame_2.setStyleSheet("QFrame {\n" "    border: 1px solid #212121\n" "}")
+        self.frame_2.setStyleSheet("QFrame {\n"
+"    border: 1px solid #212121\n"
+"}")
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
@@ -67,15 +65,10 @@ class Ui_HelpMainWindow(object):
     def retranslateUi(self, HelpMainWindow):
         _translate = QtCore.QCoreApplication.translate
         HelpMainWindow.setWindowTitle(_translate("HelpMainWindow", "MainWindow"))
-        self.helpTextEdit.setHtml(
-            _translate(
-                "HelpMainWindow",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "</style></head><body style=\" font-family:'Arial'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:\'MS Shell Dlg 2\'; font-weight:600;">Welcome to the Kraken Software User Guide v0.4.2</span></p>\n'
-                '<p align="center" style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\'; font-weight:600;"><br /></p>\n'
-                '<p align="justify" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:\'MS Shell Dlg 2\';">This software was developed to assist undergraduate students of Geophysics and researchers from GIECAR in conducting their research quickly and directly. In this guide, you will find everything you need to perform all the program\'s functionalities.</span></p></body></html>',
-            )
-        )
+        self.helpTextEdit.setHtml(_translate("HelpMainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Arial\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-weight:600;\">Welcome to the Kraken Software User Guide v0.4.2</span></p>\n"
+"<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\'; font-weight:600;\"><br /></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\';\">This software was developed to assist undergraduate students of Geophysics and researchers from GIECAR in conducting their research quickly and directly. In this guide, you will find everything you need to perform all the program\'s functionalities.</span></p></body></html>"))

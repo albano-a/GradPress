@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 import matplotlib
 
 matplotlib.use("Qt5Agg")
@@ -16,14 +16,11 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
         # Initialize self.selected_file
         self.selected_file = None
 
-        # list of files in the uploads directory - Select the file option
-        self.files = os.listdir("src/uploads")
-        self.selectFileComboBox.addItems(self.files)
-
         # prof cota radio buttons
         # if cotaProfNao is checked, labelMesaRotativa and inputMesaRotativa became enabled
         self.cotaProfNao.toggled.connect(self.on_cotaProfNao_toggled)
         self.headerSim.toggled.connect(self.on_headerSim_toggled)
+        self.filepathButton.clicked.connect(self.copy_file_path)
 
         self.lineColorComboBox.addItems(
             [
@@ -43,6 +40,19 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
         # plot btn
         self.simplePlotBtn.clicked.connect(self.call_plot_simple)
 
+    def copy_file_path(self):
+        """Open file dialog for copying file path"""
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getOpenFileName(
+            self,
+            "Open File",
+            "uploads",
+            "CSV, TXT, XLSX (*.csv, *.txt, *.xlsx);;All Files (*)",
+        )
+
+        if file_path:
+            self.fileLineEdit.setText(file_path)
+
     def on_cotaProfNao_toggled(self, checked):
         self.labelMesaRotativa.setEnabled(checked)
         self.inputMesaRotativa.setEnabled(checked)
@@ -56,7 +66,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             self.mesa_rotativa = self.inputMesaRotativa.text()
             self.header_lines = self.inputHeaderLines.text()
 
-            self.selected_file = self.selectFileComboBox.currentText()
+            self.selected_file = self.fileLineEdit.text()
             # Verifica se self.header_lines não é uma string vazia
             if self.header_lines != "":
                 # Tenta converter self.header_lines para um inteiro
@@ -74,7 +84,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             if self.file_type_button_text == "csv":
                 try:
                     dataframe = pd.read_csv(
-                        f"src/uploads/{self.selected_file}",
+                        self.selected_file,
                         delimiter="[;,]",
                         names=["prof", "pressao"],
                         engine="python",
@@ -88,7 +98,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             elif self.file_type_button_text == "txt":
                 try:
                     dataframe = pd.read_csv(
-                        f"src/uploads/{self.selected_file}",
+                        self.selected_file,
                         skiprows=skiprows,
                         delimiter="\t",
                         names=["prof", "pressao"],
@@ -102,7 +112,7 @@ class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
             elif self.file_type_button_text == "xlsx":
                 try:
                     dataframe = pd.read_excel(
-                        f"src/uploads/{self.selected_file}",
+                        self.selected_file,
                         skiprows=skiprows,
                         names=["prof", "pressao"],
                     )

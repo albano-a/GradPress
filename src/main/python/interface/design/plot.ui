@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>670</width>
-    <height>634</height>
+    <height>440</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>670</width>
-    <height>530</height>
+    <height>440</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -109,8 +109,38 @@
 }</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Select the file:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;File Path:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
+          </widget>
+         </item>
+         <item row="1" column="1" alignment="Qt::AlignHCenter">
+          <widget class="QRadioButton" name="csvRadioButton">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>csv</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">fileButtonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item row="1" column="2" alignment="Qt::AlignHCenter">
+          <widget class="QRadioButton" name="txtRadioButton">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>txt</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">fileButtonGroup</string>
+           </attribute>
           </widget>
          </item>
          <item row="1" column="3" alignment="Qt::AlignHCenter">
@@ -151,37 +181,14 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1" colspan="3">
-          <widget class="QComboBox" name="selectFileComboBox"/>
+         <item row="0" column="1" colspan="2">
+          <widget class="QLineEdit" name="fileLineEdit"/>
          </item>
-         <item row="1" column="2" alignment="Qt::AlignHCenter">
-          <widget class="QRadioButton" name="txtRadioButton">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
+         <item row="0" column="3" alignment="Qt::AlignHCenter">
+          <widget class="QToolButton" name="filepathButton">
            <property name="text">
-            <string>txt</string>
+            <string>...</string>
            </property>
-           <attribute name="buttonGroup">
-            <string notr="true">fileButtonGroup</string>
-           </attribute>
-          </widget>
-         </item>
-         <item row="1" column="1" alignment="Qt::AlignHCenter">
-          <widget class="QRadioButton" name="csvRadioButton">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>csv</string>
-           </property>
-           <attribute name="buttonGroup">
-            <string notr="true">fileButtonGroup</string>
-           </attribute>
           </widget>
          </item>
         </layout>
@@ -588,7 +595,6 @@
   </widget>
  </widget>
  <tabstops>
-  <tabstop>selectFileComboBox</tabstop>
   <tabstop>csvRadioButton</tabstop>
   <tabstop>txtRadioButton</tabstop>
   <tabstop>xlsxRadioButton</tabstop>
@@ -609,8 +615,8 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="headerButtonGroup"/>
   <buttongroup name="fileButtonGroup"/>
+  <buttongroup name="headerButtonGroup"/>
   <buttongroup name="cotaButtonGroup"/>
  </buttongroups>
 </ui>
