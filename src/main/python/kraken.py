@@ -1,31 +1,31 @@
-import sys
 import csv
-import pandas as pd
+import sys
+
 import matplotlib.pyplot as plt
-from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import QKeySequence, QColor, QIcon
-from fbs_runtime.application_context.PyQt5 import ApplicationContext
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QTableWidgetItem,
-    QFileDialog,
-    QMessageBox,
-    QColorDialog,
-    QFontDialog,
-    QMenu,
-    QAction,
-)
+import pandas as pd
+from functions.general import uploadFile
 from interface.python.maingui_ui import Ui_MainWindow
 from main_rc import *
 from modules.about_module import AboutWindow
-from modules.help_module import HelpWindow
 from modules.crud_module import ManageFiles
+from modules.gradient_module import GradientClassificationWin
+from modules.help_module import HelpWindow
 from modules.plot_module import SimplePlotWindow
 from modules.regression_module import PlotTendenciaWindow
 from modules.temperatureModule import TemperatureAnalysis
-from modules.gradient_module import GradientClassificationWin
-from functions.general import uploadFile
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QColor, QKeySequence
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QColorDialog,
+    QFileDialog,
+    QFontDialog,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QTableWidgetItem,
+)
 
 plt.style.use(["bmh"])
 
