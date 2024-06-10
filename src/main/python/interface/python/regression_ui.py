@@ -16,7 +16,13 @@ class Ui_plotTendenciaWindow(object):
         plotTendenciaWindow.setObjectName("plotTendenciaWindow")
         plotTendenciaWindow.resize(623, 588)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("src/main/python/interface/design\\../../../../Documents/GitHub/Kraken/src/icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap(
+                "src/main/python/interface/design\\../../../../Documents/GitHub/Kraken/src/icon.ico"
+            ),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         plotTendenciaWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(plotTendenciaWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -35,9 +41,7 @@ class Ui_plotTendenciaWindow(object):
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.label_4 = QtWidgets.QLabel(self.groupBox_2)
         self.label_4.setMouseTracking(True)
-        self.label_4.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_4.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_4.setObjectName("label_4")
         self.gridLayout_3.addWidget(self.label_4, 0, 0, 1, 1)
         self.inputPressureUnit = QtWidgets.QComboBox(self.groupBox_2)
@@ -45,9 +49,7 @@ class Ui_plotTendenciaWindow(object):
         self.gridLayout_3.addWidget(self.inputPressureUnit, 0, 1, 1, 2)
         self.label_5 = QtWidgets.QLabel(self.groupBox_2)
         self.label_5.setMouseTracking(True)
-        self.label_5.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_5.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_5.setObjectName("label_5")
         self.gridLayout_3.addWidget(self.label_5, 2, 0, 1, 1)
         self.agrupamentoSpinBox = QtWidgets.QSpinBox(self.groupBox_2)
@@ -63,9 +65,7 @@ class Ui_plotTendenciaWindow(object):
         self.label_6 = QtWidgets.QLabel(self.groupBox_2)
         self.label_6.setMaximumSize(QtCore.QSize(16777215, 40))
         self.label_6.setMouseTracking(True)
-        self.label_6.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_6.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_6.setWordWrap(True)
         self.label_6.setObjectName("label_6")
         self.gridLayout_3.addWidget(self.label_6, 1, 0, 1, 3)
@@ -164,9 +164,7 @@ class Ui_plotTendenciaWindow(object):
         font.setPointSize(10)
         self.label_18.setFont(font)
         self.label_18.setMouseTracking(True)
-        self.label_18.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_18.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_18.setObjectName("label_18")
         self.gridLayout_8.addWidget(self.label_18, 0, 0, 1, 1)
         self.cotaProfSim = QtWidgets.QRadioButton(self.cotaRadioBtnGroupBox)
@@ -188,9 +186,7 @@ class Ui_plotTendenciaWindow(object):
         font.setPointSize(10)
         self.labelMesaRotativa.setFont(font)
         self.labelMesaRotativa.setMouseTracking(True)
-        self.labelMesaRotativa.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.labelMesaRotativa.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.labelMesaRotativa.setObjectName("labelMesaRotativa")
         self.gridLayout_8.addWidget(self.labelMesaRotativa, 1, 0, 1, 1)
         self.label_19 = QtWidgets.QLabel(self.cotaRadioBtnGroupBox)
@@ -198,9 +194,7 @@ class Ui_plotTendenciaWindow(object):
         font.setPointSize(10)
         self.label_19.setFont(font)
         self.label_19.setMouseTracking(True)
-        self.label_19.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_19.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_19.setObjectName("label_19")
         self.gridLayout_8.addWidget(self.label_19, 2, 0, 1, 1)
         self.headerNao = QtWidgets.QRadioButton(self.cotaRadioBtnGroupBox)
@@ -218,9 +212,7 @@ class Ui_plotTendenciaWindow(object):
         font.setPointSize(10)
         self.labelHeaderLines.setFont(font)
         self.labelHeaderLines.setMouseTracking(True)
-        self.labelHeaderLines.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.labelHeaderLines.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.labelHeaderLines.setObjectName("labelHeaderLines")
         self.gridLayout_8.addWidget(self.labelHeaderLines, 3, 0, 1, 1)
         self.headerSim = QtWidgets.QRadioButton(self.cotaRadioBtnGroupBox)
@@ -256,9 +248,7 @@ class Ui_plotTendenciaWindow(object):
         font.setPointSize(10)
         self.label_3.setFont(font)
         self.label_3.setMouseTracking(True)
-        self.label_3.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_3.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_3.setObjectName("label_3")
         self.gridLayout_2.addWidget(self.label_3, 1, 0, 1, 1)
         self.csvRadioButton = QtWidgets.QRadioButton(self.selectFileGroupBox)
@@ -269,12 +259,12 @@ class Ui_plotTendenciaWindow(object):
         self.fileButtonGroup = QtWidgets.QButtonGroup(plotTendenciaWindow)
         self.fileButtonGroup.setObjectName("fileButtonGroup")
         self.fileButtonGroup.addButton(self.csvRadioButton)
-        self.gridLayout_2.addWidget(self.csvRadioButton, 1, 1, 1, 1, QtCore.Qt.AlignHCenter)
+        self.gridLayout_2.addWidget(
+            self.csvRadioButton, 1, 1, 1, 1, QtCore.Qt.AlignHCenter
+        )
         self.label_2 = QtWidgets.QLabel(self.selectFileGroupBox)
         self.label_2.setMouseTracking(True)
-        self.label_2.setStyleSheet("QLabel {\n"
-"    border: None\n"
-"}")
+        self.label_2.setStyleSheet("QLabel {\n" "    border: None\n" "}")
         self.label_2.setObjectName("label_2")
         self.gridLayout_2.addWidget(self.label_2, 0, 0, 1, 1)
         self.xlsxRadioButton = QtWidgets.QRadioButton(self.selectFileGroupBox)
@@ -284,20 +274,26 @@ class Ui_plotTendenciaWindow(object):
         self.xlsxRadioButton.setFont(font)
         self.xlsxRadioButton.setObjectName("xlsxRadioButton")
         self.fileButtonGroup.addButton(self.xlsxRadioButton)
-        self.gridLayout_2.addWidget(self.xlsxRadioButton, 1, 3, 1, 1, QtCore.Qt.AlignHCenter)
+        self.gridLayout_2.addWidget(
+            self.xlsxRadioButton, 1, 3, 1, 1, QtCore.Qt.AlignHCenter
+        )
         self.txtRadioButton = QtWidgets.QRadioButton(self.selectFileGroupBox)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.txtRadioButton.setFont(font)
         self.txtRadioButton.setObjectName("txtRadioButton")
         self.fileButtonGroup.addButton(self.txtRadioButton)
-        self.gridLayout_2.addWidget(self.txtRadioButton, 1, 2, 1, 1, QtCore.Qt.AlignHCenter)
+        self.gridLayout_2.addWidget(
+            self.txtRadioButton, 1, 2, 1, 1, QtCore.Qt.AlignHCenter
+        )
         self.fileLineEdit = QtWidgets.QLineEdit(self.selectFileGroupBox)
         self.fileLineEdit.setObjectName("fileLineEdit")
         self.gridLayout_2.addWidget(self.fileLineEdit, 0, 1, 1, 2)
         self.filepathButton = QtWidgets.QToolButton(self.selectFileGroupBox)
         self.filepathButton.setObjectName("filepathButton")
-        self.gridLayout_2.addWidget(self.filepathButton, 0, 3, 1, 1, QtCore.Qt.AlignHCenter)
+        self.gridLayout_2.addWidget(
+            self.filepathButton, 0, 3, 1, 1, QtCore.Qt.AlignHCenter
+        )
         self.verticalLayout.addLayout(self.gridLayout_2)
         self.gridLayout.addWidget(self.selectFileGroupBox, 0, 0, 1, 1)
         self.frame_4 = QtWidgets.QFrame(self.centralwidget)
@@ -309,10 +305,14 @@ class Ui_plotTendenciaWindow(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_4)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.tendenciaPlotBtn = QtWidgets.QPushButton(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tendenciaPlotBtn.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.tendenciaPlotBtn.sizePolicy().hasHeightForWidth()
+        )
         self.tendenciaPlotBtn.setSizePolicy(sizePolicy)
         self.tendenciaPlotBtn.setMinimumSize(QtCore.QSize(200, 25))
         self.tendenciaPlotBtn.setMaximumSize(QtCore.QSize(200, 16777215))
@@ -351,51 +351,164 @@ class Ui_plotTendenciaWindow(object):
 
     def retranslateUi(self, plotTendenciaWindow):
         _translate = QtCore.QCoreApplication.translate
-        plotTendenciaWindow.setWindowTitle(_translate("plotTendenciaWindow", "Fluid Contact Determination"))
-        self.outputAfterPlotted.setStatusTip(_translate("plotTendenciaWindow", "The depth of contact between the fluids will appear in this area after the plot."))
-        self.outputAfterPlotted.setHtml(_translate("plotTendenciaWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.outputAfterPlotted.setPlaceholderText(_translate("plotTendenciaWindow", "The depth of contact between the fluids will appear in this area after the plot."))
-        self.groupBox_2.setTitle(_translate("plotTendenciaWindow", "Regression Settings"))
-        self.label_4.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"right\"><span style=\" font-size:10pt;\">Pressure Unit*:</span></p></body></html>"))
-        self.inputPressureUnit.setToolTip(_translate("plotTendenciaWindow", "A unidade de pressão dos dados carregados."))
-        self.label_5.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"right\"><span style=\" font-size:10pt;\">Data Clustering*:</span></p></body></html>"))
-        self.agrupamentoSpinBox.setToolTip(_translate("plotTendenciaWindow", "Agrupamentos (Cluster) dos dados."))
-        self.label_6.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt;\">To plot the regression lines, it\'s necessary to cluster the data into groups, with the default being 2 clusters.</span></p></body></html>"))
+        plotTendenciaWindow.setWindowTitle(
+            _translate("plotTendenciaWindow", "Fluid Contact Determination")
+        )
+        self.outputAfterPlotted.setStatusTip(
+            _translate(
+                "plotTendenciaWindow",
+                "The depth of contact between the fluids will appear in this area after the plot.",
+            )
+        )
+        self.outputAfterPlotted.setHtml(
+            _translate(
+                "plotTendenciaWindow",
+                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
+                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
+                "p, li { white-space: pre-wrap; }\n"
+                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                '<p align="center" style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p></body></html>',
+            )
+        )
+        self.outputAfterPlotted.setPlaceholderText(
+            _translate(
+                "plotTendenciaWindow",
+                "The depth of contact between the fluids will appear in this area after the plot.",
+            )
+        )
+        self.groupBox_2.setTitle(
+            _translate("plotTendenciaWindow", "Regression Settings")
+        )
+        self.label_4.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="right"><span style=" font-size:10pt;">Pressure Unit*:</span></p></body></html>',
+            )
+        )
+        self.inputPressureUnit.setToolTip(
+            _translate(
+                "plotTendenciaWindow", "A unidade de pressão dos dados carregados."
+            )
+        )
+        self.label_5.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="right"><span style=" font-size:10pt;">Data Clustering*:</span></p></body></html>',
+            )
+        )
+        self.agrupamentoSpinBox.setToolTip(
+            _translate("plotTendenciaWindow", "Agrupamentos (Cluster) dos dados.")
+        )
+        self.label_6.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="center"><span style=" font-size:10pt;">To plot the regression lines, it\'s necessary to cluster the data into groups, with the default being 2 clusters.</span></p></body></html>',
+            )
+        )
         self.groupBox_5.setTitle(_translate("plotTendenciaWindow", "Plot Settings"))
         self.groupBox_8.setTitle(_translate("plotTendenciaWindow", "Depth limits"))
         self.label_11.setText(_translate("plotTendenciaWindow", "Minimum Depth:"))
-        self.label_13.setText(_translate("plotTendenciaWindow", "<html><head/><body><p>Maximum Depth:</p></body></html>"))
+        self.label_13.setText(
+            _translate(
+                "plotTendenciaWindow",
+                "<html><head/><body><p>Maximum Depth:</p></body></html>",
+            )
+        )
         self.groupBox_9.setTitle(_translate("plotTendenciaWindow", "Title and Axis"))
         self.label_14.setText(_translate("plotTendenciaWindow", "Line color:"))
         self.label_15.setText(_translate("plotTendenciaWindow", "Y axis:"))
         self.label_16.setText(_translate("plotTendenciaWindow", "Title:"))
         self.label_17.setText(_translate("plotTendenciaWindow", "X axis:"))
-        self.cotaRadioBtnGroupBox.setTitle(_translate("plotTendenciaWindow", "File Settings"))
-        self.label_18.setStatusTip(_translate("plotTendenciaWindow", "Profundidade em cota é igual a mesa rotativa menos a profundidade medida."))
-        self.label_18.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"right\">TVDSS?*:</p></body></html>"))
+        self.cotaRadioBtnGroupBox.setTitle(
+            _translate("plotTendenciaWindow", "File Settings")
+        )
+        self.label_18.setStatusTip(
+            _translate(
+                "plotTendenciaWindow",
+                "Profundidade em cota é igual a mesa rotativa menos a profundidade medida.",
+            )
+        )
+        self.label_18.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="right">TVDSS?*:</p></body></html>',
+            )
+        )
         self.cotaProfSim.setText(_translate("plotTendenciaWindow", "Yes"))
-        self.labelMesaRotativa.setStatusTip(_translate("plotTendenciaWindow", "Mesa rotativa é a altura da plataforma até a superfície do mar/superfície terrestre."))
-        self.labelMesaRotativa.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"right\">Rotary table*:</p></body></html>"))
-        self.label_19.setStatusTip(_translate("plotTendenciaWindow", "Se o arquivo possui cabeçalho. Comum em arquivos las e csv."))
-        self.label_19.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"right\">Header?*:</p></body></html>"))
+        self.labelMesaRotativa.setStatusTip(
+            _translate(
+                "plotTendenciaWindow",
+                "Mesa rotativa é a altura da plataforma até a superfície do mar/superfície terrestre.",
+            )
+        )
+        self.labelMesaRotativa.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="right">Rotary table*:</p></body></html>',
+            )
+        )
+        self.label_19.setStatusTip(
+            _translate(
+                "plotTendenciaWindow",
+                "Se o arquivo possui cabeçalho. Comum em arquivos las e csv.",
+            )
+        )
+        self.label_19.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="right">Header?*:</p></body></html>',
+            )
+        )
         self.headerNao.setText(_translate("plotTendenciaWindow", "No"))
-        self.labelHeaderLines.setStatusTip(_translate("plotTendenciaWindow", "Se houver cabeçalho, quantas linhas pular?"))
-        self.labelHeaderLines.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"right\">How many lines?*:</p></body></html>"))
+        self.labelHeaderLines.setStatusTip(
+            _translate(
+                "plotTendenciaWindow", "Se houver cabeçalho, quantas linhas pular?"
+            )
+        )
+        self.labelHeaderLines.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="right">How many lines?*:</p></body></html>',
+            )
+        )
         self.headerSim.setText(_translate("plotTendenciaWindow", "Yes"))
         self.cotaProfNao.setText(_translate("plotTendenciaWindow", "No"))
         self.selectFileGroupBox.setTitle(_translate("plotTendenciaWindow", "File"))
-        self.label_3.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"right\">File type:</p></body></html>"))
-        self.csvRadioButton.setToolTip(_translate("plotTendenciaWindow", "<html><head/><body><p>Arquivos <span style=\" font-weight:700;\">C</span>omma <span style=\" font-weight:700;\">S</span>eparated <span style=\" font-weight:700;\">V</span>alues (valores separados por vírgula) são arquivos comumente utilizados para armazenamento de dados.</p></body></html>"))
+        self.label_3.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="right">File type:</p></body></html>',
+            )
+        )
+        self.csvRadioButton.setToolTip(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p>Arquivos <span style=" font-weight:700;">C</span>omma <span style=" font-weight:700;">S</span>eparated <span style=" font-weight:700;">V</span>alues (valores separados por vírgula) são arquivos comumente utilizados para armazenamento de dados.</p></body></html>',
+            )
+        )
         self.csvRadioButton.setText(_translate("plotTendenciaWindow", "csv"))
-        self.label_2.setText(_translate("plotTendenciaWindow", "<html><head/><body><p align=\"right\"><span style=\" font-size:10pt;\">File Path:</span></p></body></html>"))
-        self.xlsxRadioButton.setToolTip(_translate("plotTendenciaWindow", "<html><head/><body><p>Um arquivo .xlsx é uma planilha eletrônica, como no Excel.</p></body></html>"))
+        self.label_2.setText(
+            _translate(
+                "plotTendenciaWindow",
+                '<html><head/><body><p align="right"><span style=" font-size:10pt;">File Path:</span></p></body></html>',
+            )
+        )
+        self.xlsxRadioButton.setToolTip(
+            _translate(
+                "plotTendenciaWindow",
+                "<html><head/><body><p>Um arquivo .xlsx é uma planilha eletrônica, como no Excel.</p></body></html>",
+            )
+        )
         self.xlsxRadioButton.setText(_translate("plotTendenciaWindow", "xlsx"))
-        self.txtRadioButton.setToolTip(_translate("plotTendenciaWindow", "<html><head/><body><p>Arquivos de texto no geral. Lembre-se que nesse caso, os valores devem ser separados por tabulação (tab)</p></body></html>"))
+        self.txtRadioButton.setToolTip(
+            _translate(
+                "plotTendenciaWindow",
+                "<html><head/><body><p>Arquivos de texto no geral. Lembre-se que nesse caso, os valores devem ser separados por tabulação (tab)</p></body></html>",
+            )
+        )
         self.txtRadioButton.setText(_translate("plotTendenciaWindow", "txt"))
         self.filepathButton.setText(_translate("plotTendenciaWindow", "..."))
         self.tendenciaPlotBtn.setText(_translate("plotTendenciaWindow", "Plot"))
+
+
 import main_rc

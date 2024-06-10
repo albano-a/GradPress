@@ -15,7 +15,9 @@ class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):
         AboutWindow.setObjectName("AboutWindow")
         AboutWindow.resize(405, 390)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(AboutWindow.sizePolicy().hasHeightForWidth())
@@ -24,7 +26,11 @@ class Ui_AboutWindow(object):
         AboutWindow.setMaximumSize(QtCore.QSize(405, 390))
         AboutWindow.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("J:/Universidade/GIECAR/qt_kraken_conversion/about.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap("J:/Universidade/GIECAR/qt_kraken_conversion/about.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         AboutWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(AboutWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -38,7 +44,11 @@ class Ui_AboutWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(10, 10, 101, 91))
         self.label_2.setText("")
-        self.label_2.setPixmap(QtGui.QPixmap("src/main/python/interface/design\\../../../../Documents/GitHub/Kraken/src/icon.ico"))
+        self.label_2.setPixmap(
+            QtGui.QPixmap(
+                "src/main/python/interface/design\\../../../../Documents/GitHub/Kraken/src/icon.ico"
+            )
+        )
         self.label_2.setObjectName("label_2")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(10, 150, 381, 191))
@@ -97,12 +107,34 @@ class Ui_AboutWindow(object):
     def retranslateUi(self, AboutWindow):
         _translate = QtCore.QCoreApplication.translate
         AboutWindow.setWindowTitle(_translate("AboutWindow", "MainWindow"))
-        self.label.setText(_translate("AboutWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">KrakeN Geophysics v0.4.2</span></p></body></html>"))
+        self.label.setText(
+            _translate(
+                "AboutWindow",
+                '<html><head/><body><p align="center"><span style=" font-size:14pt;">KrakeN Geophysics v0.4.2</span></p></body></html>',
+            )
+        )
         self.groupBox.setTitle(_translate("AboutWindow", "GNU General Public License"))
-        self.creditsLabel.setText(_translate("AboutWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Developed by André Albano</span></p><p align=\"center\"><span style=\" font-size:12pt; font-weight:600;\">GIECAR - UFF</span></p><p align=\"center\"><span style=\" font-size:12pt; font-weight:600;\">2024</span></p></body></html>"))
-        self.label_4.setText(_translate("AboutWindow", "<html><head/><body><p align=\"justify\">This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or at your option any later version.</p></body></html>"))
+        self.creditsLabel.setText(
+            _translate(
+                "AboutWindow",
+                '<html><head/><body><p align="center"><span style=" font-size:12pt;">Developed by André Albano</span></p><p align="center"><span style=" font-size:12pt; font-weight:600;">GIECAR - UFF</span></p><p align="center"><span style=" font-size:12pt; font-weight:600;">2024</span></p></body></html>',
+            )
+        )
+        self.label_4.setText(
+            _translate(
+                "AboutWindow",
+                '<html><head/><body><p align="justify">This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or at your option any later version.</p></body></html>',
+            )
+        )
         self.label_3.setText(_translate("AboutWindow", "Access:"))
-        self.giecarBtn.setToolTip(_translate("AboutWindow", "Acessar o site do Grupo de Interpretação Exploratória e Caracterização de Reservatório"))
+        self.giecarBtn.setToolTip(
+            _translate(
+                "AboutWindow",
+                "Acessar o site do Grupo de Interpretação Exploratória e Caracterização de Reservatório",
+            )
+        )
         self.giecarBtn.setText(_translate("AboutWindow", "GIECAR"))
-        self.githubBtn.setToolTip(_translate("AboutWindow", "Acessar o GitHub do projeto"))
+        self.githubBtn.setToolTip(
+            _translate("AboutWindow", "Acessar o GitHub do projeto")
+        )
         self.githubBtn.setText(_translate("AboutWindow", "GitHub"))
