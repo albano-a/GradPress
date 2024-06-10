@@ -1,0 +1,24 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>images/new_file.png</file>
+    <file>images/about.png</file>
+    <file>images/alignCenter.svg</file>
+    <file>images/alignLeft.svg</file>
+    <file>images/alignRight.svg</file>
+    <file>images/cancel.png</file>
+    <file>images/check.png</file>
+    <file>images/code.png</file>
+    <file>images/complex.svg</file>
+    <file>images/fill_color.png</file>
+    <file>images/font.png</file>
+    <file>images/font_color.png</file>
+    <file>images/help.png</file>
+    <file>images/info.png</file>
+    <file>images/mng.svg</file>
+    <file>images/new.svg</file>
+    <file>images/open_folder.svg</file>
+    <file>images/save.svg</file>
+    <file>images/simple.svg</file>
+    <file>images/warning.png</file>
+  </qresource>
+</RCC>
