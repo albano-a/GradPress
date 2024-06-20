@@ -14,7 +14,7 @@ from modules.plot_module import SimplePlotWindow
 from modules.regression_module import PlotTendenciaWindow
 from modules.temperatureModule import TemperatureAnalysis
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QColor, QKeySequence
+from PyQt5.QtGui import QColor, QKeySequence, QIcon
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
@@ -401,6 +401,7 @@ class MainProgram(QMainWindow, Ui_MainWindow):
         super(MainProgram, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("Kraken Geophysics")
+        self.setWindowIcon(QIcon("src/main/icons/Icon.ico"))
 
         self.actionSair.triggered.connect(QApplication.instance().quit)
 
