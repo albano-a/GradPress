@@ -33,6 +33,20 @@ def uploadFile(self):
         QMessageBox.critical(None, "Error", f"Um erro ocorreu: {e}")
 
 
+def get_fluid_color(fluid_name):
+    """
+    Returns a color based on the type of fluid.
+    """
+    if "gas" in fluid_name.lower():
+        return "#A60628"  # Gas - Red
+    elif "oil" in fluid_name.lower():
+        return "#467821"  # Oil - Green
+    elif "water" in fluid_name.lower():
+        return "#0072B2"  # Water - Blue
+    else:
+        return "gray"  # Default color
+
+
 def pressure_gradient_classification(
     data, kmeans_number, pressure_unit, superior_title, x_axis, y_axis
 ):
@@ -258,19 +272,23 @@ def pressure_gradient_classification(
         f"O ponto de interseção das retas é {x_intercept:.2f} {y_intercept:.2f}"
     )
 
+    top_fluid_color = get_fluid_color(top_fluid_name)
+    bottom_fluid_color = get_fluid_color(bottom_fluid_name)
+
+    ########################## 1ST PLOT ###################################
     # First subplot - just the data itself
     axs[0].plot(
         top_pressao,
         top_prof,
         "o",
-        c="C0",
+        c=top_fluid_color,
         label="top curve " + str(round(slope_top, 4)),
     )
     axs[0].plot(
         bottom_pressao,
         bottom_prof,
         "o",
-        c="C3",
+        c=bottom_fluid_color,
         label="bot curve " + str(round(slope_bottom, 4)),
     )
     axs[0].set_title("Pressão x Profundidade")
@@ -279,16 +297,22 @@ def pressure_gradient_classification(
     axs[0].set_ylabel(y_axis)
     # axs[0].grid()
 
+    ########################## 2ND PLOT ###################################
     # Plot the data points for the top and bottom fluids
-    axs[1].plot(top_pressao, top_prof, "o", c="C0", label=top_fluid_name)
-    axs[1].plot(bottom_pressao, bottom_prof, "o", c="C3", label=bottom_fluid_name)
+    axs[1].plot(top_pressao, top_prof, "o", c=top_fluid_color, label=top_fluid_name)
     axs[1].plot(
-        line_top, top_prof, c="C9", label=f"{top_fluid_name} {round(slope_top, 4)}"
+        bottom_pressao, bottom_prof, "o", c=bottom_fluid_color, label=bottom_fluid_name
+    )
+    axs[1].plot(
+        line_top,
+        top_prof,
+        c=top_fluid_color,
+        label=f"{top_fluid_name} {round(slope_top, 4)}",
     )
     axs[1].plot(
         line_bottom,
         bottom_prof,
-        c="C1",
+        c=bottom_fluid_color,
         label=f"{bottom_fluid_name} {round(slope_bottom, 4)}",
     )
     axs[1].set_title("Linha de tendências")
@@ -296,19 +320,22 @@ def pressure_gradient_classification(
     axs[1].set_xlabel(x_axis)
     axs[1].set_ylabel(y_axis)
 
-    axs[2].plot(top_pressao, top_prof, "o", c="C0", label=top_fluid_name)
-    axs[2].plot(bottom_pressao, bottom_prof, "o", c="C3", label=bottom_fluid_name)
+    ########################## 3RD PLOT ###################################
+    axs[2].plot(top_pressao, top_prof, "o", c=top_fluid_color, label=top_fluid_name)
+    axs[2].plot(
+        bottom_pressao, bottom_prof, "o", c=bottom_fluid_color, label=bottom_fluid_name
+    )
     axs[2].plot(
         extended_pressure_top,
         extended_cota_top,
-        c="C9",
-        label=bottom_fluid_name + " " + str(round(slope_bottom, 4)),
+        c=top_fluid_color,
+        label=top_fluid_name + " " + str(round(slope_top, 4)),
     )
     axs[2].plot(
         extended_pressure_bot,
         extended_cota_bot,
-        c="C1",
-        label=top_fluid_name + " " + str(round(slope_top, 4)),
+        c=bottom_fluid_color,
+        label=bottom_fluid_name + " " + str(round(slope_bottom, 4)),
     )
     axs[2].plot(
         y_intercept,
