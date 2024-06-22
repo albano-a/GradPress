@@ -12,6 +12,7 @@ class PlotTendenciaWindow(QMainWindow):
         super(PlotTendenciaWindow, self).__init__()
 
         # import uic file
+
         import_ui(self, "regression")
 
         # self.setupUi(self)
@@ -24,21 +25,7 @@ class PlotTendenciaWindow(QMainWindow):
         self.cotaProfNao.toggled.connect(self.on_cotaProfNao_toggled)
         self.headerSim.toggled.connect(self.on_headerSim_toggled)
         self.filepathButton.clicked.connect(self.copy_file_path)
-
-        self.lineColorComboBox.addItems(
-            [
-                "blue",
-                "red",
-                "green",
-                "yellow",
-                "black",
-                "purple",
-                "orange",
-                "pink",
-                "brown",
-                "gray",
-            ]
-        )
+        self.cancelButton.clicked.connect(self.close)
 
         self.inputPressureUnit.addItems(["psi/ft", "psi/m", "kgf/cm2/m", "bar/m"])
 
@@ -52,7 +39,7 @@ class PlotTendenciaWindow(QMainWindow):
             self,
             "Open File",
             "uploads",
-            "CSV, TXT, XLSX (*.csv, *.txt, *.xlsx);;All Files (*)",
+            "All Files (*)",
         )
 
         if file_path:
@@ -79,9 +66,9 @@ class PlotTendenciaWindow(QMainWindow):
             skiprows = 0
 
         # Get the text of the checked button in the fileButtonGroup
-        self.file_type_button_text = self.fileButtonGroup.checkedButton().text()
+        self.file_type_button_text = self.fileComboBox.currentText()
 
-        if self.file_type_button_text == "csv":
+        if self.file_type_button_text == ".csv":
             try:
                 dataframe = pd.read_csv(
                     self.selected_file,
@@ -95,7 +82,7 @@ class PlotTendenciaWindow(QMainWindow):
                 QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
                 return pd.DataFrame()
 
-        elif self.file_type_button_text == "txt":
+        elif self.file_type_button_text == ".txt":
             try:
                 dataframe = pd.read_csv(
                     self.selected_file,
@@ -109,7 +96,7 @@ class PlotTendenciaWindow(QMainWindow):
                 QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
                 return pd.DataFrame()
 
-        elif self.file_type_button_text == "xlsx":
+        elif self.file_type_button_text == ".xlsx":
             try:
                 dataframe = pd.read_excel(
                     self.selected_file,
@@ -138,17 +125,19 @@ class PlotTendenciaWindow(QMainWindow):
             # Convert self.mesa_rotativa to an integer and subtract y
             y = int(self.mesa_rotativa) - y
 
-        fig, axs, messages = pressure_gradient_classification(
-            self.dataframe,
-            self.kmeansClusters,
-            self.pressure_unit,
-            self.title,
-            self.x_axis,
-            self.y_axis,
-        )
-        for message in messages:
-            self.outputAfterPlotted.append(message)
-        plt.show()
+        try:
+            fig, axs, messages = pressure_gradient_classification(
+                self.dataframe,
+                self.kmeansClusters,
+                self.pressure_unit,
+                self.title,
+                self.x_axis,
+                self.y_axis,
+            )
+            plt.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
+            return
 
     def call_plot_trends(self):
         self.plot_trends()

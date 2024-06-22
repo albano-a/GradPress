@@ -12,6 +12,7 @@ from modules.help_module import HelpWindow
 from modules.plot_module import SimplePlotWindow
 from modules.regression_module import PlotTendenciaWindow
 from modules.temperatureModule import TemperatureAnalysis
+from functions.uic import import_ui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QKeySequence, QIcon
 from PyQt5.QtWidgets import (
@@ -395,10 +396,10 @@ class TableManager:
         return string
 
 
-class MainProgram(QMainWindow, Ui_MainWindow):
+class MainProgram(QMainWindow):
     def __init__(self):
         super(MainProgram, self).__init__()
-        self.setupUi(self)
+        import_ui(self, "maingui")
         self.setWindowTitle("Kraken Geophysics")
         self.setWindowIcon(QIcon("src/main/icons/Icon.ico"))
 
