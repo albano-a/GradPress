@@ -4,7 +4,6 @@ import sys
 import matplotlib.pyplot as plt
 import pandas as pd
 from functions.general import uploadFile
-from interface.python.maingui_ui import Ui_MainWindow
 from main_rc import *
 from modules.about_module import AboutWindow
 from modules.crud_module import ManageFiles
