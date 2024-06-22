@@ -2,13 +2,15 @@ import os
 import markdown
 from PyQt5.QtWidgets import QMainWindow, QFileSystemModel
 from PyQt5.QtCore import QDir
-from interface.python.help_ui import Ui_HelpMainWindow
+from PyQt5 import uic
+from functions.uic import import_ui
 
 
-class HelpWindow(QMainWindow, Ui_HelpMainWindow):
+class HelpWindow(QMainWindow):
     def __init__(self):
         super(HelpWindow, self).__init__()
-        self.setupUi(self)
+
+        import_ui(self, "help")
         self.setWindowTitle("Ajuda")
 
         # Create a QFileSystemModel

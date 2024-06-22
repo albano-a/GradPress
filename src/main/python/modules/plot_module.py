@@ -1,18 +1,20 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
+from functions.uic import import_ui
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 import matplotlib
 
 matplotlib.use("Qt5Agg")
-from interface.python.plot_ui import Ui_SimplePlotWindow
 
 
-class SimplePlotWindow(QMainWindow, Ui_SimplePlotWindow):
+class SimplePlotWindow(QMainWindow):
     def __init__(self):
         super(SimplePlotWindow, self).__init__()
-        self.setupUi(self)
+
+        import_ui(self, "plot")
         self.setWindowTitle("Plot Simples")
+
         # Initialize self.selected_file
         self.selected_file = None
 

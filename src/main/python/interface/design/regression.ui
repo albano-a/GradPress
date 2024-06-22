@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>704</width>
-    <height>507</height>
+    <width>719</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -597,8 +597,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>704</width>
-     <height>21</height>
+     <width>719</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -626,8 +626,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="fileButtonGroup"/>
-  <buttongroup name="cotaButtonGroup"/>
   <buttongroup name="headerButtonGroup"/>
+  <buttongroup name="cotaButtonGroup"/>
  </buttongroups>
 </ui>

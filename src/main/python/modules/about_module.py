@@ -1,13 +1,15 @@
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import QUrl
-from interface.python.about_ui import Ui_AboutWindow
+from PyQt5 import uic
+from functions.uic import import_ui
 
 
-class AboutWindow(QMainWindow, Ui_AboutWindow):
+class AboutWindow(QMainWindow):
     def __init__(self):
         super(AboutWindow, self).__init__()
-        self.setupUi(self)
+
+        import_ui(self, "about")
         self.setWindowTitle("Sobre")
 
         # Connect the buttons to the openUrl method

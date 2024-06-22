@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 
 from functions import temperature as temp
-from interface.python.temperatureInterface import Ui_mainWindow
-from interface.python.temperatureInterfaceDialog import Ui_configurationPlotDialog
 from PyQt5.QtWidgets import (
     QMainWindow,
     QMessageBox,
@@ -14,14 +12,15 @@ from PyQt5.QtWidgets import (
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from matplotlib.figure import Figure
+from functions.uic import import_ui
 
 plt.style.use(["bmh"])
 
 
-class ConfigurationDialog(QDialog, Ui_configurationPlotDialog):
+class ConfigurationDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setupUi(self)
+        import_ui(self, "temperatureInterfaceDialog")
         self.tempDialogButtonBox.accepted.connect(self.exportChoices)
         self.tempDialogButtonBox.rejected.connect(self.reject)
         self.parent = parent
@@ -39,10 +38,10 @@ class ConfigurationDialog(QDialog, Ui_configurationPlotDialog):
         print(style, plotTitle, fontSize, axisX, axisY)
 
 
-class TemperatureAnalysis(QMainWindow, Ui_mainWindow):
+class TemperatureAnalysis(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
+        import_ui(self, "temperatureInterface")
 
         self.figure = Figure()
         self.canvas = FigureCanvasQTAgg(self.figure)

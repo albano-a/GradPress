@@ -156,6 +156,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
        <property name="toolTip">
         <string>Acessar o site do Grupo de Interpretação Exploratória e Caracterização de Reservatório</string>
        </property>
@@ -205,7 +208,7 @@
      <x>0</x>
      <y>0</y>
      <width>405</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

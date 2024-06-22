@@ -3,8 +3,8 @@ import os
 import matplotlib.pyplot as plt
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
-from interface.python.regression_ui import Ui_plotTendenciaWindow
 from functions.general import pressure_gradient_classification
+from functions.uic import import_ui
 
 
 class PlotTendenciaWindow(QMainWindow):
@@ -12,7 +12,7 @@ class PlotTendenciaWindow(QMainWindow):
         super(PlotTendenciaWindow, self).__init__()
 
         # import uic file
-        uic.loadUi("src/main/python/interface/design/regression.ui", self)
+        import_ui(self, "regression")
 
         # self.setupUi(self)
         self.setWindowTitle("Plot de Tendência")

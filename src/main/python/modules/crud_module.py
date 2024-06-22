@@ -1,14 +1,16 @@
 import os
 import shutil
+from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QInputDialog, QFileSystemModel
 from PyQt5.QtCore import QDir
-from interface.python.crud_ui import Ui_ManageFilesWindow
+from functions.uic import import_ui
 
 
-class ManageFiles(QMainWindow, Ui_ManageFilesWindow):
+class ManageFiles(QMainWindow):
     def __init__(self):
         super(ManageFiles, self).__init__()
-        self.setupUi(self)
+
+        import_ui(self, "crud")
 
         self.selected_file_path = None
 
