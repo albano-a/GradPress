@@ -1,4 +1,4 @@
-from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtGui import QDesktopServices, QIcon
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import QUrl
 from PyQt5 import uic
@@ -11,6 +11,7 @@ class AboutWindow(QMainWindow):
 
         import_ui(self, "about")
         self.setWindowTitle("Sobre")
+        self.setWindowIcon(QIcon("src/main/icons/Icon.ico"))
 
         # Connect the buttons to the openUrl method
         self.giecarBtn.clicked.connect(lambda: self.openUrl("http://gcr.sites.uff.br/"))

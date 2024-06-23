@@ -4,13 +4,14 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QInputDialog, QFileSystemModel
 from PyQt5.QtCore import QDir
 from functions.uic import import_ui
-
+from PyQt5.QtGui import QIcon
 
 class ManageFiles(QMainWindow):
     def __init__(self):
         super(ManageFiles, self).__init__()
 
         import_ui(self, "crud")
+        self.setWindowIcon(QIcon("src/main/icons/Icon.ico"))
 
         self.selected_file_path = None
 

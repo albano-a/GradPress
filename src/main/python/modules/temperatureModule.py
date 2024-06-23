@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
     QDialog,
     QApplication,
 )
+from PyQt5.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from matplotlib.figure import Figure
@@ -42,6 +43,7 @@ class TemperatureAnalysis(QMainWindow):
     def __init__(self):
         super().__init__()
         import_ui(self, "temperatureInterface")
+        self.setWindowIcon(QIcon("src/main/icons/Icon.ico"))
 
         self.figure = Figure()
         self.canvas = FigureCanvasQTAgg(self.figure)

@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIcon
 import os
 from functions.uic import import_ui
 
@@ -10,6 +10,7 @@ class GradientClassificationWin(QMainWindow):
         super(GradientClassificationWin, self).__init__()
 
         import_ui(self, "gradient")
+        self.setWindowIcon(QIcon("src/main/icons/Icon.ico"))
         self.setWindowTitle("Classificação do Gradiente de Pressão")
 
         model = QStandardItemModel(10, 5, self)

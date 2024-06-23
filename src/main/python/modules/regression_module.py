@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 from PyQt5 import uic
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 from functions.general import pressure_gradient_classification
 from functions.uic import import_ui
@@ -14,6 +15,7 @@ class PlotTendenciaWindow(QMainWindow):
         # import uic file
 
         import_ui(self, "regression")
+        self.setWindowIcon(QIcon("src/main/icons/Icon.ico"))
 
         # self.setupUi(self)
         self.setWindowTitle("Plot de Tendência")

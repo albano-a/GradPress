@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 from functions.uic import import_ui
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 import matplotlib
 
@@ -13,6 +14,7 @@ class SimplePlotWindow(QMainWindow):
         super(SimplePlotWindow, self).__init__()
 
         import_ui(self, "plot")
+        self.setWindowIcon(QIcon("src/main/icons/Icon.ico"))
         self.setWindowTitle("Plot Simples")
 
         # Initialize self.selected_file
