@@ -28,11 +28,17 @@ class PlotTendenciaWindow(QMainWindow):
         self.headerSim.toggled.connect(self.on_headerSim_toggled)
         self.filepathButton.clicked.connect(self.copy_file_path)
         self.cancelButton.clicked.connect(self.close)
+        self.customRadioButton.toggled.connect(self.on_customRadioButton_toggled)
 
         self.inputPressureUnit.addItems(["psi/ft", "psi/m", "kgf/cm2/m", "bar/m"])
 
         # plot btn
         self.tendenciaPlotBtn.clicked.connect(self.call_plot_trends)
+
+    def on_customRadioButton_toggled(self, checked):
+        """Slot to handle the toggling of customRadioButton."""
+        self.depth_limit_groupbox.setEnabled(checked)
+        self.title_axis_groupbox.setEnabled(checked)
 
     def copy_file_path(self):
         """Open file dialog for copying file path"""
@@ -55,91 +61,127 @@ class PlotTendenciaWindow(QMainWindow):
         self.labelHeaderLines.setEnabled(checked)
         self.inputHeaderLines.setEnabled(checked)
 
-    def open_file_for_trend_plotting(self):
-
-        self.header_lines = self.inputHeaderLines.text()
-
-        self.selected_file = self.fileLineEdit.text()
-        # Check if self.header_lines is not an empty string
-        if self.header_lines != "":
-            # Convert self.header_lines to an integer
-            skiprows = int(self.header_lines)
-        else:
-            skiprows = 0
-
-        # Get the text of the checked button in the fileButtonGroup
-        self.file_type_button_text = self.fileComboBox.currentText()
-
-        if self.file_type_button_text == ".csv":
-            try:
-                dataframe = pd.read_csv(
-                    self.selected_file,
-                    delimiter="[;,]",
-                    names=["prof", "pressao"],
-                    engine="python",
-                    skiprows=skiprows,
-                )
-                return dataframe
-            except Exception as e:
-                QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
-                return pd.DataFrame()
-
-        elif self.file_type_button_text == ".txt":
-            try:
-                dataframe = pd.read_csv(
-                    self.selected_file,
-                    skiprows=skiprows,
-                    delimiter="\t",
-                    names=["prof", "pressao"],
-                    engine="python",
-                )
-                return dataframe
-            except Exception as e:
-                QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
-                return pd.DataFrame()
-
-        elif self.file_type_button_text == ".xlsx":
-            try:
-                dataframe = pd.read_excel(
-                    self.selected_file,
-                    skiprows=skiprows,
-                    names=["prof", "pressao"],
-                )
-                return dataframe
-            except Exception as e:
-                QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
-                return pd.DataFrame()
-
-    def plot_trends(self):
-        self.dataframe = self.open_file_for_trend_plotting()
-        self.kmeansClusters = self.agrupamentoSpinBox.value()
-        self.mesa_rotativa = self.inputMesaRotativa.text()
-
-        self.title = self.inputPlotTitle.text()
-        self.x_axis = self.inputPlotXAxis.text()
-        self.y_axis = self.inputPlotYAxis.text()
-        self.pressure_unit = self.inputPressureUnit.currentText()
-        # self.prof_min = self.inputProfMin.text()
-        # self.prof_max = self.inputProfMax.text()
-
-        # Check if self.mesa_rotativa is not an empty string
-        if self.mesa_rotativa != "":
-            # Convert self.mesa_rotativa to an integer and subtract y
-            y = int(self.mesa_rotativa) - y
+    def read_file(self, file_path, file_type, skiprows):
+        file_readers = {
+            ".csv": lambda f: pd.read_csv(
+                f,
+                delimiter="[;,]",
+                names=["prof", "pressao"],
+                engine="python",
+                skiprows=skiprows,
+            ),
+            ".txt": lambda f: pd.read_csv(
+                f,
+                delimiter="\t",
+                names=["prof", "pressao"],
+                engine="python",
+                skiprows=skiprows,
+            ),
+            ".xlsx": lambda f: pd.read_excel(
+                f, skiprows=skiprows, names=["prof", "pressao"]
+            ),
+        }
 
         try:
-            fig, axs, messages = pressure_gradient_classification(
-                self.dataframe,
-                self.kmeansClusters,
-                self.pressure_unit,
-                self.title,
-                self.x_axis,
-                self.y_axis,
-            )
-            plt.show()
+            dataframe = file_readers[file_type](file_path)
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Um erro ocorreu: {e}")
-            return
+            QMessageBox.critical(self, "Error", f"An error occurred: {e}")
+            dataframe = pd.DataFrame()
+        return dataframe
+
+    def open_file_for_trend_plotting(self):
+        """Reads the file and prepare it for plotting"""
+        header_lines = self.inputHeaderLines.text()
+        selected_file = self.fileLineEdit.text()
+        skiprows = int(header_lines) if header_lines != "" else 0
+        file_type_button_text = self.fileComboBox.currentText()
+
+        return self.read_file(selected_file, file_type_button_text, skiprows)
+
+    def process_data_for_trends(self):
+        self.dataframe = self.open_file_for_trend_plotting()
+        self.kmeans_clusters = self.agrupamentoSpinBox.value()
+        mesa_rotativa = self.inputMesaRotativa.text()
+
+        title = self.inputPlotTitle.text()
+        x_axis = self.inputPlotXAxis.text()
+        y_axis = self.inputPlotYAxis.text()
+        pressure_unit = self.inputPressureUnit.currentText()
+
+        if mesa_rotativa:
+            mesa_rotativa_value = int(mesa_rotativa)
+
+        try:
+            return pressure_gradient_classification(
+                self.dataframe,
+                self.kmeans_clusters,
+                pressure_unit,
+                title,
+                x_axis,
+                y_axis,
+            )
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"An error occurred: {e}")
+            return None
+
+    def plot_trends(self):
+        (
+            top_pressao,
+            top_prof,
+            bottom_pressao,
+            bottom_prof,
+            extended_pressure_top,
+            extended_cota_top,
+            extended_pressure_bot,
+            extended_cota_bot,
+            y_intercept,
+            x_intercept,
+            top_fluid_color,
+            top_fluid_name,
+            bottom_fluid_name,
+            bottom_fluid_color,
+            slope_top,
+            slope_bottom,
+        ) = self.process_data_for_trends()
+
+        plt.figure(figsize=(10, 6))
+
+        plt.plot(top_pressao, top_prof, "o", c=top_fluid_color, label=top_fluid_name)
+        plt.plot(
+            bottom_pressao,
+            bottom_prof,
+            "o",
+            c=bottom_fluid_color,
+            label=bottom_fluid_name,
+        )
+        plt.plot(
+            extended_pressure_top,
+            extended_cota_top,
+            c=top_fluid_color,
+            label=top_fluid_name + " " + str(round(slope_top, 4)),
+        )
+        plt.plot(
+            extended_pressure_bot,
+            extended_cota_bot,
+            "-",
+            c=bottom_fluid_color,
+            label=bottom_fluid_name + " " + str(round(slope_bottom, 4)),
+        )
+        plt.plot(
+            y_intercept,
+            x_intercept,
+            "s",
+            c="k",
+            label="Intersection " + str(round(x_intercept, 2)),
+        )
+
+        plt.title(self.inputPlotTitle.text())
+        plt.legend(fontsize="small")
+        plt.xlabel(self.inputPlotXAxis.text())
+        plt.ylabel(self.inputPlotYAxis.text())
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
 
     def call_plot_trends(self):
         self.plot_trends()

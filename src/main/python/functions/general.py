@@ -236,14 +236,14 @@ def pressure_gradient_classification(
     bottom_fluid_name = fluid_pressure[bottom_fluid]["name"]
 
     # Print the names of the top and bottom fluids
-    print(top_fluid_name, "|", bottom_fluid_name)
+    #print(top_fluid_name, "|", bottom_fluid_name)
 
     x_intercept = (intercept_bottom - intercept_top) / (slope_top - slope_bottom)
     y_intercept = slope_top * x_intercept + intercept_top
-    print("O ponto de interseção das retas é", x_intercept, y_intercept)
+    #print("O ponto de interseção das retas é", x_intercept, y_intercept)
 
     diff = np.diff(top_prof)
-    print(diff)
+    #print(diff)
 
     # Extended top curve
     mean_cota_top = np.mean(np.diff(top_prof))
@@ -261,9 +261,6 @@ def pressure_gradient_classification(
     line_top = slope_top * np.array(top_prof) + intercept_top
     line_bottom = slope_bottom * np.array(bottom_prof) + intercept_bottom
 
-    fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(13, 5))
-    fig.suptitle(superior_title, fontsize=16)
-
     messages = []
     messages.append(
         f"Fluido do topo: {top_fluid_name} | Fluido da base: {bottom_fluid_name}"
@@ -275,81 +272,27 @@ def pressure_gradient_classification(
     top_fluid_color = get_fluid_color(top_fluid_name)
     bottom_fluid_color = get_fluid_color(bottom_fluid_name)
 
-    ########################## 1ST PLOT ###################################
-    # First subplot - just the data itself
-    axs[0].plot(
+    return (
         top_pressao,
         top_prof,
-        "o",
-        c=top_fluid_color,
-        label="top curve " + str(round(slope_top, 4)),
-    )
-    axs[0].plot(
         bottom_pressao,
         bottom_prof,
-        "o",
-        c=bottom_fluid_color,
-        label="bot curve " + str(round(slope_bottom, 4)),
-    )
-    axs[0].set_title("Pressão x Profundidade")
-    axs[0].legend(fontsize="small")
-    axs[0].set_xlabel(x_axis)
-    axs[0].set_ylabel(y_axis)
-    # axs[0].grid()
-
-    ########################## 2ND PLOT ###################################
-    # Plot the data points for the top and bottom fluids
-    axs[1].plot(top_pressao, top_prof, "o", c=top_fluid_color, label=top_fluid_name)
-    axs[1].plot(
-        bottom_pressao, bottom_prof, "o", c=bottom_fluid_color, label=bottom_fluid_name
-    )
-    axs[1].plot(
-        line_top,
-        top_prof,
-        c=top_fluid_color,
-        label=f"{top_fluid_name} {round(slope_top, 4)}",
-    )
-    axs[1].plot(
-        line_bottom,
-        bottom_prof,
-        c=bottom_fluid_color,
-        label=f"{bottom_fluid_name} {round(slope_bottom, 4)}",
-    )
-    axs[1].set_title("Linha de tendências")
-    axs[1].legend(fontsize="small")
-    axs[1].set_xlabel(x_axis)
-    axs[1].set_ylabel(y_axis)
-
-    ########################## 3RD PLOT ###################################
-    axs[2].plot(top_pressao, top_prof, "o", c=top_fluid_color, label=top_fluid_name)
-    axs[2].plot(
-        bottom_pressao, bottom_prof, "o", c=bottom_fluid_color, label=bottom_fluid_name
-    )
-    axs[2].plot(
         extended_pressure_top,
         extended_cota_top,
-        c=top_fluid_color,
-        label=top_fluid_name + " " + str(round(slope_top, 4)),
-    )
-    axs[2].plot(
         extended_pressure_bot,
         extended_cota_bot,
-        c=bottom_fluid_color,
-        label=bottom_fluid_name + " " + str(round(slope_bottom, 4)),
-    )
-    axs[2].plot(
         y_intercept,
         x_intercept,
-        "s",
-        c="k",
-        label="Intersection " + str(round(x_intercept, 4)),
+        top_fluid_color,
+        top_fluid_name,
+        bottom_fluid_name,
+        bottom_fluid_color,
+        slope_top,
+        slope_bottom,
     )
-    axs[2].set_title("Contato dos fluidos")
-    axs[2].legend(fontsize="small")
-    axs[2].set_xlabel(x_axis)
-    axs[2].set_ylabel(y_axis)
 
-    plt.tight_layout()
+    ########################## 3RD PLOT ###################################
+
     return fig, axs, messages
 
 
