@@ -20,15 +20,13 @@ class PlotTendenciaWindow(QMainWindow):
         # self.setupUi(self)
         self.setWindowTitle("Plot de Tendência")
 
-        self.selected_file = None
-
         # prof cota radio buttons
         # if cotaProfNao is checked, labelMesaRotativa and inputMesaRotativa became enabled
         self.cotaProfNao.toggled.connect(self.on_cotaProfNao_toggled)
-        self.headerSim.toggled.connect(self.on_headerSim_toggled)
         self.filepathButton.clicked.connect(self.copy_file_path)
         self.cancelButton.clicked.connect(self.close)
         self.customRadioButton.toggled.connect(self.on_customRadioButton_toggled)
+        self.refreshPushButton.clicked.connect(self.refresh_combobox)
 
         self.inputPressureUnit.addItems(["psi/ft", "psi/m", "kgf/cm2/m", "bar/m"])
 
@@ -47,7 +45,7 @@ class PlotTendenciaWindow(QMainWindow):
             self,
             "Open File",
             "uploads",
-            "All Files (*)",
+            "Excel Files (*.xlsx *.xls);;All Files (*)",
         )
 
         if file_path:
@@ -57,60 +55,44 @@ class PlotTendenciaWindow(QMainWindow):
         self.labelMesaRotativa.setEnabled(checked)
         self.inputMesaRotativa.setEnabled(checked)
 
-    def on_headerSim_toggled(self, checked):
-        self.labelHeaderLines.setEnabled(checked)
-        self.inputHeaderLines.setEnabled(checked)
-
-    def read_file(self, file_path, file_type, skiprows):
-        file_readers = {
-            ".csv": lambda f: pd.read_csv(
-                f,
-                delimiter="[;,]",
-                names=["prof", "pressao"],
-                engine="python",
-                skiprows=skiprows,
-            ),
-            ".txt": lambda f: pd.read_csv(
-                f,
-                delimiter="\t",
-                names=["prof", "pressao"],
-                engine="python",
-                skiprows=skiprows,
-            ),
-            ".xlsx": lambda f: pd.read_excel(
-                f, skiprows=skiprows, names=["prof", "pressao"]
-            ),
-        }
-
+    def read_file(self):
+        self.selected_file = self.fileLineEdit.text()
+        sheetTab = self.workbookComboBox.currentText()
         try:
-            dataframe = file_readers[file_type](file_path)
+            dataframe = pd.read_excel(
+                self.selected_file,
+                skiprows=1,
+                decimal=",",
+                sheet_name=sheetTab,
+            )
         except Exception as e:
             QMessageBox.critical(self, "Error", f"An error occurred: {e}")
             dataframe = pd.DataFrame()
         return dataframe
 
-    def open_file_for_trend_plotting(self):
-        """Reads the file and prepare it for plotting"""
-        header_lines = self.inputHeaderLines.text()
-        selected_file = self.fileLineEdit.text()
-        skiprows = int(header_lines) if header_lines != "" else 0
-        file_type_button_text = self.fileComboBox.currentText()
-
-        return self.read_file(selected_file, file_type_button_text, skiprows)
+    def refresh_combobox(self):
+        file_path = self.fileLineEdit.text()
+        if file_path:
+            try:
+                workbooks = pd.ExcelFile(file_path).sheet_names
+                print(workbooks)
+                self.workbookComboBox.clear()
+                self.workbookComboBox.addItems(workbooks)
+            except Exception as e:
+                QMessageBox.critical(
+                    self, "Error", f"Failed to load Excel file: {str(e)}"
+                )
+        else:
+            QMessageBox.warning(self, "Warning", "Please select an Excel file first.")
 
     def process_data_for_trends(self):
-        self.dataframe = self.open_file_for_trend_plotting()
+        self.dataframe = self.read_file()
         self.kmeans_clusters = self.agrupamentoSpinBox.value()
-        mesa_rotativa = self.inputMesaRotativa.text()
 
         title = self.inputPlotTitle.text()
         x_axis = self.inputPlotXAxis.text()
         y_axis = self.inputPlotYAxis.text()
         pressure_unit = self.inputPressureUnit.currentText()
-
-        if mesa_rotativa:
-            mesa_rotativa_value = int(mesa_rotativa)
-
         try:
             return pressure_gradient_classification(
                 self.dataframe,

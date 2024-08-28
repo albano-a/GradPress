@@ -53,8 +53,8 @@ def pressure_gradient_classification(
     # GAS - RED
     # OIL - GREEN
     # WATER - BLUE
-    prof = data.iloc[:, 0]
-    pressao = data.iloc[:, 1]
+    pressao = data.iloc[:, 0]
+    prof = data.iloc[:, 1]
 
     def calculate_slope(ps_a, ps_b):
         if len(ps_a) != len(ps_b):
@@ -236,14 +236,14 @@ def pressure_gradient_classification(
     bottom_fluid_name = fluid_pressure[bottom_fluid]["name"]
 
     # Print the names of the top and bottom fluids
-    #print(top_fluid_name, "|", bottom_fluid_name)
+    # print(top_fluid_name, "|", bottom_fluid_name)
 
     x_intercept = (intercept_bottom - intercept_top) / (slope_top - slope_bottom)
     y_intercept = slope_top * x_intercept + intercept_top
-    #print("O ponto de interseção das retas é", x_intercept, y_intercept)
+    # print("O ponto de interseção das retas é", x_intercept, y_intercept)
 
     diff = np.diff(top_prof)
-    #print(diff)
+    # print(diff)
 
     # Extended top curve
     mean_cota_top = np.mean(np.diff(top_prof))
@@ -293,49 +293,4 @@ def pressure_gradient_classification(
 
     ########################## 3RD PLOT ###################################
 
-    return fig, axs, messages
-
-
-def open_file_for_plotting(header_lines, selected_file, file_type_button_text):
-    if header_lines != "":
-        skiprows = int(header_lines)
-    else:
-        skiprows = 0
-
-    if file_type_button_text == "csv":
-        try:
-            dataframe = pd.read_csv(
-                f"uploads/{selected_file}",
-                delimiter="[;,]",
-                names=["prof", "pressao"],
-                engine="python",
-                skiprows=skiprows,
-            )
-            return dataframe
-        except Exception as e:
-            QMessageBox.critical(None, "Error", f"Um erro ocorreu: {e}")
-            return pd.DataFrame()
-
-    elif file_type_button_text == "txt":
-        try:
-            dataframe = pd.read_csv(
-                f"uploads/{selected_file}",
-                skiprows=skiprows,
-                delimiter="\t",
-                names=["prof", "pressao"],
-                engine="python",
-            )
-            return dataframe
-        except Exception as e:
-            QMessageBox.critical(None, "Error", f"Um erro ocorreu: {e}")
-            return pd.DataFrame()
-
-    elif file_type_button_text == "xlsx":
-        try:
-            dataframe = pd.read_excel(
-                f"uploads/{selected_file}", skiprows=skiprows, names=["prof", "pressao"]
-            )
-            return dataframe
-        except Exception as e:
-            QMessageBox.critical(None, "Error", f"Um erro ocorreu: {e}")
-            return pd.DataFrame()
+    # return fig, axs, messages
